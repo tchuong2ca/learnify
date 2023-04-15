@@ -1,0 +1,36 @@
+class AppDimens {
+  static const spaceSmall = 4.0;
+  static const spaceHalf = 8.0;
+  static const spaceMedium = 16.0;
+  static const spaceLarge = 32.0;
+  static const buttonHeight = 46.0;
+  static const dimen24 = 24.0;
+  static const contentMargin = 16.0;
+  static const dimen48 = 48.0;
+  static const dimen10 = 10.0;
+  static const dimen20 = 20.0;
+  static const dimen15 = 15.0;
+  static const dimen36 = 36.0;
+  static const dimen90 = 90.0;
+  static const dimen50 = 50.0;
+  static const dimen80 = 80.0;
+  static const dimen18 = 18.0;
+  static const dimen12 = 12.0;
+  static const dimen14 = 14.0;
+  static const dimen16 = 16.0;
+  static const dimen30 = 30.0;
+  static const dimen32 = 32.0;
+  static const dimen40 = 40.0;
+  static const dimen110 = 110.0;
+  static const dimen6 = 6.0;
+  static const dimen70 = 70.0;
+  static const dimen75 = 75.0;
+  static const dimen60 = 60.0;
+  static const dimen65 = 65.0;
+  static const dimen200 = 200.0;
+  static const dimen180 = 180.0;
+  static const dimen35 = 35.0;
+  static const dimen96 = 96.0;
+  static const dimen2 = 2.0;
+  static const dimen150 = 150.0;
+}

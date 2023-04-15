@@ -1,0 +1,12 @@
+enum SingleState {
+  LOADING,
+  HAS_DATA,
+  NO_DATA,
+  ERROR,
+  ACTIVE,
+  NOT_BOOKING_AVAILABLE,
+  ALL,
+  WEEKLY,
+  BYDAY,
+  LOADMORE,
+}

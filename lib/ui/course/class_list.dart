@@ -72,17 +72,17 @@ class _ClassListState extends State<ClassList> {
                               List<dynamic> register = data['subscribe'];
                               return (CommonKey.TEACHER==_role||CommonKey.ADMIN==_role)?itemCourseAdminHours(context, data['nameClass'], data['teacherName'],
                                   data['imageLink'], '${
-                                      CommonKey.MON==data['startDate']
+                                      CommonKey.MON==data['onStageMon']
                                           ? Languages.of(context).monday
-                                          :CommonKey.TUE==data['startDate']
+                                          :CommonKey.TUE==data['onStageTue']
                                           ? Languages.of(context).tuesday
-                                          :CommonKey.WED==data['startDate']
+                                          :CommonKey.WED==data['onStageWed']
                                           ? Languages.of(context).wednesday
-                                          :CommonKey.THU==data['startDate']
+                                          :CommonKey.THU==data['onStageThu']
                                           ? Languages.of(context).thurday
-                                          :CommonKey.FRI==data['startDate']
+                                          :CommonKey.FRI==data['onStageFri']
                                           ? Languages.of(context).friday
-                                          :CommonKey.SAT==data['startDate']
+                                          :CommonKey.SAT==data['onStageSat']
                                           ? Languages.of(context).saturday
                                           :Languages.of(context).sunday
                                   } - ${data['startHours']}',
@@ -94,17 +94,17 @@ class _ClassListState extends State<ClassList> {
                                     ?Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role)))
                                     :Fluttertoast.showToast(msg: 'require class')
                               },'${
-                                  CommonKey.MON==data['startDate']
+                                  CommonKey.MON==data['onStageMon']
                                       ? Languages.of(context).monday
-                                      :CommonKey.TUE==data['startDate']
+                                      :CommonKey.TUE==data['onStageTue']
                                       ? Languages.of(context).tuesday
-                                      :CommonKey.WED==data['startDate']
+                                      :CommonKey.WED==data['onStageWed']
                                       ? Languages.of(context).wednesday
-                                      :CommonKey.THU==data['startDate']
+                                      :CommonKey.THU==data['onStageThu']
                                       ? Languages.of(context).thurday
-                                      :CommonKey.FRI==data['startDate']
+                                      :CommonKey.FRI==data['onStageFri']
                                       ? Languages.of(context).friday
-                                      :CommonKey.SAT==data['startDate']
+                                      :CommonKey.SAT==data['onStageSat']
                                       ? Languages.of(context).saturday
                                       :Languages.of(context).sunday
                               } - ${data['startHours']}', () {

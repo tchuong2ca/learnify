@@ -23,6 +23,7 @@ import '../../languages/languages.dart';
 import '../../res/images.dart';
 import '../course/class_detail_admin.dart';
 import '../course/model/my_class_model.dart';
+import '../teacher/teacher_list.dart';
 
 class DashboardPage extends StatefulWidget {
   String? _role;
@@ -55,17 +56,17 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   final List<String> _name = <String>['50000+ thành viên', '100+ lớp học đang diễn ra', '10% lợi nhuận xây trường','hê sờ lô', 'hê sờ li li'];
   final List<String> _photo = <String>[Images.tutorial1, Images.tutorial0, Images.day, Images.night, Images.moon];
   bool _toggle=false;
-  Widget _getBody(){
-    if(this._selectedIndex == 1){
-      return Schedule();
-    }else if(_selectedIndex == 0){
-      return HomePage();
-    }else if(_selectedIndex == 2){
-      return SocialNetworkPage();
-    }else {
-      return PersonalPage();
-    }
-  }
+  // Widget _getBody(){
+  //   if(this._selectedIndex == 1){
+  //     return Schedule();
+  //   }else if(_selectedIndex == 0){
+  //     return HomePage();
+  //   }else if(_selectedIndex == 2){
+  //     return SocialNetworkPage();
+  //   }else {
+  //     return PersonalPage();
+  //   }
+  // }
   @override
   void initState(){
     super.initState();
@@ -259,8 +260,9 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                           ),
 
                                           InkWell(
-                                            child:  _tabChild(Images.schedule, 'Lịch học'),
+                                            child:  _tabChild(Images.schedule, _role==CommonKey.TEACHER||_role==CommonKey.ADMIN?'Lịch dạy':'Lịch học'),
                                             onTap: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (_)=> Schedule(_role)));
                                             },
                                           ),
                                           InkWell(
@@ -288,10 +290,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                             crossAxisCount: 4,
                                             children: <Widget>[
 
-                                              // tab Bụt có -->> Thi Thử
                                               InkWell(
                                                 child:    _tabChild(Images.schedule, 'Danh sách giáo viên'),
                                                 onTap: (){
+                                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>TeacherPage(_role)));
                                                 },
                                               ),
 

@@ -53,7 +53,14 @@ class ClassAddPresenter{
             'nameClass': myClass.nameClass,
             'describe': myClass.describe,
             'imageLink': url,
-            'startDate': myClass.startDate,
+            'onStageMon': myClass.onStageMon,
+            'onStageTue': myClass.onStageTue,
+            'onStageWed': myClass.onStageWed,
+            'onStageThu': myClass.onStageThu,
+            'onStageFri': myClass.onStageFri,
+            'onStageSat': myClass.onStageSat,
+            'onStageSun': myClass.onStageSun,
+
             'startHours': myClass.startHours,
             'subscribe': [
               'admin'
@@ -114,7 +121,13 @@ class ClassAddPresenter{
       'nameClass': myClass.nameClass,
       'describe': myClass.describe,
       'imageLink': url,
-      'startDate': myClass.startDate,
+      'onStageMon': myClass.onStageMon,
+      'onStageTue': myClass.onStageTue,
+      'onStageWed': myClass.onStageWed,
+      'onStageThu': myClass.onStageThu,
+      'onStageFri': myClass.onStageFri,
+      'onStageSat': myClass.onStageSat,
+      'onStageSun': myClass.onStageSun,
       'startHours': myClass.startHours
     });
   }

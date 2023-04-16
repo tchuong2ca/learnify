@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:intl/intl.dart';
 import '../res/images.dart';
 import '../restart.dart';
 import '../storage/storage.dart';
@@ -74,11 +75,31 @@ Future<void> cropImage(BuildContext context,Function (File?) onResult, String ty
     }
   }
 }
+String getDateWeek(int day){
+  var d = DateTime.now();
+  var weekDay = d.weekday;
+  var date = d.subtract(Duration(days: weekDay-day));
+  var formatterDate = DateFormat('dd/MM');
+  String value = formatterDate.format(date);
+
+  return value;
+}
 String splitSpaceEnd(String content){
   var data = content.split(" ");
   return data[data.length-1];
 }
+String getDateNow(){
+  var now = DateTime.now();
+  var formatterDate = DateFormat('dd/MM');
+  String actualDate = formatterDate.format(now);
+  return actualDate;
+}
 
+String getNameDateNow(){
+  var now = DateTime.now();
+  var formatterDate = DateFormat('EEEE').format(now);
+  return formatterDate.toString();
+}
 List splitList(String content){
   return content.split(":");
 }

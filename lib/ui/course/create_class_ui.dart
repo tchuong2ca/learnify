@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_learning/ui/course/presenter/create_class_presenter.dart';
 import 'package:online_learning/ui/course/status.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import '../../common/colors.dart';
 import '../../common/days_dropdown.dart';
 import '../../common/functions.dart';
@@ -12,6 +12,9 @@ import '../../common/keys.dart';
 import '../../common/status_dropdown.dart';
 import '../../common/themes.dart';
 import '../../common/widgets.dart';
+import '../../external/custom_time_picker/custom_picker.dart';
+import '../../external/custom_time_picker/flutter_datetime_picker.dart';
+import '../../external/custom_time_picker/src/i18n_model.dart';
 import '../../languages/languages.dart';
 import '../../res/images.dart';
 import 'days.dart';
@@ -34,7 +37,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
   _CreateClassUIState(this._course, this._keyFlow, this._data);
   File? _fileImage;
   String _idClass=''; String _idCourse=''; String _idTeacher='';
-  String _teacherName=''; String _status=''; final String _startDate='';
+  String _teacherName=''; String _status=''; final String _firstDay='';
   final String _price=''; String _nameClass = ''; String _describe = '';
   final List<Status> _statusList = [];
   Status? _selectStatus;
@@ -44,8 +47,13 @@ class _CreateClassUIState extends State<CreateClassUI> {
   TextEditingController _controllerDescribeClass = TextEditingController();
   String _imageLink = '';
   String _hour = '';
-  String _day = 'MON';
-  List<Days> _birthdayList = [
+  String _day1 = 'MON';
+  String _day2 = 'TUE';
+  List<Days> _dayList = [
+  ];
+  List<Days> _dayList2 = [
+  ];
+  List<Days> _dayList3 = [
     Days(date: 'Thứ 2', key: CommonKey.MON),
     Days(date: 'Thứ 3', key: CommonKey.TUE),
     Days(date: 'Thứ 4', key: CommonKey.WED),
@@ -54,8 +62,9 @@ class _CreateClassUIState extends State<CreateClassUI> {
     Days(date: 'Thứ 7', key: CommonKey.SAT),
     Days(date: 'Chủ Nhật', key: CommonKey.SUN),
   ];
-  Days? _birthdaySelect;
-  TextEditingController _controllerBirthday = TextEditingController();
+  Days? _daySelector1;
+  Days? _daySelector2;
+  TextEditingController _timeController = TextEditingController();
   @override
   void initState() {
     _idClass=CommonKey.CLASS+getCurrentTime();
@@ -66,7 +75,12 @@ class _CreateClassUIState extends State<CreateClassUI> {
     _statusList.add(Status(CommonKey.PENDING, 'Chưa bắt đầu'));
     _statusList.add(Status(CommonKey.READY, 'Bắt đầu'));
     _selectStatus = _statusList[0];
-    _birthdaySelect = _birthdayList[0];
+    _dayList =List.from(_dayList3);
+
+    _dayList2 =List.from(_dayList3);
+
+    // _daySelector1 = _dayList[0];
+    // _daySelector2 = _dayList2[1];
     _presenter = ClassAddPresenter();
     if(CommonKey.EDIT==_keyFlow){
       _controllerIdClass = TextEditingController(text: _data!['idClass']);
@@ -82,16 +96,26 @@ class _CreateClassUIState extends State<CreateClassUI> {
         }
       }
       _status=_selectStatus!.getKey;
-      _day = _data!['startDate'];
+      _day1 = _data!['onStageMon']==''?'MON':_data!['onStageMon'];
       _hour = _data!['startHours'];
-      _controllerBirthday = TextEditingController(text: _hour);
-      _birthdaySelect = CommonKey.MON==_day?_birthdayList[0]
-          :CommonKey.TUE==_day?_birthdayList[1]
-          :CommonKey.WED==_day?_birthdayList[2]
-          :CommonKey.THU==_day?_birthdayList[3]
-          :CommonKey.FRI==_day?_birthdayList[4]
-          :CommonKey.SAT==_day?_birthdayList[5]
-          :_birthdayList[6];
+      _timeController = TextEditingController(text: _hour);
+      _daySelector1 = CommonKey.MON==_day1?_dayList[0]
+          :CommonKey.TUE==_day1?_dayList[1]
+          :CommonKey.WED==_day1?_dayList[2]
+          :CommonKey.THU==_day1?_dayList[3]
+          :CommonKey.FRI==_day1?_dayList[4]
+          :CommonKey.SAT==_day1?_dayList[5]
+          :_dayList[6];
+      _dayList.removeAt(1);
+      _daySelector2 = CommonKey.MON==_day2?_dayList2[0]
+          :CommonKey.TUE==_day2?_dayList2[1]
+          :CommonKey.WED==_day2?_dayList2[2]
+          :CommonKey.THU==_day2?_dayList2[3]
+          :CommonKey.FRI==_day2?_dayList2[4]
+          :CommonKey.SAT==_day2?_dayList2[5]
+          :_dayList2[6];
+      _dayList2.removeAt(0);
+      print('');
     }
   }
 
@@ -140,7 +164,15 @@ class _CreateClassUIState extends State<CreateClassUI> {
                           Fluttertoast.showToast(msg: 'thời gian đâu');
                         }else{
                           MyClassModel myClass = MyClassModel(idClass: replaceSpace(_idClass), idCourse: _idCourse, idTeacher: _idTeacher,
-                              teacherName: _teacherName, status: _status, startDate: _day, startHours: _hour,
+                              teacherName: _teacherName, status: _status,
+                              onStageMon: _day1==CommonKey.MON?_day1:_day2==CommonKey.MON?_day2:'',
+                              onStageTue: _day1==CommonKey.TUE?_day1:_day2==CommonKey.TUE?_day2:'',
+                              onStageWed: _day1==CommonKey.WED?_day1:_day2==CommonKey.WED?_day2:'',
+                              onStageThu: _day1==CommonKey.THU?_day1:_day2==CommonKey.THU?_day2:'',
+                              onStageFri: _day1==CommonKey.FRI?_day1:_day2==CommonKey.FRI?_day2:'',
+                              onStageSat: _day1==CommonKey.SAT?_day1:_day2==CommonKey.SAT?_day2:'',
+                              onStageSun: _day1==CommonKey.SUN?_day1:_day2==CommonKey.SUN?_day2:'',
+                              startHours: _hour,
                               price: '', nameClass: _nameClass, describe: _describe);
                           showLoaderDialog(context);
                           CommonKey.EDIT!=_keyFlow?_presenter!.createClass(_fileImage!, _course!, myClass).then((value) {
@@ -178,6 +210,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                         controller: _controllerNameClass,
                       ),
                     ),
+
                     Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: DropDownBoxStatus(
@@ -203,31 +236,84 @@ class _CreateClassUIState extends State<CreateClassUI> {
                     Padding(
                       padding: EdgeInsets.all(16.0),
                       child:InkWell(
-                        onTap: ()=>DatePicker.showTimePicker(context,
-                            showTitleActions: true,
-                            onChanged: (date) {
-                            }, onConfirm: (date) {
-                              List list = splitList(splitSpaceEnd(date.toString()));
-                              _hour = '${list[0]}:${list[1]}';
-                              _controllerBirthday = TextEditingController(text: _hour);
-                              setState(()=>null);
-                            }, currentTime: DateTime.now(), locale: LocaleType.vi),
+                        onTap: (){
+                          DatePicker.showPicker(context, showTitleActions: true,
+                              onChanged: (date) {
+                                print('change $date in time zone ' +
+                                    date.timeZoneOffset.inHours.toString());
+                              }, onConfirm: (date) {
+                                      List list = splitList(splitSpaceEnd(date.toString()));
+                                      _hour = '${list[0]}:${list[1]}';
+                                      _timeController = TextEditingController(text: _hour);
+                                      setState(()=>null);
+                              },
+                              pickerModel: CustomPicker(currentTime: DateTime.now()),
+                              locale: LocaleType.vi);
+                        },
                         child: TextFormField(
                           decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).startHours, hintText: Languages.of(context).startHours),
                           enabled: false,
-                          controller: _controllerBirthday,
+                          controller: _timeController,
                         ),
                       ),
                     ),
+                    Padding(padding: EdgeInsets.all(16),
+                      child: Text('Chọn ngày học trong tuần (2 buổi)'),),
                     Padding(
                       padding: EdgeInsets.all(16.0),
                       child: DaysDropdown(
-                        value: _birthdaySelect,
-                        itemsList: _birthdayList,
+                        value: _daySelector1,
+                        itemsList:
+                        _dayList,
                         onChanged: (value){
                           setState((){
-                            _birthdaySelect=value;
-                            _day=_birthdaySelect!.key!;
+
+                            _daySelector1=value;
+                            _day1=_daySelector1!.key!;
+                            _dayList2=List.from(_dayList3);
+                            _day1==CommonKey.MON?
+                            _dayList2.removeAt(0):
+                            _day1==CommonKey.TUE?
+                            _dayList2.removeAt(1):
+                            _day1==CommonKey.WED?
+                            _dayList2.removeAt(2):
+                            _day1==CommonKey.THU?
+                            _dayList2.removeAt(3):
+                            _day1==CommonKey.FRI?
+                            _dayList2.removeAt(4):
+                            _day1==CommonKey.SAT?
+                            _dayList2.removeAt(5):
+                            _dayList2.removeAt(6);
+
+                            print(_dayList2);
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 16.0,right: 16, bottom: 48),
+                      child: DaysDropdown(
+                        value: _daySelector2,
+                        itemsList: _dayList2,
+                        onChanged: (value){
+                          setState((){
+                            _daySelector2=value;
+                            _day2=_daySelector2!.key!;
+                            _dayList=List.from(_dayList3);
+                            _day2==CommonKey.MON?
+                            _dayList.removeAt(0):
+                            _day2==CommonKey.TUE?
+                            _dayList.removeAt(1):
+                            _day2==CommonKey.WED?
+                            _dayList.removeAt(2):
+                            _day2==CommonKey.THU?
+                            _dayList.removeAt(3):
+                            _day2==CommonKey.FRI?
+                            _dayList.removeAt(4):
+                            _day2==CommonKey.SAT?
+                            _dayList.removeAt(5):
+                            _dayList.removeAt(6);
+                            print(_dayList);
                           });
                         },
                       ),

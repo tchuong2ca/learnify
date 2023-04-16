@@ -4,7 +4,13 @@ class MyClassModel{
   String? idTeacher;
   String? teacherName;
   String? status;
-  String? startDate;
+  String? onStageMon;
+  String? onStageTue;
+  String? onStageWed;
+  String? onStageThu;
+  String? onStageFri;
+  String? onStageSat;
+  String? onStageSun;
   String? price;
   String? nameClass;
   String? describe;
@@ -12,18 +18,27 @@ class MyClassModel{
   String? imageLink;
   List<String>? subscribe;
 
+
+
   MyClassModel(
-      {this.idClass,
-        this.idCourse,
-        this.idTeacher,
-        this.teacherName,
-        this.status,
-        this.startDate,
-        this.price,
-        this.nameClass,
-        this.describe,
-        this.startHours,
-        this.subscribe});
+  {      this.idClass,
+    this.idCourse,
+    this.idTeacher,
+    this.teacherName,
+    this.status,
+    this.onStageMon,
+    this.onStageTue,
+    this.onStageWed,
+    this.onStageThu,
+    this.onStageFri,
+    this.onStageSat,
+    this.onStageSun,
+    this.price,
+    this.nameClass,
+    this.describe,
+    this.startHours,
+    this.imageLink,
+    this.subscribe});
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -32,7 +47,13 @@ class MyClassModel{
     map['imageLink'] = imageLink;
     map['nameClass'] = nameClass;
     map['price'] = price;
-    map['startDate'] = startDate;
+    map['onStageMon'] = onStageMon;
+    map['onStageTue'] = onStageTue;
+    map['onStageWed'] = onStageWed;
+    map['onStageThu'] = onStageThu;
+    map['onStageFri'] = onStageFri;
+    map['onStageSat'] = onStageSat;
+    map['onStageSun'] = onStageSun;
     map['startHours'] = startHours;
     map['status'] = status;
     map['subscribe'] = subscribe;
@@ -46,7 +67,13 @@ class MyClassModel{
     idTeacher = json['idTeacher'];
     status = json['status'];
     teacherName = json['teacherName'];
-    startDate = json['startDate'];
+    onStageMon = json['onStageMon'];
+    onStageTue = json['onStageTue'];
+    onStageWed = json['onStageWed'];
+    onStageThu = json['onStageThu'];
+    onStageFri = json['onStageFri'];
+    onStageSat = json['onStageSat'];
+    onStageSun = json['onStageSun'];
     price = json['price'];
     nameClass = json['nameClass'];
     describe = json['describe'];

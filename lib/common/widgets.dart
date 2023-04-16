@@ -192,7 +192,7 @@ Widget itemCourse(BuildContext context, String title, String content, String ima
     ),
   );
 }
-Widget itemCourseAdminHours(BuildContext context, String title, String content, String imageLink, String time, Function(bool click) onClickEdit, Function(bool click) onClickDelete, Function(String id) onClick){
+Widget itemCourseAdminHours(BuildContext context, String title, String content, String imageLink, String firstDay,String secondDay, Function(bool click) onClickEdit, Function(bool click) onClickDelete, Function(String id) onClick){
   return InkWell(
     onTap: () => onClick(''),
     child: Container(
@@ -231,13 +231,34 @@ Widget itemCourseAdminHours(BuildContext context, String title, String content, 
           ),
           Spacer(),
           SizedBox(height: 8,),
-          NeoText(
-              '${Languages.of(context).time}: $time',
-              textStyle: TextStyle(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              NeoText( '${Languages.of(context).time}: ', textStyle: TextStyle(
                 overflow: TextOverflow.ellipsis,
                 color: CommonColor.black,
-              ),
-              maxline: 2
+              ),maxline: 1),
+              Column(crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  NeoText(
+                      '$firstDay',
+                      textStyle: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        color: CommonColor.black,
+                      ),
+                      maxline: 1
+                  ),
+                  NeoText(
+                      '$secondDay',
+                      textStyle: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        color: CommonColor.black,
+                      ),
+                      maxline: 1
+                  ),
+                ],
+              )
+            ],
           ),
           Spacer(),
           Container(
@@ -288,7 +309,7 @@ Widget itemSeeMore(BuildContext context, String title, Function(String call) cal
     ],
   );
 }
-Widget itemCourseHours(BuildContext context, String title, String content, String imageLink, Function(String id) onClick, String time, Function()onClickRegister, bool visiable){
+Widget itemCourseHours(BuildContext context, String title, String content, String imageLink, Function(String id) onClick, String firstDay,String secondDay, Function()onClickRegister, bool visiable){
   return InkWell(
     onTap: () => onClick(''),
     child: Container(
@@ -326,14 +347,36 @@ Widget itemCourseHours(BuildContext context, String title, String content, Strin
               maxline: 2
           ),
           SizedBox(height: 8,),
-          NeoText(
-              '${Languages.of(context).time}: $time',
-              textStyle: TextStyle(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              NeoText( '${Languages.of(context).time}: ', textStyle: TextStyle(
                 overflow: TextOverflow.ellipsis,
                 color: CommonColor.black,
-              ),
-              maxline: 1
+              ),maxline: 1),
+              Column(crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  NeoText(
+                      '$firstDay',
+                      textStyle: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        color: CommonColor.black,
+                      ),
+                      maxline: 1
+                  ),
+                  NeoText(
+                      '$secondDay',
+                      textStyle: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        color: CommonColor.black,
+                      ),
+                      maxline: 1
+                  ),
+                ],
+              )
+            ],
           ),
+
           Spacer(),
           Visibility(
             visible: visiable,

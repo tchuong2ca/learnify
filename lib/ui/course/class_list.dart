@@ -79,12 +79,27 @@ class _ClassListState extends State<ClassList> {
                                           :CommonKey.WED==data['onStageWed']
                                           ? Languages.of(context).wednesday
                                           :CommonKey.THU==data['onStageThu']
-                                          ? Languages.of(context).thurday
+                                          ? Languages.of(context).thursday
                                           :CommonKey.FRI==data['onStageFri']
                                           ? Languages.of(context).friday
                                           :CommonKey.SAT==data['onStageSat']
                                           ? Languages.of(context).saturday
                                           :Languages.of(context).sunday
+                                  } - ${data['startHours']}',
+                                  '${
+                                      CommonKey.SUN==data['onStageSun']
+                                          ? Languages.of(context).sunday
+                                          :CommonKey.SAT==data['onStageSat']
+                                          ? Languages.of(context).saturday
+                                          :CommonKey.FRI==data['onStageFri']
+                                          ? Languages.of(context).friday
+                                          :CommonKey.THU==data['onStageThu']
+                                          ? Languages.of(context).thursday
+                                          :CommonKey.WED==data['onStageWed']
+                                          ? Languages.of(context).wednesday
+                                          :CommonKey.TUE==data['onStageTue']
+                                          ? Languages.of(context).tuesday
+                                          :Languages.of(context).monday
                                   } - ${data['startHours']}',
                                       (onClickEdit) => Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateClassUI(_course, CommonKey.EDIT, data))),
                                       (onClickDelete) => _presenter!.deleteClass(data['idClass']),
@@ -93,21 +108,36 @@ class _ClassListState extends State<ClassList> {
                                 register.contains(_username)
                                     ?Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role)))
                                     :Fluttertoast.showToast(msg: 'require class')
-                              },'${
-                                  CommonKey.MON==data['onStageMon']
+                              },'${CommonKey.MON==data['onStageMon']
                                       ? Languages.of(context).monday
                                       :CommonKey.TUE==data['onStageTue']
                                       ? Languages.of(context).tuesday
                                       :CommonKey.WED==data['onStageWed']
                                       ? Languages.of(context).wednesday
                                       :CommonKey.THU==data['onStageThu']
-                                      ? Languages.of(context).thurday
+                                      ? Languages.of(context).thursday
                                       :CommonKey.FRI==data['onStageFri']
                                       ? Languages.of(context).friday
                                       :CommonKey.SAT==data['onStageSat']
                                       ? Languages.of(context).saturday
                                       :Languages.of(context).sunday
-                              } - ${data['startHours']}', () {
+                              } - ${data['startHours']}',
+                                  '${
+                                      CommonKey.SUN==data['onStageSun']
+                                          ? Languages.of(context).sunday
+                                          :CommonKey.SAT==data['onStageSat']
+                                          ? Languages.of(context).saturday
+                                          :CommonKey.FRI==data['onStageFri']
+                                          ? Languages.of(context).friday
+                                          :CommonKey.THU==data['onStageThu']
+                                          ? Languages.of(context).thursday
+                                          :CommonKey.WED==data['onStageWed']
+                                          ? Languages.of(context).wednesday
+                                          :CommonKey.TUE==data['onStageTue']
+                                          ? Languages.of(context).tuesday
+                                          :Languages.of(context).monday
+                                  } - ${data['startHours']}',
+                                      () {
                                 if(!register.contains(_username)){
                                   register.add(_username);
                                   _presenter!.RegisterClass(data['idClass'], register, data['idCourse']);

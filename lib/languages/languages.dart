@@ -98,7 +98,7 @@ abstract class Languages{
   String get monday;
   String get tuesday;
   String get wednesday;
-  String get thurday;
+  String get thursday;
   String get friday;
   String get saturday;
   String get sunday;

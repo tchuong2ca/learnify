@@ -575,7 +575,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageLoad.imageNetwork('$imageLink', 200, getWidthDevice(context)),
+            ImageLoad.imageNetwork('$imageLink', 196, getWidthDevice(context)),
             SizedBox(height: 16,),
             NeoText('$title', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
             SizedBox(height: 8,),

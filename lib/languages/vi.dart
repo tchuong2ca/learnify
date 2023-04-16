@@ -379,7 +379,7 @@ class LanguagesVn extends Languages{
 
   @override
   // TODO: implement Thurday
-  String get thurday => 'Thứ 5';
+  String get thursday => 'Thứ 5';
 
   @override
   // TODO: implement monday

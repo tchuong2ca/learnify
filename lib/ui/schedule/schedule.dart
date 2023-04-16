@@ -187,7 +187,7 @@ class _ScheduleState extends State<Schedule> {
                 :CommonKey.Wednesday==day
                 ?Languages.of(context).wednesday
                 :CommonKey.Thursday==day
-                ?Languages.of(context).thurday
+                ?Languages.of(context).thursday
                 :CommonKey.Friday==day
                 ?Languages.of(context).friday
                 :CommonKey.Saturday==day
@@ -271,7 +271,7 @@ class _ScheduleState extends State<Schedule> {
                             :CommonKey.WED==myClass.onStageWed
                             ?Languages.of(context).wednesday
                             :CommonKey.THU==myClass.onStageThu
-                            ?Languages.of(context).thurday
+                            ?Languages.of(context).thursday
                             :CommonKey.FRI==myClass.onStageFri
                             ?Languages.of(context).friday
                             :CommonKey.SAT==myClass.onStageSat
@@ -287,7 +287,7 @@ class _ScheduleState extends State<Schedule> {
                           :CommonKey.FRI==myClass.onStageFri
                           ?Languages.of(context).friday
                           :CommonKey.THU==myClass.onStageThu
-                          ?Languages.of(context).thurday
+                          ?Languages.of(context).thursday
                           :CommonKey.WED==myClass.onStageWed
                           ?Languages.of(context).wednesday
                           :CommonKey.TUE==myClass.onStageTue

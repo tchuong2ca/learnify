@@ -137,4 +137,7 @@ abstract class Languages{
   String get member;
   String get fileEmpty;
   String get submitRating;
+  String get teacherInfo;
+  String get specialize;
+  String get level;
 }

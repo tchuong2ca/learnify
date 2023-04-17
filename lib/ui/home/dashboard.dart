@@ -43,8 +43,6 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
   _DashboardPageState(this._role, this._username);
   DashboardPresenter? _presenter;
-  DateTime _timeBackPressed = DateTime.now();
-  int _selectedIndex = 0;
   int _widgetId = 1;
   late ScrollController _headerBannerController;
   late Timer _headerBannerScrollTimer;
@@ -56,17 +54,6 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   final List<String> _name = <String>['50000+ thành viên', '100+ lớp học đang diễn ra', '10% lợi nhuận xây trường','hê sờ lô', 'hê sờ li li'];
   final List<String> _photo = <String>[Images.tutorial1, Images.tutorial0, Images.day, Images.night, Images.moon];
   bool _toggle=false;
-  // Widget _getBody(){
-  //   if(this._selectedIndex == 1){
-  //     return Schedule();
-  //   }else if(_selectedIndex == 0){
-  //     return HomePage();
-  //   }else if(_selectedIndex == 2){
-  //     return SocialNetworkPage();
-  //   }else {
-  //     return PersonalPage();
-  //   }
-  // }
   @override
   void initState(){
     super.initState();
@@ -273,6 +260,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                           InkWell(
                                             child:   _tabChild(Images.schedule, 'Cá nhân'),
                                             onTap: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (_)=>PersonalPage()));
                                             },
                                           ),
                                         ],
@@ -451,11 +439,6 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
       );
 
-  }
-  void onTapBottomMenu(int index){
-    setState(() {
-      _selectedIndex = index;
-    });
   }
   Future<bool> _onWillPop() async {
     return (await showDialog(

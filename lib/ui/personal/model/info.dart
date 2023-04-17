@@ -2,10 +2,10 @@ class Info{
   String? fullname;
   String? phone;
   String? email;
-  String? birthday;
-  String? address;
+  String? specialize;
+  String? exp;
   String? avatar;
-  String? describe;
+  String? intro;
   String? role;
   String? office;
 
@@ -13,10 +13,10 @@ class Info{
       {this.fullname,
         this.phone,
         this.email,
-        this.birthday,
-        this.address,
+        this.specialize,
+        this.exp,
         this.avatar,
-        this.describe,
+        this.intro,
         this.role,
         this.office});
 
@@ -26,9 +26,9 @@ class Info{
     fullname = json['fullname'];
     role = json['role'];
     email = json['email'];
-    address = json['address'];
-    birthday = json['birthday'];
-    describe = json['describe'];
+    exp = json['exp'];
+    specialize = json['specialize'];
+    intro = json['intro'];
     office = json['office'];
   }
 
@@ -40,9 +40,9 @@ class Info{
     map['fullname'] = fullname;
     map['role'] = role;
     map['email'] = email;
-    map['address'] = address;
-    map['birthday'] = birthday;
-    map['describe'] = describe;
+    map['exp'] = exp;
+    map['specialize'] = specialize;
+    map['intro'] = intro;
     map['office'] = office;
     return map;
   }

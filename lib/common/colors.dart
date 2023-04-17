@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 class CommonColor{
   static const white = Color(0xffffffff);
+  static const orange_primary = Color(0xffFF9D00);
+  static const orange_primary_2 = Color(0xffFF8014);
+  static const lightGrey = Color(0xffCCCCCC);
   static const pinkLight = Color(0xfffce4ec);
   static const pinkLight2 = Color(0xfff48fb1);
   static const pinkLight3 = Color(0xfff06292);

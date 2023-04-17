@@ -532,4 +532,16 @@ class LanguageEn extends Languages{
   @override
   // TODO: implement submitRating
   String get submitRating => 'Gửi đánh giá';
+
+  @override
+  // TODO: implement teacherInfo
+  String get teacherInfo => 'Đôi nét về giáo viên';
+
+  @override
+  // TODO: implement level
+  String get level => 'Trình độ';
+
+  @override
+  // TODO: implement specialize
+  String get specialize => 'Chuyên môn';
 }

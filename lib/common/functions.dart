@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
@@ -83,6 +84,11 @@ String getDateWeek(int day){
   String value = formatterDate.format(date);
 
   return value;
+}
+Future<String> getLinkStorage(String link) async{
+  final ref = FirebaseStorage.instance.ref().child("${link}");
+  String url = (await ref.getDownloadURL()).toString();
+  return url;
 }
 String splitSpaceEnd(String content){
   var data = content.split(" ");

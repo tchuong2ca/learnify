@@ -8,6 +8,13 @@ class Images {
   static const moon = assetPath + 'moon.png';
   static const night = assetPath + 'night.png';
   static const schedule = assetPath + 'schedule.png';
-
+  static const book = assetPath + 'book.png';
+  static const gmail = assetPath + 'gmail.png';
+  static const level = assetPath + 'level.png';
+  static const like = assetPath + 'like.png';
+  static const star_off = assetPath+'star_off.png';
+  static const tabBar = assetPath+'tab_bar.png';
+  static const ratestar = assetPath+'ratestar.png';
+  static const question_mark = assetPath + 'question_mark.jpg';
   static const background = assetPath + 'background.png';
 }

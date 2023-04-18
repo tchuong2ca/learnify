@@ -7,7 +7,6 @@ class Info{
   String? avatar;
   String? intro;
   String? role;
-  String? office;
 
   Info(
       {this.fullname,
@@ -17,8 +16,7 @@ class Info{
         this.exp,
         this.avatar,
         this.intro,
-        this.role,
-        this.office});
+        this.role,});
 
   Info.fromJson(dynamic json) {
     phone = json['phone'];
@@ -29,7 +27,6 @@ class Info{
     exp = json['exp'];
     specialize = json['specialize'];
     intro = json['intro'];
-    office = json['office'];
   }
 
 
@@ -43,7 +40,6 @@ class Info{
     map['exp'] = exp;
     map['specialize'] = specialize;
     map['intro'] = intro;
-    map['office'] = office;
     return map;
   }
 }

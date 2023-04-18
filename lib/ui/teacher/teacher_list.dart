@@ -27,7 +27,7 @@ class _TeacherPageState extends State<TeacherPage> {
 
   @override
   void initState() {
-    _streamTeacher = FirebaseFirestore.instance.collection('users').where('role', isEqualTo: CommonKey.TEACHER).where('isLooked', isEqualTo: false).snapshots();
+    _streamTeacher = FirebaseFirestore.instance.collection('users').where('role', isEqualTo: CommonKey.TEACHER).where('isLocked', isEqualTo: false).snapshots();
     _presenter = TeacherPresenter();
   }
 

@@ -260,7 +260,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                           InkWell(
                                             child:   _tabChild(Images.schedule, 'Cá nhân'),
                                             onTap: (){
-                                              Navigator.push(context, MaterialPageRoute(builder: (_)=>PersonalPage()));
+                                              Navigator.push(context, MaterialPageRoute(builder: (_)=>PersonalPage(_role!)));
                                             },
                                           ),
                                         ],

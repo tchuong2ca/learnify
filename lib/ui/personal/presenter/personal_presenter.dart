@@ -16,16 +16,17 @@ class ProfilePresenter{
     user = userData;
     return userData;
   }
-  bool updateProfile(String keyUser , String fullname, String address, String birthday, String intro, String office){
+  bool updateProfile(String keyUser , String fullname, String address, String dob, String intro, String exp, String specialize){
     FirebaseFirestore.instance
         .collection('users')
         .doc(keyUser)
         .update({
       'fullname': fullname,
       'address': address,
-      'birthday': birthday,
+      'dob': dob,
       'intro': intro,
-      'office': office
+      'exp':exp,
+      'specialize':specialize
     }).onError((error, stackTrace) => false);
     return true;
   }

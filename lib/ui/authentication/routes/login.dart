@@ -578,7 +578,8 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           'exp': '',
           'specialize': '',
           'intro': '',
-          'office': ''
+          'address':'',
+          'dob':''
         }).then((value) {
           Navigator.pop(context);
         Navigator.pop(context);

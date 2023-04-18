@@ -45,15 +45,9 @@ class CustomPicker extends CommonPickerModel {
   String leftDivider() {
     return "|";
   }
-
-  @override
-  String rightDivider() {
-    return "|";
-  }
-
   @override
   List<int> layoutProportions() {
-    return [1, 2, 1];
+    return [1, 1];
   }
 
   @override

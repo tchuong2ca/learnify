@@ -119,8 +119,7 @@ class AddNewTeacherPresenter{
       'exp': exp,
       'specialize': specialize,
       'intro': intro,
-      'office': 'Giáo viên',
-      'isLooked': false
+      'isLocked': false
     }).then((value) => true);
     return true;
   }

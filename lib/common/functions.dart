@@ -85,6 +85,10 @@ String getDateWeek(int day){
 
   return value;
 }
+String splitSpace(String content){
+  var data = content.split(" ");
+  return data[0];
+}
 Future<String> getLinkStorage(String link) async{
   final ref = FirebaseStorage.instance.ref().child("${link}");
   String url = (await ref.getDownloadURL()).toString();

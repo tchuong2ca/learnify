@@ -37,7 +37,6 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
   String _exp = '';
   String _specialize='';
   String _intro='';
-  String _office='';
   String _phone ='';
   String _email='';
   bool _loadFirst = true;
@@ -61,7 +60,6 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
       _expController = TextEditingController(text: _data!['exp']);
       _specialize = _data!['specialize'];
       _specializeController = TextEditingController(text: _data!['specialize']);
-      _office = _data!['office'];
       _introController = TextEditingController(text: _data!['intro']);
       _intro = _data!['intro'];
       _email = _data!['email'];

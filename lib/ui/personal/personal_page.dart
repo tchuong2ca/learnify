@@ -14,30 +14,38 @@ import '../../languages/languages.dart';
 import '../../res/images.dart';
 
 class PersonalPage extends StatefulWidget {
-  const PersonalPage({Key? key}) : super(key: key);
+  String _role;
+  PersonalPage(this._role);
 
   @override
-  State<PersonalPage> createState() => _PersonalPageState();
+  State<PersonalPage> createState() => _PersonalPageState(_role);
 }
 
 class _PersonalPageState extends State<PersonalPage> {
+  String _role;
+  _PersonalPageState(this._role);
   Map<String, dynamic>? _user;
   String _userName = '';
   Stream<DocumentSnapshot>? _stream;
-  TextEditingController? _controllerName = TextEditingController();
-  TextEditingController? _controllerAddress = TextEditingController();
-  TextEditingController? _controllerBirthday = TextEditingController();
-  TextEditingController? _controllerDescribeInfo = TextEditingController();
+  TextEditingController? _nameController = TextEditingController();
+  TextEditingController? _addressController = TextEditingController();
+  TextEditingController? _dobController = TextEditingController();
+  TextEditingController? _introController = TextEditingController();
+
+  TextEditingController? _expController = TextEditingController();
+  TextEditingController? _specializeController = TextEditingController();
   ProfilePresenter? _presenter;
   String _fullname = '';
   String _keyUser ='';
   String _address = '';
-  String _birthday='';
-  String _describeInfo='';
-  String _office='';
+  String _dob='';
+  String _intro='';
+
+  String _exp ='';
+  String _specialize='';
   bool _loadFirst = true;
   File? _fileImage;
-
+  bool _enableEditing=false;
 
 
   @override
@@ -83,11 +91,11 @@ class _PersonalPageState extends State<PersonalPage> {
                   SizedBox(width: 8,),
                   IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText( Languages.of(context).teacherAdd, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText('Cập nhật thông tin', textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
                       onPressed: (){
                         showLoaderDialog(context);
-                        if(_presenter!.updateProfile(_keyUser, _fullname, _address, _birthday, _describeInfo, _office)){
+                        if(_presenter!.updateProfile(_keyUser, _fullname, _address, _dob, _intro,_exp, _specialize)){
                           Navigator.pop(context);
                           Navigator.pop(context);
                         }else{
@@ -127,7 +135,19 @@ class _PersonalPageState extends State<PersonalPage> {
     if(_loadFirst){
       _keyUser = data['phone'];
       _fullname = data['fullname'];
-      _controllerName = TextEditingController(text: '${data['fullname']}');
+      _address = data['address'];
+      _dob= data['dob'];
+      _intro = data['intro'];
+
+      _exp = data['exp'];
+      _specialize=data['specialize'];
+      _nameController = TextEditingController(text: '${data['fullname']}');
+      _addressController = TextEditingController(text: '${data['address']}');
+      _dobController = TextEditingController(text: '${data['dob']}');
+      _introController = TextEditingController(text: '${data['intro']}');
+      _expController = TextEditingController(text: '${data['exp']}');
+      _specializeController = TextEditingController(text: '${data['specialize']}');
+
       _loadFirst=false;
     }
     return Column(
@@ -204,6 +224,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    NeoText(data['role']==CommonKey.TEACHER?'Giáo viên':data['role']==CommonKey.MEMBER?'Thành viên':'Quản trị viên'),
                     NeoText('${Languages.of(context).hello}, ${data['fullname']}', textStyle: TextStyle(fontSize: 14, color: CommonColor.black)),
                     SizedBox(height: 4,),
                     NeoText('${data['email']}', textStyle: TextStyle(color: CommonColor.black, fontSize: 12))
@@ -211,7 +232,11 @@ class _PersonalPageState extends State<PersonalPage> {
                 ),
               ),
               IconButton(
-                onPressed: ()=>null,
+                onPressed: (){
+                  setState(() {
+                    _enableEditing = !_enableEditing;
+                  });
+                },
                 icon: Icon(
                   Icons.edit,
                   color: CommonColor.blue,
@@ -224,8 +249,18 @@ class _PersonalPageState extends State<PersonalPage> {
         Padding(
           padding: const EdgeInsets.only(right: 8.0, left: 8.0),
           child: TextFormField(
-            decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).fullName, hintText: Languages.of(context).fullName),
-            controller: _controllerName,
+            readOnly: !_enableEditing,
+            decoration: InputDecoration(
+                labelText: Languages.of(context).fullName, hintText: Languages.of(context).fullName,
+              focusedBorder:  OutlineInputBorder(
+                borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+              enabledBorder:  OutlineInputBorder(
+                borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+              ),
+              border: const OutlineInputBorder(),
+            ),
+            //CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).fullName, hintText: Languages.of(context).fullName),
+            controller: _nameController,
             maxLines: 1,
             onChanged: (value)=>setState((){
               _fullname=value;
@@ -236,28 +271,97 @@ class _PersonalPageState extends State<PersonalPage> {
         Padding(
           padding: EdgeInsets.all(8),
           child: TextFormField(
-              decoration: CommonTheme.textFieldInputDecoration(hintText: Languages.of(context).address, labelText: Languages.of(context).address),
+              readOnly: !_enableEditing,
+              decoration:
+              InputDecoration(
+                labelText: Languages.of(context).address, hintText: Languages.of(context).address,
+                focusedBorder:  OutlineInputBorder(
+                  borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+                enabledBorder:  OutlineInputBorder(
+                  borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+                ),
+                border: const OutlineInputBorder(),
+              ),
               maxLines: 1,
+              controller: _addressController,
               onChanged: (value)=>setState(()=> _address=value)
           ),
         ),
-
+        SizedBox(height: 8,),
         Padding(
           padding: EdgeInsets.all(8),
           child: TextFormField(
-              decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).describeInfo, hintText: Languages.of(context).describeInfo),
-              maxLines: 10,
-              onChanged: (value)=>setState(()=> _describeInfo=value)
+              readOnly: !_enableEditing,
+              decoration: InputDecoration(
+                labelText: Languages.of(context).birthday, hintText: Languages.of(context).birthday,
+                focusedBorder:  OutlineInputBorder(
+                  borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+                enabledBorder:  OutlineInputBorder(
+                  borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+                ),
+                border: const OutlineInputBorder(),
+              ),
+              maxLines: 1,
+              controller: _dobController,
+              onChanged: (value)=>setState(()=> _dob=value)
           ),
         ),
+        _role=='TEACHER'?Padding(
+          padding: EdgeInsets.all(8),
+          child: TextFormField(
+              readOnly: !_enableEditing,
+              decoration:
+              InputDecoration(
+                labelText: 'Số năm kinh nghiệm', hintText: 'Số năm kinh nghiệm',
+                focusedBorder:  OutlineInputBorder(
+                  borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+                enabledBorder:  OutlineInputBorder(
+                  borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+                ),
+                border: const OutlineInputBorder(),
+              ),
+              maxLines: 1,
+              controller: _expController,
+              onChanged: (value)=>setState(()=> _exp=value)
+          ),
+        ):SizedBox(),
+        _role=='TEACHER'?Padding(
+          padding: EdgeInsets.all(8),
+          child: TextFormField(
+              readOnly: !_enableEditing,
+              decoration:
+              InputDecoration(
+                labelText: Languages.of(context).specialize, hintText: Languages.of(context).specialize,
+                focusedBorder:  OutlineInputBorder(
+                  borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+                enabledBorder:  OutlineInputBorder(
+                  borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+                ),
+                border: const OutlineInputBorder(),
+              ),
+              maxLines: 1,
+              controller: _specializeController,
+              onChanged: (value)=>setState(()=> _specialize=value)
+          ),
+        ):SizedBox(),
         Padding(
           padding: EdgeInsets.all(8),
           child: TextFormField(
-              decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).office, hintText: Languages.of(context).office),
-              maxLines: 2,
-              onChanged: (value)=>setState(()=> _office=value)
+              readOnly: !_enableEditing,
+              decoration: InputDecoration(
+                labelText: Languages.of(context).describeInfo, hintText: Languages.of(context).describeInfo,
+                focusedBorder:  OutlineInputBorder(
+                  borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+                enabledBorder:  OutlineInputBorder(
+                  borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+                ),
+                border: const OutlineInputBorder(),
+              ),
+              controller: _introController,
+              maxLines: 10,
+              onChanged: (value)=>setState(()=> _intro=value)
           ),
-        )
+        ),
       ],
     );
   }

@@ -13,7 +13,7 @@ abstract class _TeacherPresenter with Store{
   @action
   void lookAccount(String id) {
     FirebaseFirestore.instance.collection('users').doc(id).update({
-      'isLooked': true
+      'isLocked': true
     }).whenComplete(() => state=SingleState.HAS_DATA);
   }
 }

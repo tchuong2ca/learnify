@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning/common/widgets.dart';
-import 'package:online_learning/ui/teacher/presenter/teacher_presenter.dart';
-import 'package:online_learning/ui/teacher/teacher_detail.dart';
+import 'package:online_learning/screen/teacher/presenter/teacher_presenter.dart';
+import 'package:online_learning/screen/teacher/teacher_detail.dart';
 
 import '../../common/colors.dart';
 import '../../common/functions.dart';

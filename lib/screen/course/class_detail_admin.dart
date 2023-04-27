@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_learning/common/widgets.dart';
-import 'package:online_learning/ui/course/model/my_class_model.dart';
+import 'package:online_learning/screen/course/model/my_class_model.dart';
 
 import '../../common/colors.dart';
 import '../../common/functions.dart';

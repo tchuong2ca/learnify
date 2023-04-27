@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning/common/widgets.dart';
 
-import '../ui/course/status.dart';
+import '../screen/course/status.dart';
 import 'colors.dart';
 
 class DropDownBoxStatus extends StatelessWidget {

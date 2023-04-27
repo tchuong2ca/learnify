@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:online_learning/ui/course/class_list.dart';
-import 'package:online_learning/ui/course/create_course_ui.dart';
-import 'package:online_learning/ui/course/model/course_model.dart';
-import 'package:online_learning/ui/course/presenter/course_list_presenter.dart';
+import 'package:online_learning/screen/course/class_list.dart';
+import 'package:online_learning/screen/course/create_course_ui.dart';
+import 'package:online_learning/screen/course/model/course_model.dart';
+import 'package:online_learning/screen/course/presenter/course_list_presenter.dart';
 
 import '../../common/keys.dart';
 import '../../common/widgets.dart';

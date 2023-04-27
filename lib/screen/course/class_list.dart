@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:online_learning/ui/course/model/course_model.dart';
-import 'package:online_learning/ui/course/model/my_class_model.dart';
-import 'package:online_learning/ui/course/presenter/create_class_presenter.dart';
+import 'package:online_learning/screen/course/model/course_model.dart';
+import 'package:online_learning/screen/course/model/my_class_model.dart';
+import 'package:online_learning/screen/course/presenter/create_class_presenter.dart';
 
 import '../../common/colors.dart';
 import '../../common/keys.dart';
@@ -29,10 +29,10 @@ class _ClassListState extends State<ClassList> {
   String? _keyFlow;
   _ClassListState(this._course, this._role, this._keyFlow);
   Stream<QuerySnapshot>? _stream;
-  ClassAddPresenter? _presenter;
+  CreateClassPresenter? _presenter;
   @override
   void initState() {
-    _presenter = ClassAddPresenter();
+    _presenter = CreateClassPresenter();
     if(_course==null){
       _stream = FirebaseFirestore.instance.collection('class').snapshots();
     }else{

@@ -6,9 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:online_learning/res/images.dart';
 import 'package:online_learning/storage/storage.dart';
-import 'package:online_learning/ui/authentication/enums/mode.dart';
-import 'package:online_learning/ui/authentication/routes/login.dart';
-import 'package:online_learning/ui/home/dashboard.dart';
+import 'package:online_learning/screen/authentication/enums/mode.dart';
+import 'package:online_learning/screen/authentication/routes/login.dart';
+import 'package:online_learning/screen/home/dashboard.dart';
 
 import 'common/colors.dart';
 import 'common/dimens.dart';
@@ -20,8 +20,6 @@ import 'external/smooth_page_indicator/smooth_page_indicator.dart';
 import 'languages/const_locate.dart';
 import 'languages/languages.dart';
 import 'languages/localization.dart';
-import 'main.dart';
-// import 'module/splash/splash_page.dart';
 
 class Application extends StatefulWidget{
 

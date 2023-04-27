@@ -3,7 +3,7 @@ import 'languages.dart';
 class LanguageEn extends Languages{
   @override
   // TODO: implement appName
-  String get appName => 'Online Tutor';
+  String get appName => 'Bụt hiện nên và lói';
 
   @override
   // TODO: implement login

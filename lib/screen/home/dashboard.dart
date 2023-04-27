@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_learning/common/widgets.dart';
-import 'package:online_learning/ui/course/class_list.dart';
-import 'package:online_learning/ui/course/course_list.dart';
-import 'package:online_learning/ui/course/model/course_model.dart';
-import 'package:online_learning/ui/home/dashboard_presenter.dart';
-import 'package:online_learning/ui/home/homepage.dart';
-import 'package:online_learning/ui/personal/personal_page.dart';
-import 'package:online_learning/ui/schedule/schedule.dart';
-import 'package:online_learning/ui/social/socialNetwork.dart';
+import 'package:online_learning/screen/course/class_list.dart';
+import 'package:online_learning/screen/course/course_list.dart';
+import 'package:online_learning/screen/course/model/course_model.dart';
+import 'package:online_learning/screen/docs/doc_list_page.dart';
+import 'package:online_learning/screen/home/dashboard_presenter.dart';
+import 'package:online_learning/screen/personal/personal_page.dart';
+import 'package:online_learning/screen/schedule/schedule.dart';
+import 'package:online_learning/screen/social/socialNetwork.dart';
 
 import '../../common/colors.dart';
 import '../../common/functions.dart';
@@ -38,6 +38,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   String? _role;
   String? _username;
   String _phoneNumber='';
+  Map<String, dynamic>? _user;
   Stream<QuerySnapshot>? _courseStream;
   Stream<QuerySnapshot>? _classStream;
 
@@ -61,7 +62,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     _getAccountInfor();
     _courseStream = FirebaseFirestore.instance.collection('course').snapshots();
     _classStream = FirebaseFirestore.instance.collection('class').snapshots();
-    Future.delayed(const Duration(seconds: 10), () { //asynchronous delay
+    Future.delayed(const Duration(seconds: 20), () { //asynchronous delay
       if (this.mounted) { //checks if widget is still active and not disposed
         setState(() { //tells the widget builder to rebuild again because ui has updated
           _widgetId = _widgetId == 1 ? 2 : 1;
@@ -288,6 +289,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                               InkWell(
                                                 child:  _tabChild(Images.schedule, 'Tài liệu'),
                                                 onTap: (){
+                                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>DocListPage(_user)));
                                                 },
                                               ),
                                               InkWell(
@@ -525,7 +527,8 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     _classModel = await _presenter!.getClass(_username!);
   }
   Future<void> _getAccountInfor() async{
-    _phoneNumber = await _presenter!.getUserInfo();
+    _user = await _presenter!.getUserInfo();
+    _phoneNumber=_user!['phone'];
     setState(()=>null);
   }
   void _navigatorClass(Map<String, dynamic> data, MyClassModel myClass){

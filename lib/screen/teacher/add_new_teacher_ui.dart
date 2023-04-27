@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_learning/common/widgets.dart';
-import 'package:online_learning/ui/teacher/presenter/add_new_teacher_presenter.dart';
+import 'package:online_learning/screen/teacher/presenter/add_new_teacher_presenter.dart';
 
 import '../../common/colors.dart';
 import '../../common/functions.dart';

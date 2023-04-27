@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:online_learning/ui/course/presenter/create_class_presenter.dart';
-import 'package:online_learning/ui/course/status.dart';
+import 'package:online_learning/screen/course/presenter/create_class_presenter.dart';
+import 'package:online_learning/screen/course/status.dart';
 import '../../common/colors.dart';
 import '../../common/days_dropdown.dart';
 import '../../common/functions.dart';
@@ -41,7 +41,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
   final String _price=''; String _nameClass = ''; String _describe = '';
   final List<Status> _statusList = [];
   Status? _selectStatus;
-  ClassAddPresenter? _presenter;
+  CreateClassPresenter? _presenter;
   TextEditingController _controllerIdClass = TextEditingController();
   TextEditingController _controllerNameClass = TextEditingController();
   TextEditingController _controllerDescribeClass = TextEditingController();
@@ -81,7 +81,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
 
     // _daySelector1 = _dayList[0];
     // _daySelector2 = _dayList2[1];
-    _presenter = ClassAddPresenter();
+    _presenter = CreateClassPresenter();
     if(CommonKey.EDIT==_keyFlow){
       _controllerIdClass = TextEditingController(text: _data!['idClass']);
       _controllerNameClass = TextEditingController(text: _data!['nameClass']);

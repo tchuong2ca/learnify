@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning/common/functions.dart';
 import 'package:online_learning/languages/languages.dart';
-import 'package:online_learning/ui/home/dashboard.dart';
+import 'package:online_learning/screen/home/dashboard.dart';
 
 import '../../../common/keys.dart';
 import '../../../common/widgets.dart';

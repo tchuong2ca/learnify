@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:online_learning/common/colors.dart';
 import 'package:online_learning/common/widgets.dart';
-import 'package:online_learning/ui/course/model/course_model.dart';
-import 'package:online_learning/ui/course/model/my_class_model.dart';
-import 'package:online_learning/ui/schedule/presenter/schedule_presenter.dart';
+import 'package:online_learning/screen/course/model/course_model.dart';
+import 'package:online_learning/screen/course/model/my_class_model.dart';
+import 'package:online_learning/screen/schedule/presenter/schedule_presenter.dart';
 
 import '../../common/functions.dart';
 import '../../common/keys.dart';
 import '../../common/state.dart';
 import '../../languages/languages.dart';
+import '../../res/images.dart';
 import '../../storage/storage.dart';
 import '../course/class_detail_admin.dart';
 
@@ -54,7 +55,28 @@ class _ScheduleState extends State<Schedule> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //CustomAppBar(appType: AppType.appbar_home, title: Languages.of(context).schedule),
+          Container(
+            width: getWidthDevice(context),
+            height: 52,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Images.tabBar),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(width: 8,),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                SizedBox(width: 8,),
+                Expanded(child: NeoText(_role=='MEMBER'?Languages.of(context).schedule:'Lịch dạy', textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                SizedBox(width: 52,)
+              ],
+            ),
+          ),
           Expanded(
             child: Observer(
               builder: (_){

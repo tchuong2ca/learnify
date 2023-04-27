@@ -2,7 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning/common/widgets.dart';
-import 'package:online_learning/ui/course/days.dart';
+import 'package:online_learning/screen/course/days.dart';
 
 import 'colors.dart';
 

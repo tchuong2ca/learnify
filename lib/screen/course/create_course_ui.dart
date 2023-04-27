@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_learning/common/widgets.dart';
-import 'package:online_learning/ui/course/presenter/create_course_presenter.dart';
+import 'package:online_learning/screen/course/presenter/create_course_presenter.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import '../../common/colors.dart';
 import '../../common/functions.dart';
@@ -94,7 +94,7 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
                     Fluttertoast.showToast(msg: 'Ảnh đâu');
                   } else{
                     showLoaderDialog(context);
-                    CommonKey.EDIT!=_keyFlow?_createCoursePresenter!.addCourse(_fileImage!, replaceSpace(_idCourse), _nameCourse, _teacherName, _idTeacher).then((value) {
+                    CommonKey.EDIT!=_keyFlow?_createCoursePresenter!.createCourse(_fileImage!, replaceSpace(_idCourse), _nameCourse, _teacherName, _idTeacher).then((value) {
                       _onResult(value);
                     }):_fileImage!=null?_createCoursePresenter!.updateCourse(fileImage: _fileImage, idCourse: replaceSpace(_idCourse), idTeacher: _idTeacher, nameCourse: _nameCourse, nameTeacher: _teacherName).then((value) {
                       _onResult(value);

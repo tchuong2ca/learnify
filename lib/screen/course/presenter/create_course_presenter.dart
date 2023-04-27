@@ -7,7 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import '../../../common/keys.dart';
 
 class CreateCoursePresenter{
-  Future<bool> addCourse(File fileImage, String idCourse, String nameCourse, String nameTeacher, String idTeacher) async{
+  Future<bool> createCourse(File fileImage, String idCourse, String nameCourse, String nameTeacher, String idTeacher) async{
     final metadata = SettableMetadata(contentType: "image/jpeg");
 
 // Create a reference to the Firebase Storage bucket

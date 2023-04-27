@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:online_learning/ui/course/model/course_model.dart';
+import 'package:online_learning/screen/course/model/course_model.dart';
 import '../../../common/keys.dart';
 import '../../../storage/storage.dart';
 import '../model/my_class_model.dart';
 
-class ClassAddPresenter{
+class CreateClassPresenter{
   Future<bool> createClass(File fileImage, CourseModel course, MyClassModel myClass) async{
     final metadata = SettableMetadata(contentType: "image/jpeg");
 

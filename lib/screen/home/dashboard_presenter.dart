@@ -2,9 +2,8 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
-import 'package:online_learning/ui/course/model/course_model.dart';
+import 'package:online_learning/screen/course/model/course_model.dart';
 
 import '../../common/keys.dart';
 import '../../common/state.dart';
@@ -61,13 +60,11 @@ abstract class _DashboardPresenter with Store {
     print(course);
     return course;
   }
-  Future<String> getUserInfo() async{
-    String phone = '';
-    dynamic data = await SharedPreferencesData.GetData(CommonKey.USER);
-    if(data!=null){
-      Map<String, dynamic>json = jsonDecode(data.toString());
-      phone = json['phone']!=null?json['phone']:'';
-    }
-    return phone;
+  Map<String, dynamic>? user;
+  Future<Map<String, dynamic>> getUserInfo() async{
+    dynamic user = await SharedPreferencesData.GetData(CommonKey.USER);
+    Map<String, dynamic> userData = jsonDecode(user.toString());
+    user = userData;
+    return userData;
   }
 }

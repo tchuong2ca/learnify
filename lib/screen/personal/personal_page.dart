@@ -5,11 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning/common/colors.dart';
 import 'package:online_learning/common/widgets.dart';
-import 'package:online_learning/ui/personal/presenter/personal_presenter.dart';
+import 'package:online_learning/screen/personal/presenter/personal_presenter.dart';
 
 import '../../common/functions.dart';
 import '../../common/keys.dart';
-import '../../common/themes.dart';
 import '../../languages/languages.dart';
 import '../../res/images.dart';
 
@@ -235,6 +234,7 @@ class _PersonalPageState extends State<PersonalPage> {
                 onPressed: (){
                   setState(() {
                     _enableEditing = !_enableEditing;
+                    FocusScope.of(context).unfocus();
                   });
                 },
                 icon: Icon(

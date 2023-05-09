@@ -1,9 +1,9 @@
 class Images {
   static const assetPath = 'lib/res/';
   static const background_tutorial = assetPath + 'background_tutorial.jpg';
-  static const tutorial0 = assetPath + 'tutorial0.png';
-  static const tutorial1 = assetPath + 'tutorial1.png';
-  static const tutorial2 = assetPath + 'tutorial2.png';
+  static const slide1 = assetPath + 'slide1.png';
+  static const slide2 = assetPath + 'slide2.png';
+  static const slide3 = assetPath + 'slide3.png';
   static const day = assetPath + 'day.png';
   static const moon = assetPath + 'moon.png';
   static const night = assetPath + 'night.png';
@@ -17,4 +17,9 @@ class Images {
   static const ratestar = assetPath+'ratestar.png';
   static const question_mark = assetPath + 'question_mark.jpg';
   static const background = assetPath + 'background.png';
+  static const love = assetPath + 'love.png';
+  static const comments = assetPath + 'comments.png';
+  static const share = assetPath + 'share.png';
+  static const photo_notfound = assetPath + 'photo_notfound.jpeg';
+  static const logo_nobackground = assetPath + 'logo_nobackground.png';
 }

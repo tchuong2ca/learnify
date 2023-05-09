@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,6 +12,7 @@ import '../../common/functions.dart';
 import '../../common/keys.dart';
 import '../../languages/languages.dart';
 import '../../res/images.dart';
+import '../../storage/storage.dart';
 
 class PersonalPage extends StatefulWidget {
   String _role;
@@ -24,7 +26,6 @@ class _PersonalPageState extends State<PersonalPage> {
   String _role;
   _PersonalPageState(this._role);
   Map<String, dynamic>? _user;
-  String _userName = '';
   Stream<DocumentSnapshot>? _stream;
   TextEditingController? _nameController = TextEditingController();
   TextEditingController? _addressController = TextEditingController();
@@ -95,6 +96,13 @@ class _PersonalPageState extends State<PersonalPage> {
                       onPressed: (){
                         showLoaderDialog(context);
                         if(_presenter!.updateProfile(_keyUser, _fullname, _address, _dob, _intro,_exp, _specialize)){
+                          FirebaseFirestore.instance.collection('users').doc(_user!['phone']).get().then((value) {
+                            if(value.exists){
+                              Map<String, dynamic>? data = value.data() ;
+                              SharedPreferencesData.SaveData(CommonKey.USER, jsonEncode(data));
+                              print(data);
+                            }
+                          });
                           Navigator.pop(context);
                           Navigator.pop(context);
                         }else{
@@ -190,7 +198,7 @@ class _PersonalPageState extends State<PersonalPage> {
                             _presenter!.updateAvatar(p0!, _keyUser, CommonKey.AVATAR);
                           }), ''),
                           child:  ClipOval(
-                              child: ImageLoad.imageNetwork(data['avatar'], 100, 100)
+                              child: loadPhoto.imageNetwork(data['avatar'], 100, 100)
                           ),
                         )
                     ),

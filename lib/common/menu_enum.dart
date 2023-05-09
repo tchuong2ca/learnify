@@ -1,0 +1,4 @@
+enum MenuEnum{
+  UPDATE,
+  DELETE
+}

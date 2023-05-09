@@ -62,7 +62,7 @@ class _DocDetailsPageState extends State<DocDetailsPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ImageLoad.imageNetwork(widget._document!.imageUrl, getHeightDevice(context)*0.3, getWidthDevice(context)),
+                loadPhoto.imageNetwork(widget._document!.imageUrl, getHeightDevice(context)*0.3, getWidthDevice(context)),
                 SizedBox(height: 8,),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

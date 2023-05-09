@@ -6,9 +6,11 @@ import 'package:online_learning/screen/course/model/my_class_model.dart';
 import 'package:online_learning/screen/course/presenter/create_class_presenter.dart';
 
 import '../../common/colors.dart';
+import '../../common/functions.dart';
 import '../../common/keys.dart';
 import '../../common/widgets.dart';
 import '../../languages/languages.dart';
+import '../../res/images.dart';
 import 'class_detail_admin.dart';
 import 'create_class_ui.dart';
 
@@ -52,7 +54,25 @@ class _ClassListState extends State<ClassList> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //CommonKey.DASH_BOARD==_keyFlow?CustomAppBar(appType: AppType.appbar_home, title: Languages.of(context).appName):CustomAppBar(appType: AppType.child, title: Languages.of(context).myClass),
+
+          Container(
+            width: getWidthDevice(context),
+            height: 52,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Images.tabBar),
+                fit: BoxFit.fill,
+              ),
+            ),
+            child:
+            Stack(
+              fit: StackFit.expand,
+              children: [
+                Center(child: NeoText('Lớp học của toi', textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),left: 0,)
+              ],
+            ),
+          ),
           Expanded(
             child: CustomScrollView(
               slivers: [

@@ -120,19 +120,26 @@ class SplashTutorialState extends State<SplashTutorialPage>{
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("${Images.background_tutorial}"),
-          fit: BoxFit.cover,
-        ),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[CommonColor.white, Colors.lightBlueAccent]),
       ),
+      // decoration: BoxDecoration(
+      //   image: DecorationImage(
+      //     image: AssetImage("${Images.background_tutorial}"),
+      //     fit: BoxFit.cover,
+      //   ),
+      // ),
       padding: EdgeInsets.only(left:AppDimens.spaceHalf, right: AppDimens.spaceHalf, bottom: AppDimens.spaceMedium, top: AppDimens.spaceLarge),
       child: Column(children: [
+        Image.asset(Images.logo_nobackground),
         Stack(
           children: [
             Container(
               margin: EdgeInsets.only(top: AppDimens.spaceLarge),
-              height: getHeightDevice(context)*0.7,
+              height: getHeightDevice(context)*0.5,
               child: PageView.builder(
                   itemCount: 3,
                   controller: _pageControllerComment,
@@ -184,7 +191,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
   // Item comment
   Widget _itemTutorial(int index) {
     return Image(
-      image: AssetImage(index==0?Images.tutorial0:(index==1?Images.tutorial1:Images.tutorial2)),
+      image: AssetImage(index==0?Images.slide1:(index==1?Images.slide2:Images.slide3)),
       height: 48,
       width: 48,
       fit: BoxFit.fill,

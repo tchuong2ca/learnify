@@ -5,7 +5,7 @@ import 'languages.dart';
 class LanguagesVn extends Languages{
   @override
   // TODO: implement appName
-  String get appName => 'Gia sư trực tuyến';
+  String get appName => 'Bụt hiện nên và lói';
   @override
   // TODO: implement login
   String get login => 'Đăng nhập';

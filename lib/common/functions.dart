@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -85,6 +86,56 @@ String getDateWeek(int day){
 
   return value;
 }
+Future<void> selectPhoto(Function (List<File>?) onSelectFile, String type) async {
+  if(CommonKey.CAMERA==type){
+    final pickedCam = await ImagePicker().getImage(source:ImageSource.camera);
+    if(pickedCam==null){
+      onSelectFile(null);
+    }else {
+      List<File> fileCam = [];
+      fileCam.add(File(pickedCam.path));
+      onSelectFile(fileCam);
+    }
+  }else{
+    final pickedImages = await ImagePicker().pickMultiImage();
+    if(pickedImages==null){
+      onSelectFile(null);
+    }else {
+      if(pickedImages.isNotEmpty){
+        List<File> file =[];
+        for(XFile i in pickedImages){
+          file.add(File(i.path));
+        }
+        onSelectFile(file);
+      }
+    }
+  }
+}
+String postedTime(Timestamp? timestamp) {
+  if(timestamp==null) return "";
+  var now = DateTime.now();
+  var format = DateFormat('HH:mm a');
+  var date = DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+  var diff = now.difference(date);
+  var time = '';
+
+  if (diff.inSeconds <= 0 || diff.inSeconds > 0 && diff.inMinutes == 0 || diff.inMinutes > 0 && diff.inHours == 0 || diff.inHours > 0 && diff.inDays == 0) {
+    time = format.format(date);
+  } else if (diff.inDays > 0 && diff.inDays < 7) {
+    if (diff.inDays == 1) {
+      time = diff.inDays.toString() + ' ngày trước';
+    } else {
+      time = diff.inDays.toString() + ' ngày trước';
+    }
+  } else {
+    if (diff.inDays == 7) {
+      time = (diff.inDays / 7).floor().toString() + ' tuần trước';
+    } else {
+      time = (diff.inDays / 7).floor().toString() + ' tuần trước';
+    }
+  }
+  return time;
+}
 String splitSpace(String content){
   var data = content.split(" ");
   return data[0];
@@ -104,7 +155,11 @@ String getDateNow(){
   String actualDate = formatterDate.format(now);
   return actualDate;
 }
-
+Timestamp getTimestamp(){
+  DateTime currentDate = DateTime.now(); //DateTime
+  Timestamp myTimeStamp = Timestamp.fromDate(currentDate);
+  return myTimeStamp;
+}
 String getNameDateNow(){
   var now = DateTime.now();
   var formatterDate = DateFormat('EEEE').format(now);
@@ -127,7 +182,7 @@ void listenStatus(BuildContext context, bool value){
     Fluttertoast.showToast(msg: 'Lỗi');
   }
 }
-class ImageLoad{
+class loadPhoto{
   static Widget imageNetwork(String? url, double? h, double w) {
     return Container(
       height: h,
@@ -135,7 +190,7 @@ class ImageLoad{
       // ignore: unnecessary_null_comparison
       child: url == null
           ? Image.asset(
-        Images.tutorial1,
+        Images.photo_notfound,
         height: h,
         width: w,
         fit: BoxFit.cover,
@@ -157,7 +212,7 @@ class ImageLoad{
           errorBuilder:
               (BuildContext context, Object exception, StackTrace? stackTrace) {
             return Image(
-              image: AssetImage(  Images.tutorial1,),
+              image: AssetImage(  Images.photo_notfound,),
               height: h, fit: BoxFit.fill,);
           }
       ),
@@ -169,7 +224,7 @@ class ImageLoad{
       // ignore: unnecessary_null_comparison
       child: url == null||url.isEmpty
           ? Image.asset(
-        Images.tutorial1,
+        Images.photo_notfound,
         fit: BoxFit.cover,
       )
           : Image.network(
@@ -187,10 +242,14 @@ class ImageLoad{
           errorBuilder:
               (BuildContext context, Object exception, StackTrace? stackTrace) {
             return Image(
-              image: AssetImage(  Images.tutorial1,),
+              image: AssetImage(  Images.photo_notfound,),
               fit: BoxFit.cover,);
           }
       ),
     );
   }
+}
+
+String replaceKey(String content, String keyFlow){
+  return content.replaceAll(keyFlow, "");
 }

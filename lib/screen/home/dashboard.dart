@@ -23,6 +23,7 @@ import '../../languages/languages.dart';
 import '../../res/images.dart';
 import '../course/class_detail_admin.dart';
 import '../course/model/my_class_model.dart';
+import '../social_networking/newsfeed/newsfeed_page.dart';
 import '../teacher/teacher_list.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -53,7 +54,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
   CourseModel? _classModel;
   final List<String> _name = <String>['50000+ thành viên', '100+ lớp học đang diễn ra', '10% lợi nhuận xây trường','hê sờ lô', 'hê sờ li li'];
-  final List<String> _photo = <String>[Images.tutorial1, Images.tutorial0, Images.day, Images.night, Images.moon];
+  final List<String> _photo = <String>[Images.slide2, Images.slide1, Images.day, Images.night, Images.moon];
   bool _toggle=false;
   @override
   void initState(){
@@ -180,9 +181,24 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SizedBox(width: 8,),
-                             InkWell(child:  Image.asset(Images.tutorial1, height: 30, width: 30,),onTap: (){
-                               signOut(context);
-                             },),
+                           IconButton(onPressed: (){
+                             showDialog(
+                               context: context,
+                               builder: (context) => AlertDialog(
+                                 title: Text('Are you sure?'),
+                                 content: Text('Do you want to log out ?'),
+                                 actions: <Widget>[
+                                   TextButton(
+                                     onPressed: () => Navigator.of(context).pop(false),
+                                     child: Text('No'),
+                                   ),
+                                   TextButton(
+                                     onPressed: () =>  signOut(context),
+                                     child: Text('Yes'),
+                                   ),
+                                 ],
+                               ),
+                             );}, icon: Icon(Icons.logout)),
                               SizedBox(width: 8,),
                               Expanded(child: NeoText(Languages.of(context).appName, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                               IconButton(
@@ -256,6 +272,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                           InkWell(
                                             child: _tabChild(Images.schedule, 'Mạng xã hội'),
                                             onTap: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsPage()));
                                             },
                                           ),
                                           InkWell(
@@ -561,7 +578,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageLoad.imageNetwork('$imageLink', 196, getWidthDevice(context)),
+            loadPhoto.imageNetwork('$imageLink', 196, getWidthDevice(context)),
             SizedBox(height: 16,),
             NeoText('$title', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
             SizedBox(height: 8,),

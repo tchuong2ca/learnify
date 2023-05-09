@@ -142,7 +142,7 @@ class _DocListPageState extends State<DocListPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageLoad.imageNetwork('${document.imageUrl}', 150, getWidthDevice(context)),
+            loadPhoto.imageNetwork('${document.imageUrl}', 150, getWidthDevice(context)),
             SizedBox(height: 16,),
             NeoText('${document.name}', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
             NeoText('GV: ${document.teacher}', textStyle: TextStyle(color: CommonColor.black,  fontSize: 14, overflow: TextOverflow.ellipsis), maxline: 2),
@@ -179,7 +179,7 @@ class _DocListPageState extends State<DocListPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageLoad.imageNetwork('${document.imageUrl}', 150, getWidthDevice(context)),
+            loadPhoto.imageNetwork('${document.imageUrl}', 150, getWidthDevice(context)),
             SizedBox(height: 16,),
             NeoText('${document.name}', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
             NeoText('GV: ${document.teacher}', textStyle: TextStyle(color: CommonColor.black,  fontSize: 14, overflow: TextOverflow.ellipsis), maxline: 2),

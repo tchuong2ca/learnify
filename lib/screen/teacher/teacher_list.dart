@@ -121,7 +121,7 @@ class _TeacherPageState extends State<TeacherPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ImageLoad.imageNetwork(data['avatar'], getWidthDevice(context)/4, getWidthDevice(context)/2-32),
+                                  loadPhoto.imageNetwork(data['avatar'], getWidthDevice(context)/4, getWidthDevice(context)/2-32),
                                   SizedBox(height: 8,),
                                   NeoText('GV: ${data['fullname']}', textStyle: TextStyle(fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2, textAlign: TextAlign.center),
                                   SizedBox(height: 8,),

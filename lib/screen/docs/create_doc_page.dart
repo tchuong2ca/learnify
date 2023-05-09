@@ -137,7 +137,7 @@ class _CreateDocPageState extends State<CreateDocPage> {
                   children: [
                     InkWell(
                       onTap: () => cropImage(context,(p0) => setState(()=>_fileImage=p0!), ''),
-                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):(_imageUrl.isNotEmpty&&CommonKey.EDIT==widget._keyFlow!)?ImageLoad.imageNetwork(_imageUrl, 150, 150):Image.asset(Images.tabBar, width: 150, height: 150,fit: BoxFit.fill,)),
+                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):(_imageUrl.isNotEmpty&&CommonKey.EDIT==widget._keyFlow!)?loadPhoto.imageNetwork(_imageUrl, 150, 150):Image.asset(Images.tabBar, width: 150, height: 150,fit: BoxFit.fill,)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),

@@ -26,7 +26,7 @@ Widget imageClipRRect({String? url,String? urlError,double? width, double? heigh
   return ClipRRect(
     borderRadius: BorderRadius.all(Radius.circular(borderRadius!=null?borderRadius:50)),
     child: url==null||url.isEmpty?
-    Image.asset((urlError==null||urlError.isEmpty)?Images.tutorial1:urlError,width: width==null?64:width,
+    Image.asset((urlError==null||urlError.isEmpty)?Images.photo_notfound:urlError,width: width==null?64:width,
       height: height==null?64:height,):Image.network(url,
       width: width==null?64:width,
       height: height==null?64:height,
@@ -34,7 +34,7 @@ Widget imageClipRRect({String? url,String? urlError,double? width, double? heigh
       errorBuilder:
           (BuildContext context, Object exception, StackTrace? stackTrace) {
         return Image(
-          image: AssetImage(Images.tutorial1),
+          image: AssetImage(Images.photo_notfound),
           width: width==null?64:width,
           height: height==null?64:height,
           fit: fitCover!=null&&fitCover?BoxFit.cover:BoxFit.fill,);
@@ -113,7 +113,7 @@ Widget itemCourseAdmin(BuildContext context, String title, String content, Strin
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ImageLoad.imageNetwork('$imageLink', 150, getWidthDevice(context)),
+          loadPhoto.imageNetwork('$imageLink', 150, getWidthDevice(context)),
           SizedBox(height: 16,),
           NeoText('$title', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
           SizedBox(height: 8,),
@@ -175,7 +175,7 @@ Widget itemCourse(BuildContext context, String title, String content, String ima
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ImageLoad.imageNetwork('$imageLink', 150, getWidthDevice(context)),
+          loadPhoto.imageNetwork('$imageLink', 150, getWidthDevice(context)),
           SizedBox(height: 16,),
           NeoText('$title', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
           SizedBox(height: 8,),
@@ -217,7 +217,7 @@ Widget itemCourseAdminHours(BuildContext context, String title, String content, 
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ImageLoad.imageNetwork('$imageLink', 150, getWidthDevice(context)),
+          loadPhoto.imageNetwork('$imageLink', 150, getWidthDevice(context)),
           SizedBox(height: 16,),
           NeoText('$title', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
           SizedBox(height: 8,),
@@ -334,7 +334,7 @@ Widget itemCourseHours(BuildContext context, String title, String content, Strin
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ImageLoad.imageNetwork('$imageLink', 150, getWidthDevice(context)),
+          loadPhoto.imageNetwork('$imageLink', 150, getWidthDevice(context)),
           SizedBox(height: 16,),
           NeoText('$title', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
           SizedBox(height: 8,),
@@ -394,4 +394,38 @@ Widget itemCourseHours(BuildContext context, String title, String content, Strin
     ),
   );
 }
+class StayingAliveWidget extends StatefulWidget{
+  Widget child;
 
+  StayingAliveWidget({required this.child});
+
+  @override
+  State<StatefulWidget> createState() => _StayingAliveState();
+
+}
+
+class _StayingAliveState extends State<StayingAliveWidget>  with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
+
+  _StayingAliveState();
+
+  @override
+  bool get wantKeepAlive => true;
+
+
+}
+Widget notfound(String mess){
+  return Column(
+    mainAxisSize: MainAxisSize.max,
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Image.asset('${Images.photo_notfound}', ),
+      SizedBox(height: 8,),
+      NeoText(mess, textStyle: TextStyle(color: CommonColor.grey, fontSize: 20))
+    ],
+  );
+}

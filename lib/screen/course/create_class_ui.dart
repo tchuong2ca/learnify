@@ -200,7 +200,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                   children: [
                     InkWell(
                       onTap: () => cropImage(context,(p0) => setState(()=>_fileImage=p0!), ''),
-                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):(_imageLink.isNotEmpty&&CommonKey.EDIT==_keyFlow)?ImageLoad.imageNetwork(_imageLink, 150, 150):Image.asset(Images.tutorial1, width: 150, height: 150,fit: BoxFit.fill,)),
+                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):(_imageLink.isNotEmpty&&CommonKey.EDIT==_keyFlow)?loadPhoto.imageNetwork(_imageLink, 150, 150):Image.asset(Images.photo_notfound, width: 150, height: 150,fit: BoxFit.fill,)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),

@@ -13,7 +13,6 @@ import 'package:online_learning/screen/docs/doc_list_page.dart';
 import 'package:online_learning/screen/home/dashboard_presenter.dart';
 import 'package:online_learning/screen/personal/personal_page.dart';
 import 'package:online_learning/screen/schedule/schedule.dart';
-import 'package:online_learning/screen/social/socialNetwork.dart';
 
 import '../../common/colors.dart';
 import '../../common/functions.dart';

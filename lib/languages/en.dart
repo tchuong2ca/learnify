@@ -270,28 +270,28 @@ class LanguageEn extends Languages{
   String get idClassDetail => 'Mã chi tiết buổi học';
 
   @override
-  // TODO: implement nameLession
-  String get nameLession => 'Tên buổi học';
+  // TODO: implement nameLesson
+  String get lessonName => 'Tên buổi học';
 
   @override
-  // TODO: implement idLession
-  String get idLession => 'Mã buổi học';
+  // TODO: implement idLesson
+  String get idLesson => 'Mã buổi học';
 
   @override
   // TODO: implement delete
   String get delete => 'Xóa';
 
   @override
-  // TODO: implement idLessionEmpty
-  String get idLessionEmpty => 'Chưa nhập mã buổi học';
+  // TODO: implement idLessonEmpty
+  String get idLessonEmpty => 'Chưa nhập mã buổi học';
 
   @override
   // TODO: implement nameClassEmpty
   String get nameClassEmpty => 'Chưa nhập tên môn';
 
   @override
-  // TODO: implement nameLessionEmpty
-  String get nameLessionEmpty => 'Chưa nhập tên buổi học';
+  // TODO: implement nameLessonEmpty
+  String get nameLessonEmpty => 'Chưa nhập tên buổi học';
 
   @override
   // TODO: implement infor
@@ -302,8 +302,8 @@ class LanguageEn extends Languages{
   String get rating => 'Đánh giá';
 
   @override
-  // TODO: implement lessionList
-  String get lessionList => 'Danh sách tiết học';
+  // TODO: implement lessonList
+  String get lessonList => 'Danh sách tiết học';
 
   @override
   // TODO: implement answer

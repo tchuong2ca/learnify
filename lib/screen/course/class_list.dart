@@ -122,7 +122,37 @@ class _ClassListState extends State<ClassList> {
                                           :Languages.of(context).monday
                                   } - ${data['startHours']}',
                                       (onClickEdit) => Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateClassUI(_course, CommonKey.EDIT, data))),
-                                      (onClickDelete) => _presenter!.deleteClass(data['idClass']),
+                                      (onClickDelete){
+                                        showDialog<void>(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text('Do you really want to delete this class ?'),
+
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  style: TextButton.styleFrom(
+                                                    textStyle: Theme.of(context).textTheme.labelLarge,
+                                                  ),
+                                                  child: const Text('Nu'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                                TextButton(
+                                                  style: TextButton.styleFrom(
+                                                    textStyle: Theme.of(context).textTheme.labelLarge,
+                                                  ),
+                                                  child: const Text('Yep'),
+                                                  onPressed: () {
+                                                    _presenter!.deleteClass(data['idClass']);
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
                                       (click) => Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role))))
                                   :itemCourseHours(context, data['nameClass'], data['teacherName'], data['imageLink'], (id) => {
                                 register.contains(_username)
@@ -187,7 +217,7 @@ class _ClassListState extends State<ClassList> {
   Future<void> getUserInfor() async{
     _username = await _presenter!.getUserInfo();
     setState(()=>null);
-    if(CommonKey.MEMBER==_role&&CommonKey.DASH_BOARD==_keyFlow){
+    if(CommonKey.MEMBER==_role&&'DASHBOARD'==_keyFlow){
       _stream=FirebaseFirestore.instance.collection('class').where('subscribe', arrayContains: _username).snapshots();
       print(_username);
     }

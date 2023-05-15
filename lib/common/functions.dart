@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:intl/intl.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../res/images.dart';
 import '../restart.dart';
 import '../storage/storage.dart';
@@ -76,6 +77,11 @@ Future<void> cropImage(BuildContext context,Function (File?) onResult, String ty
       onResult(File(croppedFile.path));
     }
   }
+}
+
+String getYoutubeId(String url){
+  String? id = YoutubePlayer.convertUrlToId(url);
+  return id!;
 }
 String getDateWeek(int day){
   var d = DateTime.now();

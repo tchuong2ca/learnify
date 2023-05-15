@@ -7,10 +7,10 @@ import '../../common/widgets.dart';
 import '../../res/images.dart';
 
 class PDFViewerFromUrl extends StatelessWidget {
-  const PDFViewerFromUrl({Key? key, required this.url, required this.name}) : super(key: key);
+  const PDFViewerFromUrl({Key? key, required this.url, this.name}) : super(key: key);
 
   final String url;
-  final String name;
+  final String? name;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class PDFViewerFromUrl extends StatelessWidget {
         title: const Text('PDF From Url'),
         toolbarHeight: 0,
       ),
-      body: Column(
+      body: name!=null?Column(
         children: [
           Container(
             width: getWidthDevice(context),
@@ -38,7 +38,7 @@ class PDFViewerFromUrl extends StatelessWidget {
                 SizedBox(width: 8,),
                 IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(name, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(name!, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 SizedBox(width: 52,)
               ],
             ),
@@ -51,6 +51,10 @@ class PDFViewerFromUrl extends StatelessWidget {
             ),
           ),
         ],
+      ):const PDF().fromUrl(
+        url,
+        placeholder: (double progress) => Center(child: Text('$progress %')),
+        errorWidget: (dynamic error) => Center(child: Text(error.toString())),
       ),
     );
   }

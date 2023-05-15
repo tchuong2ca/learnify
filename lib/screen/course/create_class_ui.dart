@@ -138,7 +138,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
               height: 52,
               decoration:  BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(Images.background_tutorial),
+                  image: AssetImage(Images.tabBar),
                   fit: BoxFit.fill,
                 ),
               ),

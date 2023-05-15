@@ -96,6 +96,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
       parent: _controller!,
       curve: Curves.fastLinearToSlowEaseIn,
     );
+    getCourse();
   }
   _toggleContainer() {
     print(_animation!.status);

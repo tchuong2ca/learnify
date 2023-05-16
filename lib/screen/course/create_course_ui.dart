@@ -73,39 +73,16 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
         height: 52,
         decoration:  BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(Images.background_tutorial),
+            image: AssetImage(Images.tabBar),
             fit: BoxFit.fill,
           ),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            SizedBox(width: 8,),
-            IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
-            SizedBox(width: 8,),
-            Expanded(child: NeoText('Tạo khóa học', textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
-            ElevatedButton(
-                onPressed: () {
-                  if(_nameCourse.isEmpty){
-                    Fluttertoast.showToast(msg: 'Chưa điền tên');
-                  }else if(_fileImage==null && CommonKey.EDIT!=_keyFlow){
-                    Fluttertoast.showToast(msg: 'Ảnh đâu');
-                  } else{
-                    showLoaderDialog(context);
-                    CommonKey.EDIT!=_keyFlow?_createCoursePresenter!.createCourse(_fileImage!, replaceSpace(_idCourse), _nameCourse, _teacherName, _idTeacher).then((value) {
-                      _onResult(value);
-                    }):_fileImage!=null?_createCoursePresenter!.updateCourse(fileImage: _fileImage, idCourse: replaceSpace(_idCourse), idTeacher: _idTeacher, nameCourse: _nameCourse, nameTeacher: _teacherName).then((value) {
-                      _onResult(value);
-                    })
-                        :_createCoursePresenter!.updateCourse(idCourse: replaceSpace(_idCourse), idTeacher: _idTeacher, nameCourse: _nameCourse, nameTeacher: _teacherName, imageLink: _imageLink).then((value) {
-                      _onResult(value);
-                    });
-                  }
-                },
-                child: NeoText('Tạo', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CommonColor.white))),
-            SizedBox(width: 8,)
+            Container(width: getWidthDevice(context),height: 52,alignment: Alignment.center,
+            child: NeoText('Tạo khóa học', textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+          Positioned(child: IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,))
+            ,left: 0,)
           ],
         ),
       ),
@@ -118,19 +95,19 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
                   children: [
                     InkWell(
                       onTap: () => cropImage(context, (p0) => setState(()=>_fileImage=p0!), ''),
-                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):_imageLink.isEmpty?Image.asset(Images.background, width: 150, height: 150,):loadPhoto.imageNetwork(_imageLink, 150, 150)),
+                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150/3*4, height: 150,):_imageLink.isEmpty?Image.asset(Images.pick_photo, width: 150/3*4, height: 150,):loadPhoto.networkImage(_imageLink, 150/3*4, 150)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
-                        decoration: CommonTheme.textFieldInputDecoration(labelText: 'Tên khóa học', hintText: 'Tên khóa học'),
+                        decoration: AppThemes.textFieldInputDecoration(labelText: 'Tên khóa học', hintText: 'Tên khóa học'),
                         onChanged: (value)=>setState(()=> _nameCourse=value),
                         controller: _controllerName,
                       ),
                     ),
                     _loadComBox?Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: CustomDowDownName(
+                      child: CustomDropDownName(
                         value: _selectName,
                         itemsList: _personListName,
                         onChanged: (value){
@@ -145,7 +122,7 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
                     ):SizedBox(),
                     _loadComBox?Padding(
                       padding: const EdgeInsets.all(16.0),
-                      child: CustomDowDownId(
+                      child: CustomDropDownId(
                         value: _selectId,
                         itemsList: _personListId,
                         onChanged: (value){
@@ -157,7 +134,38 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
                           });
                         },
                       ),
-                    ):SizedBox()
+                    ):SizedBox(),
+                    Container(
+                      margin: EdgeInsets.only(left: 16, right: 16),
+                      width: getWidthDevice(context),
+                      child:  ElevatedButton(
+                        style:  ButtonStyle(
+                            backgroundColor: MaterialStateProperty.resolveWith((states) {
+                              // If the button is pressed, return green, otherwise blue
+                              if (states.contains(MaterialState.pressed)) {
+                                return Colors.blue;
+                              }
+                              return Colors.green;
+                            }),),
+                          onPressed: () {
+                            if(_nameCourse.isEmpty){
+                              Fluttertoast.showToast(msg: 'Chưa điền tên');
+                            }else if(_fileImage==null && CommonKey.EDIT!=_keyFlow){
+                              Fluttertoast.showToast(msg: 'Chưa có ảnh');
+                            } else{
+                              showLoaderDialog(context);
+                              CommonKey.EDIT!=_keyFlow?_createCoursePresenter!.createCourse(_fileImage!, replaceSpace(_idCourse), _nameCourse, _teacherName, _idTeacher).then((value) {
+                                _onResult(value);
+                              }):_fileImage!=null?_createCoursePresenter!.updateCourse(fileImage: _fileImage, idCourse: replaceSpace(_idCourse), idTeacher: _idTeacher, nameCourse: _nameCourse, nameTeacher: _teacherName).then((value) {
+                                _onResult(value);
+                              })
+                                  :_createCoursePresenter!.updateCourse(idCourse: replaceSpace(_idCourse), idTeacher: _idTeacher, nameCourse: _nameCourse, nameTeacher: _teacherName, imageLink: _imageLink).then((value) {
+                                _onResult(value);
+                              });
+                            }
+                          },
+                          child: NeoText('Xác nhận', textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.white))),
+                    )
                   ],
                 ),
               ),
@@ -174,7 +182,6 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
         Info person = Info.fromJson(element.data());
         _personListName.add(person);
         _personListId.add(person);
-        print(person);
       });
       _selectName = _personListName[0];
       _selectId = _personListId[0];
@@ -206,12 +213,12 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
   }
 }
 
-class CustomDowDownName extends StatelessWidget{
+class CustomDropDownName extends StatelessWidget{
   final value;
   final List<Info> itemsList;
   final Function(dynamic value) onChanged;
 
-  const CustomDowDownName({
+  const CustomDropDownName({
     required this.value,
     required this.itemsList,
     required this.onChanged,
@@ -226,7 +233,7 @@ class CustomDowDownName extends StatelessWidget{
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
             border: Border.all(
-                color: CommonColor.blue
+                color: AppColors.blue
             )
         ),
         child: DropdownButtonHideUnderline(
@@ -237,14 +244,14 @@ class CustomDowDownName extends StatelessWidget{
                 child: DropdownButton2(
                   isExpanded: true,
                   value: value,
-                  iconEnabledColor: CommonColor.greyLight,
-                  iconDisabledColor: CommonColor.greyLight,
+                  iconEnabledColor: AppColors.greyLight,
+                  iconDisabledColor: AppColors.greyLight,
                   items: itemsList
                       .map((Info item) => DropdownMenuItem<Info>(
                     value: item,
                     child: NeoText(
                       item.fullname!,
-                      textStyle: TextStyle(fontSize: 16, color: CommonColor.black),
+                      textStyle: const TextStyle(fontSize: 16, color: AppColors.black),
                     ),
                   ))
                       .toList(),
@@ -264,12 +271,12 @@ class CustomDowDownName extends StatelessWidget{
 
 }
 
-class CustomDowDownId extends StatelessWidget{
+class CustomDropDownId extends StatelessWidget{
   final value;
   final List<Info> itemsList;
   final Function(dynamic value) onChanged;
 
-  const CustomDowDownId({
+  const CustomDropDownId({
     required this.value,
     required this.itemsList,
     required this.onChanged,
@@ -284,7 +291,7 @@ class CustomDowDownId extends StatelessWidget{
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
             border: Border.all(
-                color: CommonColor.blue
+                color: AppColors.blue
             )
         ),
         child: DropdownButtonHideUnderline(
@@ -295,14 +302,14 @@ class CustomDowDownId extends StatelessWidget{
                 child: DropdownButton2(
                   isExpanded: true,
                   value: value,
-                  iconEnabledColor: CommonColor.greyLight,
-                  iconDisabledColor: CommonColor.greyLight,
+                  iconEnabledColor: AppColors.greyLight,
+                  iconDisabledColor: AppColors.greyLight,
                   items: itemsList
                       .map((Info item) => DropdownMenuItem<Info>(
                     value: item,
                     child: NeoText(
                       item.phone!,
-                      textStyle: TextStyle(fontSize: 16, color: CommonColor.black),
+                      textStyle: TextStyle(fontSize: 16, color: AppColors.black),
                     ),
                   ))
                       .toList(),

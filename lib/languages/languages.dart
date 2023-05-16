@@ -34,7 +34,7 @@ abstract class Languages{
   String get enterContent;
   String get submitInfo;
   String get qa;
-  String get uNeed;
+  String get whatsinyourmind;
   String get accountInfo;
   String get noData;
   String get hello;
@@ -69,7 +69,7 @@ abstract class Languages{
   String get subjectEmpty;
   String get statusNull;
   String get classDetail;
-  String get classDetailNew;
+  String get createClassContent;
   String get idClassDetail;
   String get lessonName;
   String get idLesson;

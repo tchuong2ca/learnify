@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning/screen/social_networking/chat/presenter/chat_room_presenter.dart';
 
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../../common/colors.dart';
 import '../../../common/functions.dart';
 import '../../../common/themes.dart';
@@ -12,10 +13,10 @@ import '../../../res/images.dart';
 import 'model/user.dart';
 import 'dart:math' as math;
 class ChatRoomPage extends StatefulWidget {
-  Map<String, dynamic>? _dataUser;
-  Map<String, dynamic>? _dataUserFriend;
+  Map<String, dynamic>? _userData;
+  Map<String, dynamic>? _friendData;
 
-  ChatRoomPage(this._dataUser, this._dataUserFriend);
+  ChatRoomPage(this._userData, this._friendData);
 
   @override
   State<ChatRoomPage> createState() => _ChatUserPageState();
@@ -31,12 +32,12 @@ class _ChatUserPageState extends State<ChatRoomPage> {
   @override
   void initState() {
     _presenter=ChatRoomPresenter();
-    _stream = FirebaseFirestore.instance.collection('chats').doc(widget._dataUser!['phone']).collection(widget._dataUserFriend!['username']).snapshots();
+    _stream = FirebaseFirestore.instance.collection('chats').doc(widget._userData!['phone']).collection(widget._friendData!['username']).snapshots();
     _checkCreateUser();
   }
 
   void _checkCreateUser(){
-    FirebaseFirestore.instance.collection('user_chat').doc(widget._dataUser!['phone']).collection(widget._dataUser!['phone']).doc(widget._dataUserFriend!['username']).get().then((value) {
+    FirebaseFirestore.instance.collection('user_chat').doc(widget._userData!['phone']).collection(widget._userData!['phone']).doc(widget._friendData!['username']).get().then((value) {
       if(!value.exists){
         _createUserChat = true;
         setState(()=>null);
@@ -51,7 +52,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 0,
-          backgroundColor: CommonColor.blue,
+          backgroundColor: AppColors.blue,
         ),
         body: Column(
           mainAxisSize: MainAxisSize.max,
@@ -73,13 +74,13 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width: 8,),
-                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                   SizedBox(width: 8,),
                   ClipOval(
-                    child: loadPhoto.imageNetwork(widget._dataUserFriend!['userAvatar']!=null?widget._dataUserFriend!['userAvatar']:'', 50, 50),
+                    child: loadPhoto.networkImage(widget._friendData!['userAvatar']!=null?widget._friendData!['userAvatar']:'', 50, 50),
                   ),
                   SizedBox(width: 8.0,),
-                  NeoText( widget._dataUserFriend!['fullname'], textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                  NeoText( widget._friendData!['fullname'], textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                   SizedBox(width: 52,)
                 ],
               ),
@@ -92,7 +93,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                     builder: (_, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
                         return Center(
-                          child: Text('Loading...'),
+                          child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),
                         );
                       }else if(snapshot.hasError){
                         return  Center(
@@ -116,7 +117,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
               margin: EdgeInsets.only(top: 8,),
               padding: EdgeInsets.only(top: 8, bottom: 8),
               decoration: BoxDecoration(
-                  color: CommonColor.grayLight
+                  color: AppColors.grayLight
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -130,7 +131,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                       IconButton(
                         icon: Icon(
                           Icons.clear,
-                          color: CommonColor.redAccent,
+                          color: AppColors.redAccent,
                         ),
                         onPressed: ()=>setState(()=>_fileImage=null),
                       )
@@ -146,12 +147,12 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                         onPressed: ()=>cropImage(context, (p0) => setState(()=> _fileImage=p0!), ''),
                         icon: Icon(
                           Icons.image,
-                          color: CommonColor.blue,
+                          color: AppColors.blue,
                         ),
                       ),
                       Expanded(
                         child: TextFormField(
-                          decoration: CommonTheme.textFieldInputDecorationChat(),
+                          decoration: AppThemes.textFieldInputDecorationChat(),
                           onChanged: (value)=>setState(()=>_message=value),
                           controller: _controllerMess,
                         ),
@@ -161,12 +162,12 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                         child: IconButton(
                           onPressed: ()async{
                             if(_createUserChat){
-                              User user = User(username: widget._dataUser!['phone'], fullname: widget._dataUser!['fullname'], userAvatar: widget._dataUser!['avatar'], timestamp: getTimestamp(), isOnline: true);
-                              User userFriend = User(username: widget._dataUserFriend!['username'], fullname: widget._dataUserFriend!['fullname'], userAvatar: widget._dataUserFriend!['userAvatar'], timestamp: getTimestamp(), isOnline: true);
+                              User user = User(username: widget._userData!['phone'], fullname: widget._userData!['fullname'], userAvatar: widget._userData!['avatar'], timestamp: getTimestamp());
+                              User userFriend = User(username: widget._friendData!['username'], fullname: widget._friendData!['fullname'], userAvatar: widget._friendData!['userAvatar'], timestamp: getTimestamp());
                               _presenter!.createChatRoom(user, userFriend);
                               _createUserChat=false;
                             }
-                            _presenter!.createNewChat(message: _message, user: widget._dataUser!, userFriend: widget._dataUserFriend!, fileImage: _fileImage);
+                            _presenter!.createNewChat(message: _message, user: widget._userData!, userFriend: widget._friendData!, fileImage: _fileImage);
                             _message='';
                             _fileImage=null;
                             _controllerMess = TextEditingController(text: _message);
@@ -175,7 +176,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                           },
                           icon: Icon(
                             Icons.send,
-                            color: CommonColor.blue,
+                            color: AppColors.blue,
                           ),
                         ),
                       )
@@ -203,8 +204,8 @@ class _ChatUserPageState extends State<ChatRoomPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            widget._dataUser!['phone']==data['username']?SizedBox():ClipOval(
-              child: loadPhoto.imageNetwork(data['avatar']!=null?data['avatar']:"", getWidthDevice(context)*0.1, getWidthDevice(context)*0.1),
+            widget._userData!['phone']==data['username']?SizedBox():ClipOval(
+              child: loadPhoto.networkImage(data['avatar']!=null?data['avatar']:"", getWidthDevice(context)*0.1, getWidthDevice(context)*0.1),
             ),
             SizedBox(width: 8,),
             Expanded(
@@ -214,25 +215,25 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   data['linkImage'].toString().isEmpty?SizedBox():Align(
-                    alignment:  widget._dataUser!['phone']==data['username']?Alignment.bottomRight:Alignment.bottomLeft,
+                    alignment:  widget._userData!['phone']==data['username']?Alignment.bottomRight:Alignment.bottomLeft,
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                       child: InkWell(
                           onTap: (){
                            // Navigator.push(context, MaterialPageRoute(builder: (_)=>ViewImageList(listImage, 0)));
                           },
-                          child: loadPhoto.imageNetwork(data['linkImage'], getHeightDevice(context)*0.3, getWidthDevice(context)*0.6)),
+                          child: loadPhoto.networkImage(data['linkImage'], getHeightDevice(context)*0.3, getWidthDevice(context)*0.6)),
                     ),
                   ),
                   SizedBox(height: 8,),
                   data['message'].toString().isNotEmpty?Align(
-                    alignment:  widget._dataUser!['phone']==data['username']?Alignment.bottomRight:Alignment.bottomLeft,
+                    alignment:  widget._userData!['phone']==data['username']?Alignment.bottomRight:Alignment.bottomLeft,
                     child: Container(
                       padding: EdgeInsets.only(right: 10, left: 10, top: 8, bottom: 8),
                       margin: EdgeInsets.only(right: 8),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(16)),
-                          color: CommonColor.white,
+                          color: AppColors.white,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.5),
@@ -247,11 +248,11 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          widget._dataUser!['phone']==data['username']?SizedBox():NeoText(data['fullname'], textStyle: TextStyle(fontSize: 12, color: CommonColor.blue)),
-                          widget._dataUser!['phone']==data['username']?SizedBox():SizedBox(height: 10,),
-                          NeoText(data['message'], textStyle: TextStyle(fontSize: 14, color: CommonColor.black)),
+                          widget._userData!['phone']==data['username']?SizedBox():NeoText(data['fullname'], textStyle: TextStyle(fontSize: 12, color: AppColors.blue)),
+                          widget._userData!['phone']==data['username']?SizedBox():SizedBox(height: 10,),
+                          NeoText(data['message'], textStyle: TextStyle(fontSize: 14, color: AppColors.black)),
                           SizedBox(height: 8,),
-                          NeoText(postedTime(data['timestamp']), textStyle: TextStyle(fontSize: 10, color: CommonColor.grey)),
+                          NeoText(postedTime(data['timestamp']), textStyle: TextStyle(fontSize: 10, color: AppColors.grey)),
                         ],
                       ),
                     ),

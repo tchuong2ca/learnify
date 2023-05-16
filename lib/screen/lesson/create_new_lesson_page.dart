@@ -100,9 +100,9 @@ class _LessonProductPageState extends State<LessonProductPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(_lesson!.lessonName!, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(_lesson!.lessonName!, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 ElevatedButton(
                     onPressed: (){
                       if(_videoLink.isEmpty){
@@ -133,7 +133,7 @@ class _LessonProductPageState extends State<LessonProductPage> {
 
                       }
                     },
-                    child: NeoText(Languages.of(context).createNew, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CommonColor.white))),
+                    child: NeoText(Languages.of(context).createNew, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                 SizedBox(width: 8,)
               ],
             ),
@@ -158,14 +158,26 @@ class _LessonProductPageState extends State<LessonProductPage> {
                         ),
                         IconButton(
                           icon: Icon(Icons.arrow_circle_up_sharp),
-                          color: CommonColor.blue,
+                          color: AppColors.blue,
                           onPressed: () async{
                             FilePickerResult? result = await FilePicker.platform.pickFiles(
                               type: FileType.custom,
                               allowedExtensions: ['pdf'],
                             );
                             if(result!=null){
-                              showLoaderDialog(context);
+                              AlertDialog alert=AlertDialog(
+                                content: new Row(
+                                  children: [
+                                    CircularProgressIndicator(),
+                                    Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+                                  ],),
+                              );
+                              showDialog(barrierDismissible: false,
+                                context:context,
+                                builder:(BuildContext context){
+                                  return alert;
+                                },
+                              );
                               PlatformFile file = result.files.first;
                               String fileName = result.files.first.name;
                               _fileNameContent = fileName;
@@ -187,7 +199,7 @@ class _LessonProductPageState extends State<LessonProductPage> {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextFormField(
-                      decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).linkExercise, hintText: Languages.of(context).linkExercise),
+                      decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).linkExercise, hintText: Languages.of(context).linkExercise),
                       onChanged: (value)=>setState(()=> _videoLink=value),
                       controller: _controllerUrlLink,
                     ),
@@ -204,14 +216,26 @@ class _LessonProductPageState extends State<LessonProductPage> {
                         ),
                         IconButton(
                           icon: Icon(Icons.arrow_circle_up_sharp),
-                          color: CommonColor.blue,
+                          color: AppColors.blue,
                           onPressed: () async{
                             FilePickerResult? result = await FilePicker.platform.pickFiles(
                               type: FileType.custom,
                               allowedExtensions: ['pdf'],
                             );
                             if(result!=null){
-                              showLoaderDialog(context);
+                              AlertDialog alert=AlertDialog(
+                                content: new Row(
+                                  children: [
+                                    CircularProgressIndicator(),
+                                    Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+                                  ],),
+                              );
+                              showDialog(barrierDismissible: false,
+                                context:context,
+                                builder:(BuildContext context){
+                                  return alert;
+                                },
+                              );
                               PlatformFile file = result.files.first;
                               String fileName = result.files.first.name;
                               _fileNameQuestion = fileName;
@@ -243,14 +267,26 @@ class _LessonProductPageState extends State<LessonProductPage> {
                         ),
                         IconButton(
                           icon: Icon(Icons.arrow_circle_up_sharp),
-                          color: CommonColor.blue,
+                          color: AppColors.blue,
                           onPressed: () async{
                             FilePickerResult? result = await FilePicker.platform.pickFiles(
                               type: FileType.custom,
                               allowedExtensions: ['pdf'],
                             );
                             if(result!=null){
-                              showLoaderDialog(context);
+                              AlertDialog alert=AlertDialog(
+                                content: new Row(
+                                  children: [
+                                    CircularProgressIndicator(),
+                                    Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+                                  ],),
+                              );
+                              showDialog(barrierDismissible: false,
+                                context:context,
+                                builder:(BuildContext context){
+                                  return alert;
+                                },
+                              );
                               PlatformFile file = result.files.first;
                               String fileName = result.files.first.name;
                               _fileNameAnswer = fileName;
@@ -315,14 +351,14 @@ class _LessonProductPageState extends State<LessonProductPage> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextFormField(
-              decoration: CommonTheme.textFieldInputDecoration(labelText: CommonKey.EDIT==_keyFlow?qa.question:Languages.of(context).question, hintText: CommonKey.EDIT==_keyFlow?qa.question:Languages.of(context).question),
+              decoration: AppThemes.textFieldInputDecoration(labelText: CommonKey.EDIT==_keyFlow?qa.question:Languages.of(context).question, hintText: CommonKey.EDIT==_keyFlow?qa.question:Languages.of(context).question),
               onChanged: (value)=>setState(()=> qa.question=value),
             ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextFormField(
-              decoration: CommonTheme.textFieldInputDecoration(labelText: CommonKey.EDIT==_keyFlow?qa.answer:Languages.of(context).answer, hintText: CommonKey.EDIT==_keyFlow?qa.answer:Languages.of(context).answer),
+              decoration: AppThemes.textFieldInputDecoration(labelText: CommonKey.EDIT==_keyFlow?qa.answer:Languages.of(context).answer, hintText: CommonKey.EDIT==_keyFlow?qa.answer:Languages.of(context).answer),
               onChanged: (value)=>setState(()=> qa.answer=value),
             ),
           ),
@@ -362,6 +398,7 @@ class _LessonProductPageState extends State<LessonProductPage> {
                             _homeworkList[0].listQuestion!.remove(qa);
                             setState((){
                             });
+                            Navigator.pop(context);
                           },
                         ),
                       ],

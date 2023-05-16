@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:online_learning/screen/course/model/course_model.dart';
 import 'package:online_learning/screen/course/model/my_class_model.dart';
 import 'package:online_learning/screen/course/presenter/create_class_presenter.dart';
@@ -68,8 +69,8 @@ class _ClassListState extends State<ClassList> {
             Stack(
               fit: StackFit.expand,
               children: [
-                Center(child: NeoText('Lớp học của toi', textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
-                Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),left: 0,)
+                Center(child: NeoText('Lớp học của toi', textStyle: TextStyle(color: AppColors.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.blue,)),left: 0,)
               ],
             ),
           ),
@@ -82,7 +83,10 @@ class _ClassListState extends State<ClassList> {
                       stream: _stream,
                       builder: (context, snapshot){
                         if(snapshot.connectionState==ConnectionState.waiting){
-                          return Center(child: Text('Loading'),);
+                          return Center(child: LoadingAnimationWidget.staggeredDotsWave(
+                          color: AppColors.blueLight,
+                            size: 50,
+                          ),);
                         }else if(snapshot.hasError){
                           return Center(child: Text('No data'),);
                         }else{
@@ -146,6 +150,7 @@ class _ClassListState extends State<ClassList> {
                                                   child: const Text('Yep'),
                                                   onPressed: () {
                                                     _presenter!.deleteClass(data['idClass']);
+                                                    Navigator.pop(context);
                                                   },
                                                 ),
                                               ],
@@ -205,10 +210,10 @@ class _ClassListState extends State<ClassList> {
         ],
       ),
       floatingActionButton: Visibility(
-        visible: CommonKey.ADMIN==_role||CommonKey.TEACHER==_role,
+        visible: CommonKey.ADMIN==_role&&_course!=null||CommonKey.TEACHER==_role&&_course!=null,
         child: FloatingActionButton(
           onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateClassUI(_course,'',null))),
-          child: Icon(Icons.add, color: CommonColor.white,),
+          child: Icon(Icons.add, color: AppColors.white,),
         ),
       ),
     );

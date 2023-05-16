@@ -8,6 +8,7 @@ import 'package:online_learning/common/colors.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/personal/presenter/personal_presenter.dart';
 
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../common/functions.dart';
 import '../../common/keys.dart';
 import '../../languages/languages.dart';
@@ -89,9 +90,9 @@ class _PersonalPageState extends State<PersonalPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width: 8,),
-                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText('Cập nhật thông tin', textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText('Cập nhật thông tin', textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
                       onPressed: (){
                         showLoaderDialog(context);
@@ -109,7 +110,7 @@ class _PersonalPageState extends State<PersonalPage> {
                           Navigator.pop(context);
                         }
                       },
-                      child: NeoText('Xác nhận', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CommonColor.white))),
+                      child: NeoText('Xác nhận', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                   SizedBox(width: 8,)
                 ],
               ),
@@ -119,7 +120,7 @@ class _PersonalPageState extends State<PersonalPage> {
                 stream: _stream,
                 builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
                   if(snapshot.connectionState==ConnectionState.waiting){
-                    return Center(child: Text('Loading...'),);
+                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
                   }
                   if(snapshot.hasError){
                     return Center(child: Text('No data...'),);
@@ -166,7 +167,7 @@ class _PersonalPageState extends State<PersonalPage> {
           margin: EdgeInsets.all(8),
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
-              color: CommonColor.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.all(Radius.circular(8)),
               boxShadow: [
                 BoxShadow(
@@ -188,7 +189,7 @@ class _PersonalPageState extends State<PersonalPage> {
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(Radius.circular(200)),
                             border: Border.all(
-                                color: CommonColor.orangeOriginLight,
+                                color: AppColors.orangeOriginLight,
                                 width: 1.0
                             )
                         ),
@@ -198,7 +199,7 @@ class _PersonalPageState extends State<PersonalPage> {
                             _presenter!.updateAvatar(p0!, _keyUser, CommonKey.AVATAR);
                           }), ''),
                           child:  ClipOval(
-                              child: loadPhoto.imageNetwork(data['avatar'], 100, 100)
+                              child: loadPhoto.networkImage(data['avatar'], 100, 100)
                           ),
                         )
                     ),
@@ -210,12 +211,12 @@ class _PersonalPageState extends State<PersonalPage> {
                           width: 28,
                           decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(Radius.circular(200)),
-                              color: CommonColor.white,
-                              border: Border.all(width: 1.0, color: CommonColor.orangeOriginLight)
+                              color: AppColors.white,
+                              border: Border.all(width: 1.0, color: AppColors.orangeOriginLight)
                           ),
                           child: Center(
                             child: IconButton(
-                              icon: const Icon(Icons.camera_alt, size: 12, color: CommonColor.grey,),
+                              icon: const Icon(Icons.camera_alt, size: 12, color: AppColors.grey,),
                               onPressed: (){
                                 cropImage(context,(p0) => setState(()=>_fileImage=p0), CommonKey.CAMERA);
                               },
@@ -232,9 +233,9 @@ class _PersonalPageState extends State<PersonalPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     NeoText(data['role']==CommonKey.TEACHER?'Giáo viên':data['role']==CommonKey.MEMBER?'Thành viên':'Quản trị viên'),
-                    NeoText('${Languages.of(context).hello}, ${data['fullname']}', textStyle: TextStyle(fontSize: 14, color: CommonColor.black)),
+                    NeoText('${Languages.of(context).hello}, ${data['fullname']}', textStyle: TextStyle(fontSize: 14, color: AppColors.black)),
                     SizedBox(height: 4,),
-                    NeoText('${data['email']}', textStyle: TextStyle(color: CommonColor.black, fontSize: 12))
+                    NeoText('${data['email']}', textStyle: TextStyle(color: AppColors.black, fontSize: 12))
                   ],
                 ),
               ),
@@ -247,7 +248,7 @@ class _PersonalPageState extends State<PersonalPage> {
                 },
                 icon: Icon(
                   Icons.edit,
-                  color: CommonColor.blue,
+                  color: AppColors.blue,
                 ),
               ),
             ],

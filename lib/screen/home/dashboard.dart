@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/course/class_list.dart';
 import 'package:online_learning/screen/course/course_list.dart';
@@ -53,7 +54,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
   CourseModel? _classModel;
   final List<String> _name = <String>['50000+ thành viên', '100+ lớp học đang diễn ra', '10% lợi nhuận xây trường','hê sờ lô', 'hê sờ li li'];
-  final List<String> _photo = <String>[Images.slide2, Images.slide1, Images.day, Images.night, Images.moon];
+  final List<String> _photo = <String>[Images.people, Images.group_chat, Images.salary, Images.ads, Images.banners];
   bool _toggle=false;
   @override
   void initState(){
@@ -159,7 +160,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                       borderRadius: BorderRadius.only(bottomLeft:Radius.circular(25),bottomRight:Radius.circular(25)),
                       boxShadow: [
                         BoxShadow(
-                          color: CommonColor.grayLight.withOpacity(1),
+                          color: AppColors.grayLight.withOpacity(1),
                           spreadRadius: 1,
                           offset: Offset(0, 0), // changes position of shadow
                         ),
@@ -167,13 +168,13 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     ),
                     child: Column(
                       children: [
-                        Container(height: 40,color: CommonColor.transparent,),
+                        Container(height: 40,color: AppColors.transparent,),
                         Container(
                           width: getWidthDevice(context),
                           height: 52,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(25)),
-                            color: CommonColor.white.withOpacity(0.6),
+                            color: AppColors.white.withOpacity(0.6),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -200,10 +201,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                ),
                              );}, icon: Icon(Icons.logout)),
                               SizedBox(width: 8,),
-                              Expanded(child: NeoText(Languages.of(context).appName, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                              Expanded(child: NeoText(Languages.of(context).appName, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                               IconButton(
                                 onPressed: (){},
-                                icon: Icon(Icons.search_sharp, color: CommonColor.blue,),
+                                icon: Icon(Icons.search_sharp, color: AppColors.blue,),
                               )
                             ],
                           ),
@@ -244,7 +245,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                               padding: EdgeInsets.only(top: 4, bottom: 4),
                               margin: EdgeInsets.only(right: 16, left: 16,bottom: 24, top: _widgetId==2?16:0),
                               decoration:
-                              BoxDecoration(color: CommonColor.white, borderRadius: BorderRadius.all(Radius.circular(8))),
+                              BoxDecoration(color: AppColors.white, borderRadius: BorderRadius.all(Radius.circular(8))),
                               child: (
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -257,7 +258,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                         crossAxisCount: 4,
                                         children: <Widget>[
                                           InkWell(
-                                            child:    _tabChild(Images.schedule, _role=='ADMIN'||_role=='TEACHER'?'Tạo khóa/lớp học':'Lớp học của tôi'),
+                                            child:    _tabChild(_role=='ADMIN'||_role=='TEACHER'?Images.edit_tools:Images.webinar, _role=='ADMIN'||_role=='TEACHER'?'Tạo khóa/lớp học':'Lớp học của tôi'),
                                             onTap: (){
                                               Navigator.push(context, MaterialPageRoute(builder: (_)=>_role=='ADMIN'||_role=='TEACHER'?CourseList(_role,'',_username):ClassList(_classModel, _role, "DASHBOARD")));
                                             },
@@ -270,13 +271,13 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                             },
                                           ),
                                           InkWell(
-                                            child: _tabChild(Images.schedule, 'Mạng xã hội'),
+                                            child: _tabChild(Images.social_media, 'Mạng xã hội'),
                                             onTap: (){
                                               Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsPage()));
                                             },
                                           ),
                                           InkWell(
-                                            child:   _tabChild(Images.schedule, 'Cá nhân'),
+                                            child:   _tabChild(Images.profile, 'Cá nhân'),
                                             onTap: (){
                                               Navigator.push(context, MaterialPageRoute(builder: (_)=>PersonalPage(_role!)));
                                             },
@@ -287,7 +288,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                         sizeFactor: _animation!,
                                         axis: Axis.vertical,
                                         child:Container(
-                                          color: CommonColor.white,
+                                          color: AppColors.white,
                                           child:    GridView.count(
                                             primary: false,
                                             padding: const EdgeInsets.all(8),
@@ -297,20 +298,20 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                             children: <Widget>[
 
                                               InkWell(
-                                                child:    _tabChild(Images.schedule, 'Danh sách giáo viên'),
+                                                child:    _tabChild(Images.teacher, 'Danh sách giáo viên'),
                                                 onTap: (){
                                                   Navigator.push(context, MaterialPageRoute(builder: (_)=>TeacherPage(_role)));
                                                 },
                                               ),
 
                                               InkWell(
-                                                child:  _tabChild(Images.schedule, 'Tài liệu'),
+                                                child:  _tabChild(Images.folder, 'Tài liệu'),
                                                 onTap: (){
                                                   Navigator.push(context, MaterialPageRoute(builder: (_)=>DocListPage(_user)));
                                                 },
                                               ),
                                               InkWell(
-                                                child: _tabChild(Images.schedule, 'Xếp hạng'),
+                                                child: _tabChild(Images.ranking, 'Xếp hạng'),
                                                 onTap: (){
                                                 },
                                               ),
@@ -333,9 +334,9 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                               !_presenter!.seeMore ? "Xem thêm" : "Thu gọn",
                                               textStyle: TextStyle(
                                                   fontSize: 14,
-                                                  color: CommonColor.blue),
+                                                  color: AppColors.blue),
                                             ),
-                                            Icon(!_presenter!.seeMore ? Icons.arrow_drop_down : Icons.arrow_drop_up,size:18,color: CommonColor.blue,)
+                                            Icon(!_presenter!.seeMore ? Icons.arrow_drop_down : Icons.arrow_drop_up,size:18,color: AppColors.blue,)
                                           ],
                                         ),
                                       )
@@ -359,7 +360,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     stream: _courseStream,
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
-                        return Center(child: Text('Loading'),);
+                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(
+                          color: AppColors.blueLight,
+                          size: 50,
+                        ),);
                       }else if(snapshot.hasError){
                         return Center(child: Text('No data'),);
                       }else{
@@ -405,7 +409,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     stream: _classStream,
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
-                        return Center(child: Text('Loading'),);
+                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(
+                          color: AppColors.blueLight,
+                          size: 50,
+                        ),);
                       }else if(snapshot.hasError){
                         return Center(child: Text('No data'),);
                       }else{
@@ -485,7 +492,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
       padding: EdgeInsets.only(left: 4, top: 24, right: 4, bottom: 4),
       width: (getWidthDevice(context) / 3.2 - 12),
       height:(getWidthDevice(context) / 3.2 - 12),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: CommonColor.white.withOpacity(0.8)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: AppColors.white.withOpacity(0.8)),
       child: Container(
         alignment: Alignment.topCenter,
         child: Stack(
@@ -519,11 +526,11 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: CommonColor.grayLight,
+              color: AppColors.grayLight,
               borderRadius: BorderRadius.all(Radius.circular(25)),
               boxShadow: [
                 BoxShadow(
-                  color: CommonColor.white,
+                  color: AppColors.white,
                   spreadRadius: 1,
                   offset: Offset(0, 0), // changes position of shadow
                 ),
@@ -535,7 +542,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
             ),
           ),
           SizedBox(height: 4,),
-          Expanded(child: NeoText(title,textStyle: TextStyle(fontSize: 14,overflow: TextOverflow.ellipsis, color: CommonColor.black),maxline: 2, textAlign: TextAlign.center)),
+          Expanded(child: NeoText(title,textStyle: TextStyle(fontSize: 14,overflow: TextOverflow.ellipsis, color: AppColors.black),maxline: 2, textAlign: TextAlign.center)),
         ],
       ),
     );
@@ -562,7 +569,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
-            color: CommonColor.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.all(Radius.circular(8)),
             boxShadow: [
               BoxShadow(
@@ -578,15 +585,15 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            loadPhoto.imageNetwork('$imageLink', 196, getWidthDevice(context)),
+            loadPhoto.networkImage('$imageLink', 196, getWidthDevice(context)),
             SizedBox(height: 16,),
-            NeoText('$title', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
+            NeoText('$title', textStyle: TextStyle(color: AppColors.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
             SizedBox(height: 8,),
             NeoText(
                 'GV: $gv',
                 textStyle: TextStyle(
                   overflow: TextOverflow.ellipsis,
-                  color: CommonColor.black,
+                  color: AppColors.black,
                 ),
                 maxline: 2
             ),

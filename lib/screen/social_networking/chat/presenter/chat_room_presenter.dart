@@ -11,8 +11,8 @@ import '../model/user.dart';
 class ChatRoomPresenter{
   void createChatRoom(User userChat, User userChatFriend){
     Map<String, dynamic> data = userChat.toJson();
-    Map<String, dynamic> dataFriend = userChatFriend.toJson();
-    FirebaseFirestore.instance.collection('user_chat').doc(userChat.username).collection(userChat.username!).doc(userChatFriend.username!).set(dataFriend);
+    Map<String, dynamic> friendData = userChatFriend.toJson();
+    FirebaseFirestore.instance.collection('user_chat').doc(userChat.username).collection(userChat.username!).doc(userChatFriend.username!).set(friendData);
     FirebaseFirestore.instance.collection('user_chat').doc(userChatFriend.username).collection(userChatFriend.username!).doc(userChat.username!).set(data);
   }
 

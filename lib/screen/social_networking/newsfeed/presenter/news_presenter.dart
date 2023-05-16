@@ -82,8 +82,8 @@ abstract class _NewsPresenter with Store {
         uiSettings: [
           AndroidUiSettings(
               toolbarTitle: 'Cropper',
-              toolbarColor: CommonColor.blue,
-              toolbarWidgetColor: CommonColor.white,
+              toolbarColor: AppColors.blue,
+              toolbarWidgetColor: AppColors.white,
               initAspectRatio: CropAspectRatioPreset.original,
               lockAspectRatio: false),
           IOSUiSettings(

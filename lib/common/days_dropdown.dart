@@ -26,7 +26,7 @@ class DaysDropdown extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
             border: Border.all(
-                color: CommonColor.blue
+                color: AppColors.blue
             )
         ),
         child: DropdownButtonHideUnderline(
@@ -37,14 +37,14 @@ class DaysDropdown extends StatelessWidget {
                 child: DropdownButton2(
                   isExpanded: true,
                   value: value,
-                  iconEnabledColor: CommonColor.greyLight,
-                  iconDisabledColor: CommonColor.greyLight,
+                  iconEnabledColor: AppColors.greyLight,
+                  iconDisabledColor: AppColors.greyLight,
                   items: itemsList
                       .map((Days item) => DropdownMenuItem<Days>(
                     value: item,
                     child: NeoText(
                       item.date!,
-                      textStyle: TextStyle(fontSize: 16, color: CommonColor.black),
+                      textStyle: TextStyle(fontSize: 16, color: AppColors.black),
                     ),
                   ))
                       .toList(),

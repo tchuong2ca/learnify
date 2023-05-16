@@ -8,6 +8,7 @@ import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/lesson/discuss/presenter/discuss_presenter.dart';
 import 'package:online_learning/screen/social_networking/newsfeed/view_photo.dart';
 
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../../common/colors.dart';
 import '../../../common/functions.dart';
 import '../../../common/themes.dart';
@@ -57,7 +58,7 @@ class _DiscussPageState extends State<DiscussPage> {
           stream: _stream!,
           builder: (context, snapshot){
             if(snapshot.connectionState==ConnectionState.waiting){
-              return Center(child: Text('Loading...'),);
+              return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
             }else if(snapshot.hasError){
               return notfound(Languages.of(context).noData);
             }else if(!snapshot.hasData){
@@ -81,7 +82,7 @@ class _DiscussPageState extends State<DiscussPage> {
                     ),
                   ),
                   Container(
-                    color: CommonColor.white,
+                    color: AppColors.white,
                     width: getWidthDevice(context),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -97,7 +98,7 @@ class _DiscussPageState extends State<DiscussPage> {
                               onPressed: ()=>setState(()=>_fileImage=null),
                               icon: Icon(
                                 Icons.clear,
-                                color: CommonColor.grayLight,
+                                color: AppColors.grayLight,
                               ),
                             )
                           ],
@@ -113,12 +114,12 @@ class _DiscussPageState extends State<DiscussPage> {
                               onPressed: ()=>cropImage(context, (p0) => setState(()=> _fileImage=p0!), ''),
                               icon: Icon(
                                 Icons.image,
-                                color: CommonColor.blue,
+                                color: AppColors.blue,
                               ),
                             ),
                             Expanded(
                               child: TextFormField(
-                                decoration: CommonTheme.textFieldInputDecorationChat(),
+                                decoration: AppThemes.textFieldInputDecorationChat(),
                                 onChanged: (value)=>setState(()=>_message=value),
                                 controller: _controllerMess,
                               ),
@@ -149,7 +150,7 @@ class _DiscussPageState extends State<DiscussPage> {
                                 },
                                 icon: Icon(
                                   Icons.send,
-                                  color: CommonColor.blue,
+                                  color: AppColors.blue,
                                 ),
                               ),
                             )
@@ -182,7 +183,7 @@ class _DiscussPageState extends State<DiscussPage> {
           children: [
             SizedBox(width: index == 0? 0:8,),
             ClipOval(
-              child: loadPhoto.imageNetwork(discuss.avatar, index==0?40:30, index==0?40:30),
+              child: loadPhoto.networkImage(discuss.avatar, index==0?40:30, index==0?40:30),
             ),
             SizedBox(width: 8,),
             SizedBox(
@@ -192,8 +193,8 @@ class _DiscussPageState extends State<DiscussPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  (discuss.nameFeedback==null||discuss.nameFeedback!.isEmpty)?SizedBox():NeoText(discuss.nameFeedback!, textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: CommonColor.black)),
-                  NeoText(discuss.content!, textStyle: TextStyle(fontSize: index==0?16:14, color: CommonColor.black, fontWeight: index==0?FontWeight.bold:FontWeight.normal))
+                  (discuss.nameFeedback==null||discuss.nameFeedback!.isEmpty)?SizedBox():NeoText(discuss.nameFeedback!, textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.black)),
+                  NeoText(discuss.content!, textStyle: TextStyle(fontSize: index==0?16:14, color: AppColors.black, fontWeight: index==0?FontWeight.bold:FontWeight.normal))
                 ],
               ),
             ),
@@ -203,8 +204,8 @@ class _DiscussPageState extends State<DiscussPage> {
             ?Padding(
           padding: const EdgeInsets.only(left: 50, top: 8),
           child: InkWell(
-              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>PhotosPageView(image, 0))),
-              child: loadPhoto.imageNetwork(discuss.imageLink, getWidthDevice(context)*0.5, getWidthDevice(context)*0.5)),
+              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(image, 0))),
+              child: loadPhoto.networkImage(discuss.imageLink, getWidthDevice(context)*0.5, getWidthDevice(context)*0.5)),
         )
             :SizedBox(),
         SizedBox(height: 12,),
@@ -222,7 +223,7 @@ class _DiscussPageState extends State<DiscussPage> {
         //           _controllerMess = TextEditingController(text: _nameFeedback);
         //         });
         //       },
-        //       child: CustomText(
+        //       child: NeoText(
         //         Languages.of(context).feedback,
         //         textStyle: TextStyle(color: CommonColor.blue, fontSize: 10)
         //       ),
@@ -233,7 +234,7 @@ class _DiscussPageState extends State<DiscussPage> {
         //         _detail!.discuss!.removeAt(index);
         //         _presenter!.PostData(_detail!);
         //       },
-        //       child: CustomText(
+        //       child: NeoText(
         //           Languages.of(context).delete,
         //           textStyle: TextStyle(color: CommonColor.blue, fontSize: 10)
         //       ),

@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/docs/presenter/doc_presenter.dart';
 
-
-
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../common/colors.dart';
 import '../../common/functions.dart';
 import '../../common/keys.dart';
@@ -40,7 +39,7 @@ class _DocListPageState extends State<DocListPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        backgroundColor: CommonColor.blue,
+        backgroundColor: AppColors.blue,
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -62,9 +61,9 @@ class _DocListPageState extends State<DocListPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(Languages.of(context).document, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(Languages.of(context).document, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 SizedBox(width: 52,)
               ],
             ),
@@ -75,7 +74,7 @@ class _DocListPageState extends State<DocListPage> {
                 builder: (context, snapshot){
                   if(snapshot.connectionState==ConnectionState.waiting){
                     return Center(
-                      child: Text('Loading...'),
+                      child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),
                     );
                   }else if(snapshot.hasError){
                     return Center(
@@ -108,7 +107,7 @@ class _DocListPageState extends State<DocListPage> {
           },
           child: Icon(
             Icons.add,
-            color: CommonColor.white,
+            color: AppColors.white,
           ),
         ),
       ),
@@ -118,7 +117,7 @@ class _DocListPageState extends State<DocListPage> {
   Widget _itemDocument(DocContent document){
     return InkWell(
       onTap: (){
-        //Navigator.push(context, MaterialPageRoute(builder: (_)=>DocumentDetailPage(document)));
+        Navigator.push(context, MaterialPageRoute(builder: (_)=>DocDetailsPage(document)));
       },
       child: Container(
         height: 220,
@@ -126,7 +125,7 @@ class _DocListPageState extends State<DocListPage> {
         width: getWidthDevice(context)/2-16,
         padding: EdgeInsets.all(4),
         decoration: BoxDecoration(
-            color: CommonColor.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.all(Radius.circular(8)),
             boxShadow: [
               BoxShadow(
@@ -142,10 +141,10 @@ class _DocListPageState extends State<DocListPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            loadPhoto.imageNetwork('${document.imageUrl}', 150, getWidthDevice(context)),
+            loadPhoto.networkImage('${document.imageUrl}', 150, getWidthDevice(context)),
             SizedBox(height: 16,),
-            NeoText('${document.name}', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
-            NeoText('GV: ${document.teacher}', textStyle: TextStyle(color: CommonColor.black,  fontSize: 14, overflow: TextOverflow.ellipsis), maxline: 2),
+            NeoText('${document.name}', textStyle: TextStyle(color: AppColors.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
+            NeoText('GV: ${document.teacher}', textStyle: TextStyle(color: AppColors.black,  fontSize: 14, overflow: TextOverflow.ellipsis), maxline: 2),
           ],
         ),
       ),
@@ -163,7 +162,7 @@ class _DocListPageState extends State<DocListPage> {
         width: getWidthDevice(context)/2-16,
         padding: EdgeInsets.all(4),
         decoration: BoxDecoration(
-            color: CommonColor.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.all(Radius.circular(8)),
             boxShadow: [
               BoxShadow(
@@ -179,10 +178,10 @@ class _DocListPageState extends State<DocListPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            loadPhoto.imageNetwork('${document.imageUrl}', 150, getWidthDevice(context)),
+            loadPhoto.networkImage('${document.imageUrl}', 150, getWidthDevice(context)),
             SizedBox(height: 16,),
-            NeoText('${document.name}', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
-            NeoText('GV: ${document.teacher}', textStyle: TextStyle(color: CommonColor.black,  fontSize: 14, overflow: TextOverflow.ellipsis), maxline: 2),
+            NeoText('${document.name}', textStyle: TextStyle(color: AppColors.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
+            NeoText('GV: ${document.teacher}', textStyle: TextStyle(color: AppColors.black,  fontSize: 14, overflow: TextOverflow.ellipsis), maxline: 2),
             SizedBox(height: 4,),
             document.createdBy==widget._dataUser!['phone']||CommonKey.ADMIN==widget._dataUser!['role']?Row(
               mainAxisSize: MainAxisSize.max,
@@ -192,7 +191,7 @@ class _DocListPageState extends State<DocListPage> {
                 IconButton(
                   icon: Icon(
                     Icons.edit,
-                    color: CommonColor.blue,
+                    color: AppColors.blue,
                   ),
                   onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateDocPage(CommonKey.EDIT, document)));
@@ -202,7 +201,7 @@ class _DocListPageState extends State<DocListPage> {
                 IconButton(
                   icon: Icon(
                     Icons.delete,
-                    color: CommonColor.blue,
+                    color: AppColors.blue,
                   ),
                   onPressed: (){
                     showDialog(
@@ -216,7 +215,10 @@ class _DocListPageState extends State<DocListPage> {
                             child: Text('No'),
                           ),
                           TextButton(
-                            onPressed: () =>  _presenter!.DeleteDoc(document),
+                            onPressed: (){
+                    _presenter!.DeleteDoc(document);
+                    Navigator.pop(context);
+                    },
                             child: Text('Yes'),
                           ),
                         ],

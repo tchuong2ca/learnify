@@ -17,6 +17,7 @@ import '../comment/comment_page.dart';
 import '../post/post_page.dart';
 import 'news_detail.dart';
 
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 class NewsPage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -30,13 +31,13 @@ class _NewsPage extends State<NewsPage>{
   Stream<QuerySnapshot>? _stream;
   Stream<DocumentSnapshot>? _streamUser;
   String _username = '';
-  Map<String, dynamic>? _dataUser;
+  Map<String, dynamic>? _userData;
   NewsPresenter? _presenter;
   @override
   void initState() {
     _stream = FirebaseFirestore.instance.collection('news').orderBy('timestamp',descending: true).snapshots();
     _presenter = NewsPresenter();
-    _getUserInfor();
+    _getUserInfo();
   }
 
   @override
@@ -67,12 +68,12 @@ class _NewsPage extends State<NewsPage>{
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-               IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+               IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(Languages.of(context).qa, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(Languages.of(context).qa, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 IconButton(
-                  onPressed:()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatListPage(_dataUser))),
-                  icon: Icon(Icons.message, color: CommonColor.blue,),
+                  onPressed:()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatListPage(_userData))),
+                  icon: Icon(Icons.message, color: AppColors.blue,),
                 )
               ],
             ),
@@ -89,7 +90,7 @@ class _NewsPage extends State<NewsPage>{
                     stream: _stream,
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
-                        return Center(child: Text('Loading...'),);
+                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
                       }else if(snapshot.hasError){
                         return Center(child: Text('No data...'),);
                       }else{
@@ -137,19 +138,19 @@ class _NewsPage extends State<NewsPage>{
                 children: [
                   SizedBox(width: 8,),
                   InkWell(child:   ClipOval(
-                    child: loadPhoto.imageNetwork(data['avatar']!=null?data['avatar']:'', 50, 50),
+                    child: loadPhoto.networkImage(data['avatar']!=null?data['avatar']:'', 50, 50),
                   ),onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (_)=>PersonalPage(data['role']!)));
                   },),
                   SizedBox(width: 8.0,),
                   Expanded(
-                    child: NeoText(Languages.of(context).uNeed, textStyle: TextStyle(fontSize: 14, color: CommonColor.black)),
+                    child: NeoText(Languages.of(context).whatsinyourmind, textStyle: TextStyle(fontSize: 14, color: AppColors.black)),
                   ),
                   IconButton(
                     onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (_)=>PostPage('',null)));
                     },
-                    icon: Icon(Icons.image, color: CommonColor.blue,),
+                    icon: Icon(Icons.image, color: AppColors.blue,),
                   )
                 ],
               ),
@@ -189,7 +190,7 @@ class _NewsPage extends State<NewsPage>{
             children: [
               SizedBox(width: 4,),
               ClipOval(
-                child: loadPhoto.imageNetwork(data['userAvatar']!=null?data['userAvatar']:'', 50, 50),
+                child: loadPhoto.networkImage(data['userAvatar']!=null?data['userAvatar']:'', 50, 50),
               ),
               SizedBox(width: 4,),
               Expanded(
@@ -198,8 +199,8 @@ class _NewsPage extends State<NewsPage>{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    NeoText(data['fullname']!=null?data['fullname']:'', textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: CommonColor.black)),
-                    NeoText(data['timestamp']!=null?postedTime(data['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: CommonColor.black_light)),
+                    NeoText(data['fullname']!=null?data['fullname']:'', textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.black)),
+                    NeoText(data['timestamp']!=null?postedTime(data['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: AppColors.black_light)),
                   ],
                 ),
               ),
@@ -233,30 +234,33 @@ class _NewsPage extends State<NewsPage>{
                 },
                 icon: Icon(
                   Icons.more_vert_sharp,
-                  color: CommonColor.blue,
+                  color: AppColors.blue,
                 ),
               )
                   :IconButton(
                 icon: Icon(
                   Icons.chat_outlined,
-                  color: CommonColor.blue,
+                  color: AppColors.blue,
                 ),
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatRoomPage(_dataUser, data)));
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatRoomPage(_userData, data)));
                 },
               )
             ],
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: NeoText(data['description']!=null?data['description']:'', textStyle: TextStyle(color: CommonColor.black, fontSize: 14,)),
+            child: NeoText(data['description']!=null?data['description']:'', textStyle: TextStyle(color: AppColors.black, fontSize: 14,)),
           ),
           listImage.length==1
               ? InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (_)=>PhotosPageView(data['mediaUrl'], 0)));
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(data['mediaUrl'], 0)));
               },
-              child: loadPhoto.imageNetworkWrapContent(
+              child:
+              listImage[0].toString().contains('mp4')?
+                  Image.asset(Images.horizontalplaybtn):
+              loadPhoto.imageNetworkWrapContent(
                   listImage[0] != null ? listImage[0] : ''))
               :listImage.length==2?InkWell(
             onTap: (){
@@ -267,12 +271,14 @@ class _NewsPage extends State<NewsPage>{
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                loadPhoto.imageNetwork(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
+                listImage[0].toString().contains('mp4')?
+                Image.asset(Images.horizontalplaybtn,  width: getWidthDevice(context)/2-16,height: getHeightDevice(context)/4,):loadPhoto.networkImage(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
                 Spacer(),
-                loadPhoto.imageNetwork(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
+                listImage[1].toString().contains('mp4')?
+                Image.asset(Images.horizontalplaybtn, width: getWidthDevice(context)/2-16,height: getHeightDevice(context)/4,):loadPhoto.networkImage(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
               ],
             ),
-          ): InkWell(
+          ): listImage.length==3?InkWell(
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data)));
             },
@@ -281,27 +287,63 @@ class _NewsPage extends State<NewsPage>{
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                loadPhoto.imageNetwork(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/2, getWidthDevice(context)/2-16),
+                listImage[0].toString().contains('mp4')?
+                Image.asset(Images.horizontalplaybtn, height: getHeightDevice(context)/2,fit: BoxFit.fill,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/2, getWidthDevice(context)/2-16),
                 Spacer(),
                 Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    loadPhoto.imageNetwork(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
+                    listImage[1].toString().contains('mp4')?
+                    Image.asset(Images.horizontalplaybtn,fit: BoxFit.fill, height: getHeightDevice(context)/4-4,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
                     SizedBox(height: 8,),
+                    listImage[2].toString().contains('mp4')?
+                    Image.asset(Images.horizontalplaybtn,fit: BoxFit.fill,height: getHeightDevice(context)/4-4,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[2]!=null?listImage[2]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
+                  ],
+                ),
+              ],
+            ),
+          ):InkWell(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data)));
+            },
+            child: Column(
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    listImage[0].toString().contains('mp4')?
+                    Image.asset(Images.horizontalplaybtn, height: getHeightDevice(context)/5,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/5, getWidthDevice(context)/2-16),
+                    Spacer(),
+                    listImage[1].toString().contains('mp4')?
+                    Image.asset(Images.horizontalplaybtn, height: getHeightDevice(context)/5,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/5, getWidthDevice(context)/2-16),
+                  ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    listImage[2].toString().contains('mp4')?
+                    Image.asset(Images.horizontalplaybtn,height: getHeightDevice(context)/5,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[2]!=null?listImage[2]:'', getHeightDevice(context)/5, getWidthDevice(context)/2-16),
+                    Spacer(),
                     Stack(
                       alignment: Alignment.center,
                       children: [
-                        loadPhoto.imageNetwork(listImage[2]!=null?listImage[2]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
-                        NeoText('${listImage.length>3?'+${listImage.length}':''}', textStyle: TextStyle(color: CommonColor.greyLight, fontSize: 25))
+                        listImage[3].toString().contains('mp4')?
+                        Image.asset(Images.horizontalplaybtn, height: getHeightDevice(context)/5,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[3]!=null?listImage[3]:'', getHeightDevice(context)/5, getWidthDevice(context)/2-16),
+                        NeoText('${listImage.length>4?'+${listImage.length-4}':''}', textStyle: TextStyle(color: AppColors.greyLight, fontSize: 25))
                       ],
                     ),
                   ],
                 ),
               ],
             ),
-          ),
+          )
+          ,
           Padding(
             padding: EdgeInsets.only(left: 8, top: 4, bottom: 0, right: 8),
             child: Row(
@@ -320,26 +362,15 @@ class _NewsPage extends State<NewsPage>{
                       image: AssetImage(Images.love),
                       height: 22,
                       width: 22,
-                      color: isLike ? CommonColor.redLight : CommonColor.grey,
+                      color: isLike ? AppColors.redLight : AppColors.grey,
                     ),
-                    // icon: Image(
-                    //   image: AssetImage(Images.love),
-                    //   height: 22,
-                    //   width: 22,
-                    //   color: CommonColor.grey,
-                    // ),
                     label: NeoText('$_likeCounter',
                         textStyle: TextStyle(
                             fontSize: 14,
-                            color: CommonColor.black,
+                            color: AppColors.black,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.normal)),
-                    // label: NeoText('0',
-                    //     textStyle: TextStyle(
-                    //         fontSize: 14,
-                    //         color: CommonColor.black,
-                    //         fontStyle: FontStyle.normal,
-                    //         fontWeight: FontWeight.normal)),
+
                   ),
                 ),
                 Expanded(
@@ -347,7 +378,7 @@ class _NewsPage extends State<NewsPage>{
                   child: TextButton.icon(
                     onPressed: () {
                       Navigator.push(context,
-                         MaterialPageRoute(builder: (_)=>CommentNewsPage(data, _dataUser)))
+                         MaterialPageRoute(builder: (_)=>CommentNewsPage(data, _userData)))
                           .then((value) {
                         if (value != null && value is bool && value) {}
                       });
@@ -361,7 +392,7 @@ class _NewsPage extends State<NewsPage>{
                         'Bình luận ${data['comments'] == 0 ? '' : '${'(${data['comments']})'}'}',
                         textStyle: TextStyle(
                             fontSize: 14,
-                            color: CommonColor.black,
+                            color: AppColors.black,
                             fontStyle: FontStyle.normal,
                             fontWeight: FontWeight.normal)),
                   ),
@@ -378,7 +409,7 @@ class _NewsPage extends State<NewsPage>{
                       width: 18,
                     ),
                     label: NeoText('Chia sẻ',
-                        textStyle: TextStyle(fontSize: 14, fontFamily: 'LexendThin', color: CommonColor.black)),
+                        textStyle: TextStyle(fontSize: 14, fontFamily: 'LexendThin', color: AppColors.black)),
                   ),
                 ),
               ],
@@ -389,9 +420,9 @@ class _NewsPage extends State<NewsPage>{
     );
   }
 
-  Future<void> _getUserInfor() async{
-    _dataUser = await _presenter!.getUserInfor();
-    _username = _dataUser!['phone'];
+  Future<void> _getUserInfo() async{
+    _userData = await _presenter!.getUserInfor();
+    _username = _userData!['phone'];
     _streamUser = FirebaseFirestore.instance.collection('users').doc(_username).snapshots();
     setState((){});
   }

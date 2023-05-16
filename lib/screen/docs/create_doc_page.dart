@@ -74,9 +74,9 @@ class _CreateDocPageState extends State<CreateDocPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText( Languages.of(context).documentNews, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText( Languages.of(context).documentNews, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 ElevatedButton(
                     onPressed: (){
                       if(_fileImage==null&&CommonKey.EDIT!=widget._keyFlow){
@@ -123,7 +123,7 @@ class _CreateDocPageState extends State<CreateDocPage> {
                         });
                       }
                     },
-                    child: NeoText(Languages.of(context).createNew, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CommonColor.white))),
+                    child: NeoText(Languages.of(context).createNew, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                 SizedBox(width: 8,)
               ],
             ),
@@ -137,12 +137,12 @@ class _CreateDocPageState extends State<CreateDocPage> {
                   children: [
                     InkWell(
                       onTap: () => cropImage(context,(p0) => setState(()=>_fileImage=p0!), ''),
-                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):(_imageUrl.isNotEmpty&&CommonKey.EDIT==widget._keyFlow!)?loadPhoto.imageNetwork(_imageUrl, 150, 150):Image.asset(Images.tabBar, width: 150, height: 150,fit: BoxFit.fill,)),
+                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):(_imageUrl.isNotEmpty&&CommonKey.EDIT==widget._keyFlow!)?loadPhoto.networkImage(_imageUrl, 150, 150):Image.asset(Images.tabBar, width: 150, height: 150,fit: BoxFit.fill,)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
-                        decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).nameClass, hintText: Languages.of(context).nameClass),
+                        decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).nameClass, hintText: Languages.of(context).nameClass),
                         onChanged: (value)=>setState(()=> _docName=value),
                         controller: _controllerText,
                       ),
@@ -179,7 +179,7 @@ class _CreateDocPageState extends State<CreateDocPage> {
                 ),
                 IconButton(
                   icon: Icon(Icons.arrow_circle_up_sharp),
-                  color: CommonColor.blue,
+                  color: AppColors.blue,
                   onPressed: () async{
                     FilePickerResult? result = await FilePicker.platform.pickFiles(
                       type: FileType.custom,

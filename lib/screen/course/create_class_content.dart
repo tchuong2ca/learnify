@@ -98,9 +98,9 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width: 8,),
-                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText(Languages.of(context).classDetailNew, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText(Languages.of(context).createClassContent, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
                       onPressed: (){
                        if( _lessonList.isNotEmpty){
@@ -126,7 +126,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                          Fluttertoast.showToast(msg: 'Chưa thêm buổi học nào');
                        }
                       },
-                      child: NeoText(_keyFlow==CommonKey.EDIT?'Cập nhật':Languages.of(context).createNew, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CommonColor.white))),
+                      child: NeoText(_keyFlow==CommonKey.EDIT?'Cập nhật':Languages.of(context).createNew, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                   SizedBox(width: 8,)
                 ],
               ),
@@ -141,12 +141,12 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                   children: [
                     InkWell(
                       onTap: () => cropImage(context, (p0) => setState(()=>_fileImage=p0!), ''),
-                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):(!_imageLink.isEmpty?loadPhoto.imageNetwork(_imageLink, 150, 150/3*4):Image.asset(Images.photo_notfound, width: 150, height: 150,))),
+                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150/3*4, height: 150,):(!_imageLink.isEmpty?loadPhoto.networkImage(_imageLink, 150, 150/3*4):Image.asset(Images.pick_photo, width: 150/3*4, height: 150,))),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
-                        decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).describeClass, hintText: Languages.of(context).describeClass),
+                        decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).describeClass, hintText: Languages.of(context).describeClass),
                         onChanged: (value)=>setState(()=> _describe=value),
                         maxLines: 10,
                         controller: _controllerDescribe,
@@ -203,7 +203,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
     return Container(
       margin: EdgeInsets.all(8),
       decoration: BoxDecoration(
-          color: CommonColor.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
           boxShadow: [
             BoxShadow(
@@ -221,12 +221,12 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
         children: [
           (CommonKey.EDIT==_keyFlow&&_indexLength>index)?Padding(
             padding: EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 16),
-            child: NeoText(lesson.lessonName!, textStyle: TextStyle(fontSize: 14, color: CommonColor.black)),
+            child: NeoText(lesson.lessonName!, textStyle: TextStyle(fontSize: 14, color: AppColors.black)),
           ):SizedBox(),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: TextFormField(
-              decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).lessonName, hintText: Languages.of(context).lessonName),
+              decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).lessonName, hintText: Languages.of(context).lessonName),
               onChanged: (value)=>setState(() {
                 lesson.lessonName = value;
               }),

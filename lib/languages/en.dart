@@ -3,7 +3,7 @@ import 'languages.dart';
 class LanguageEn extends Languages{
   @override
   // TODO: implement appName
-  String get appName => 'Bụt hiện nên và lói';
+  String get appName => 'Online Learning';
 
   @override
   // TODO: implement login
@@ -123,7 +123,7 @@ class LanguageEn extends Languages{
 
   @override
   // TODO: implement uNeed
-  String get uNeed => 'Bạn đang cần gì?';
+  String get whatsinyourmind => 'Bạn đang nghĩ gì';
 
   @override
   // TODO: implement accountInfo
@@ -263,7 +263,7 @@ class LanguageEn extends Languages{
 
   @override
   // TODO: implement classDetailNew
-  String get classDetailNew => 'Thêm mới chi tiết lớp học';
+  String get createClassContent => 'Tạo nội dung cho lớp học';
 
   @override
   // TODO: implement idClassDetail
@@ -375,7 +375,7 @@ class LanguageEn extends Languages{
 
   @override
   // TODO: implement Sunday
-  String get sunday => 'Chủ nhật';
+  String get sunday => 'CN';
 
   @override
   // TODO: implement Thurday

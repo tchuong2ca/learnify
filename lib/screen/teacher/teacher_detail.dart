@@ -35,11 +35,11 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: NeoText(_data!['fullname'],textStyle: TextStyle(fontSize: 30,color: CommonColor.black) ),
+                      child: NeoText(_data!['fullname'],textStyle: TextStyle(fontSize: 30,color: AppColors.black) ),
                     ),
                     Container(
                       padding: const EdgeInsets.only(top: 8,bottom: 8,right:8,left: 8 ),
-                      child: NeoText('Giáo viên môn ${_data!['specialize']}',textStyle: TextStyle(fontSize: 16,color: CommonColor.black),maxline: 2),
+                      child: NeoText('Giáo viên môn ${_data!['specialize']}',textStyle: TextStyle(fontSize: 16,color: AppColors.black),maxline: 2),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 8,right: 8),
@@ -78,12 +78,12 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
                       padding: EdgeInsets.only(top: 16,bottom: 16,right: 8,left: 8),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          color: CommonColor.white,
+                          color: AppColors.white,
                           borderRadius: BorderRadius.all(
                               Radius.circular(8)),
                           boxShadow: [
                             BoxShadow(
-                                color: CommonColor.lightGrey
+                                color: AppColors.lightGrey
                                     .withOpacity(0.2),
                                 spreadRadius: 1,
                                 offset: Offset(0, 0))
@@ -94,9 +94,9 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
                         children: [
                           Image.asset(Images.ratestar,width: 60,height: 46,),
                           _data!['exp'] != null?
-                          NeoText('${_data!['exp']}',textStyle: TextStyle(fontSize: 16,color: CommonColor.orange_primary),maxline: 1)
-                              : NeoText('5+',textStyle: TextStyle(fontSize: 14,color: CommonColor.orange_primary_2)),
-                          NeoText('Kinh nghiệm',textStyle: TextStyle(fontSize: 14,color: CommonColor.black))
+                          NeoText('${_data!['exp']}',textStyle: TextStyle(fontSize: 16,color: AppColors.orange_primary),maxline: 1)
+                              : NeoText('5+',textStyle: TextStyle(fontSize: 14,color: AppColors.orange_primary_2)),
+                          NeoText('Kinh nghiệm',textStyle: TextStyle(fontSize: 14,color: AppColors.black))
                         ],),
                     )
                   ],
@@ -105,17 +105,17 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
 
               Padding(
                   padding: const EdgeInsets.only(top:20,bottom: 10,right: 8,left: 8 ),
-                  child: NeoText(Languages.of(context).teacherInfo,textStyle: TextStyle(fontSize: 20,color: CommonColor.black))
+                  child: NeoText(Languages.of(context).teacherInfo,textStyle: TextStyle(fontSize: 20,color: AppColors.black))
               ),
               Container(
                 margin: EdgeInsets.only(right: 8,left: 8,bottom: 8),
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                    color: CommonColor.white,
+                    color: AppColors.white,
                     borderRadius: BorderRadius.all(
                         Radius.circular(8)),
                     boxShadow: [
-                      BoxShadow(color: CommonColor.lightGrey.withOpacity(0.2), spreadRadius: 1, offset: Offset(0, 0))]),
+                      BoxShadow(color: AppColors.lightGrey.withOpacity(0.2), spreadRadius: 1, offset: Offset(0, 0))]),
                 child: Padding(
                     padding: EdgeInsets.all(8),
                     child: Container(
@@ -148,7 +148,7 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                NeoText(skill!,textStyle: TextStyle(fontSize: 14,color: CommonColor.black)),
+                NeoText(skill!,textStyle: TextStyle(fontSize: 14,color: AppColors.black)),
                 Container(
                   padding: EdgeInsets.only(bottom: 4),
                   width:getWidthDevice(context)/2 - 50,
@@ -170,18 +170,18 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
                     valueLabelPadding:
                     const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
                     valueLabelMargin: const EdgeInsets.only(right: 0),
-                    starOffColor: CommonColor.orange,
-                    starColor: CommonColor.orange,
+                    starOffColor: AppColors.orange,
+                    starColor: AppColors.orange,
                   ),
                 ),
               ],)
                 :Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                NeoText(skill!,textStyle: TextStyle(fontSize: 14,color: CommonColor.black)),
+                NeoText(skill!,textStyle: TextStyle(fontSize: 14,color: AppColors.black)),
                 Container(
                     width:getWidthDevice(context)/2 - 50,
-                    child: NeoText(skillValue!,textStyle: TextStyle(fontSize: 14,color: CommonColor.black),maxline: 1)),
+                    child: NeoText(skillValue!,textStyle: TextStyle(fontSize: 14,color: AppColors.black),maxline: 1)),
               ],)
           ],),
         SizedBox(height: 8,),
@@ -198,10 +198,10 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                NeoText(skill2!,textStyle: TextStyle(fontSize: 14,color: CommonColor.black)),
+                NeoText(skill2!,textStyle: TextStyle(fontSize: 14,color: AppColors.black)),
                 Container(
                     width:getWidthDevice(context)/2 - 50,
-                    child: NeoText(skillValue2!,textStyle: TextStyle(fontSize: 14,color: CommonColor.black),maxline: 1)),
+                    child: NeoText(skillValue2!,textStyle: TextStyle(fontSize: 14,color: AppColors.black),maxline: 1)),
               ],)
           ],),
       ],

@@ -37,8 +37,8 @@ class _CreateClassUIState extends State<CreateClassUI> {
   _CreateClassUIState(this._course, this._keyFlow, this._data);
   File? _fileImage;
   String _idClass=''; String _idCourse=''; String _idTeacher='';
-  String _teacherName=''; String _status=''; final String _firstDay='';
-  final String _price=''; String _nameClass = ''; String _describe = '';
+  String _teacherName=''; String _status='';
+  String _nameClass = ''; String _describe = '';
   final List<Status> _statusList = [];
   Status? _selectStatus;
   CreateClassPresenter? _presenter;
@@ -148,20 +148,20 @@ class _CreateClassUIState extends State<CreateClassUI> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width: 8,),
-                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText('Tạo khóa học', textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText('Tạo lớp học', textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
                       onPressed: () {
                         if(_fileImage==null&&CommonKey.EDIT!=_keyFlow
                         ){
-                          Fluttertoast.showToast(msg: 'Ảnh đâu');
+                          Fluttertoast.showToast(msg: 'Chưa chọn ảnh');
                         }else if(_nameClass.isEmpty){
-                          Fluttertoast.showToast(msg: 'Tên đâu');
+                          Fluttertoast.showToast(msg: 'Chưa có tên lớp học');
                         }else if(_status.isEmpty){
-                          Fluttertoast.showToast(msg: 'status đâu');
+                          Fluttertoast.showToast(msg: 'Chưa có trạng thái của lớp');
                         }else if(_hour.isEmpty){
-                          Fluttertoast.showToast(msg: 'thời gian đâu');
+                          Fluttertoast.showToast(msg: 'Chưa chọn lịch học');
                         }else{
                           MyClassModel myClass = MyClassModel(idClass: replaceSpace(_idClass), idCourse: _idCourse, idTeacher: _idTeacher,
                               teacherName: _teacherName, status: _status,
@@ -186,7 +186,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                           });
                         }
                       },
-                      child: NeoText('Tạo', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CommonColor.white))),
+                      child: NeoText('Tạo', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                   SizedBox(width: 8,)
                 ],
               ),
@@ -200,12 +200,12 @@ class _CreateClassUIState extends State<CreateClassUI> {
                   children: [
                     InkWell(
                       onTap: () => cropImage(context,(p0) => setState(()=>_fileImage=p0!), ''),
-                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):(_imageLink.isNotEmpty&&CommonKey.EDIT==_keyFlow)?loadPhoto.imageNetwork(_imageLink, 150, 150):Image.asset(Images.photo_notfound, width: 150, height: 150,fit: BoxFit.fill,)),
+                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150/3*4, height: 150,):(_imageLink.isNotEmpty&&CommonKey.EDIT==_keyFlow)?loadPhoto.networkImage(_imageLink, 150, 150/3*4):Image.asset(Images.pick_photo, width: 150/3*4, height: 150,fit: BoxFit.fill,)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
-                        decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).nameClass, hintText: Languages.of(context).nameClass),
+                        decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).nameClass, hintText: Languages.of(context).nameClass),
                         onChanged: (value)=>setState(()=> _nameClass=value),
                         controller: _controllerNameClass,
                       ),
@@ -227,7 +227,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
-                        decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).describeClass, hintText: Languages.of(context).describeClass),
+                        decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).describeClass, hintText: Languages.of(context).describeClass),
                         onChanged: (value)=>setState(()=> _describe=value),
                         maxLines: 10,
                         controller: _controllerDescribeClass,
@@ -251,7 +251,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                               locale: LocaleType.vi);
                         },
                         child: TextFormField(
-                          decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).startHours, hintText: Languages.of(context).startHours),
+                          decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).startHours, hintText: Languages.of(context).startHours),
                           enabled: false,
                           controller: _timeController,
                         ),

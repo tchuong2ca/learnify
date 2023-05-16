@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../res/images.dart';
 import '../restart.dart';
@@ -61,8 +62,8 @@ Future<void> cropImage(BuildContext context,Function (File?) onResult, String ty
       uiSettings: [
         AndroidUiSettings(
             toolbarTitle: 'Cropper',
-            toolbarColor: CommonColor.blue,
-            toolbarWidgetColor: CommonColor.white,
+            toolbarColor: AppColors.blue,
+            toolbarWidgetColor: AppColors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
         IOSUiSettings(
@@ -92,27 +93,40 @@ String getDateWeek(int day){
 
   return value;
 }
-Future<void> selectPhoto(Function (List<File>?) onSelectFile, String type) async {
+Future<void> selectFile(Function (List<File>?) onSelectFile, String type) async {
   if(CommonKey.CAMERA==type){
-    final pickedCam = await ImagePicker().getImage(source:ImageSource.camera);
-    if(pickedCam==null){
+    final photo = await ImagePicker().getImage(source:ImageSource.camera);
+    if(photo==null){
       onSelectFile(null);
     }else {
-      List<File> fileCam = [];
-      fileCam.add(File(pickedCam.path));
-      onSelectFile(fileCam);
+      List<File> listPhoto = [];
+      listPhoto.add(File(photo.path));
+      onSelectFile(listPhoto);
     }
-  }else{
-    final pickedImages = await ImagePicker().pickMultiImage();
-    if(pickedImages==null){
+
+  }
+  else if('VIDEO'==type){
+    final galleryVideo  = await ImagePicker().pickVideo(source: ImageSource.gallery);
+    if(galleryVideo ==null){
       onSelectFile(null);
     }else {
-      if(pickedImages.isNotEmpty){
-        List<File> file =[];
-        for(XFile i in pickedImages){
-          file.add(File(i.path));
+      List<File> galleryListVideo = [];
+      galleryListVideo.add(File(galleryVideo .path));
+      onSelectFile(galleryListVideo);
+    }
+
+  }
+  else{
+    final image = await ImagePicker().pickMultiImage();
+    if(image==null){
+      onSelectFile(null);
+    }else {
+      if(image.isNotEmpty){
+        List<File> listImage =[];
+        for(XFile i in image){
+          listImage.add(File(i.path));
         }
-        onSelectFile(file);
+        onSelectFile(listImage);
       }
     }
   }
@@ -174,6 +188,9 @@ String getNameDateNow(){
 List splitList(String content){
   return content.split(":");
 }
+String getFileExtension(String fileName) {
+  return "." + fileName.split('.').last;
+}
 Future<void> signOut(BuildContext context) async {
   await SharedPreferencesData.DeleteAll();
   await FirebaseAuth.instance.signOut();
@@ -189,7 +206,7 @@ void listenStatus(BuildContext context, bool value){
   }
 }
 class loadPhoto{
-  static Widget imageNetwork(String? url, double? h, double w) {
+  static Widget networkImage(String? url, double? h, double w) {
     return Container(
       height: h,
       width: w,
@@ -210,9 +227,12 @@ class loadPhoto{
               return child;
             }
             return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes! : null,
-              ),
+              child:
+
+              LoadingAnimationWidget.staggeredDotsWave(
+                color: AppColors.blueLight,
+                size: 25,
+              )
             );
           },
           errorBuilder:
@@ -240,9 +260,11 @@ class loadPhoto{
               return child;
             }
             return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes! : null,
-              ),
+              child:
+              LoadingAnimationWidget.staggeredDotsWave(
+                color: AppColors.blueLight,
+                size: 25,
+              )
             );
           },
           errorBuilder:
@@ -255,7 +277,6 @@ class loadPhoto{
     );
   }
 }
-
 String replaceKey(String content, String keyFlow){
   return content.replaceAll(keyFlow, "");
 }

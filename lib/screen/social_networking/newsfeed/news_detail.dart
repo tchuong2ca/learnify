@@ -6,6 +6,8 @@ import 'package:online_learning/common/functions.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/social_networking/newsfeed/view_photo.dart';
 
+import '../../../res/images.dart';
+
 class NewsDetailPage extends StatelessWidget {
   Map<String, dynamic>? data;
   NewsDetailPage(this.data);
@@ -38,7 +40,7 @@ class NewsDetailPage extends StatelessWidget {
                     children: [
                       SizedBox(width: 4,),
                       ClipOval(
-                        child: loadPhoto.imageNetwork(data!['userAvatar']!=null?data!['userAvatar']:'', 50, 50),
+                        child: loadPhoto.networkImage(data!['userAvatar']!=null?data!['userAvatar']:'', 50, 50),
                       ),
                       SizedBox(width: 4,),
                       Expanded(
@@ -47,8 +49,8 @@ class NewsDetailPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            NeoText(data!['fullname']!=null?data!['fullname']:'', textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: CommonColor.black)),
-                            NeoText(data!['timestamp']!=null?postedTime(data!['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: CommonColor.black_light)),
+                            NeoText(data!['fullname']!=null?data!['fullname']:'', textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.black)),
+                            NeoText(data!['timestamp']!=null?postedTime(data!['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: AppColors.black_light)),
                           ],
                         ),
                       ),
@@ -56,13 +58,15 @@ class NewsDetailPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: NeoText(data!['description']!=null?data!['description']:'', textStyle: TextStyle(color: CommonColor.black, fontSize: 14,)),
+                    child: NeoText(data!['description']!=null?data!['description']:'', textStyle: TextStyle(color: AppColors.black, fontSize: 14,)),
                   ),
                   Wrap(
                     children: List.generate(listImage.length, (index) => InkWell(
-                        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>PhotosPageView(data!['mediaUrl'], index))),
+                        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(data!['mediaUrl'], index))),
                         child: Column(
                           children: [
+                            listImage[index].toString().contains('mp4')?
+                            Image.asset(Images.horizontalplaybtn,):
                             loadPhoto.imageNetworkWrapContent(listImage[index] != null ? listImage[index] : ''),
                             Divider()
                           ],

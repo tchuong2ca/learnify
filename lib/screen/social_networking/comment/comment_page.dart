@@ -7,6 +7,7 @@ import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/social_networking/comment/presenter/comment_presenter.dart';
 import 'package:online_learning/screen/social_networking/newsfeed/view_photo.dart';
 
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:online_learning/screen/social_networking/comment/model/comment_model.dart';
 import '../../../common/colors.dart';
 import '../../../common/keys.dart';
@@ -64,7 +65,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                     stream: _streamNew,
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
-                        return Center(child: Text('Loading...'),);
+                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
                       }else if(snapshot.hasError){
                         return notfound(Languages.of(context).noData);
                       }else if(!snapshot.hasData){
@@ -87,7 +88,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                 children: [
                                   SizedBox(width: 4,),
                                   ClipOval(
-                                    child: loadPhoto.imageNetwork(data['userAvatar']!=null?data['userAvatar']:'', 50, 50),
+                                    child: loadPhoto.networkImage(data['userAvatar']!=null?data['userAvatar']:'', 50, 50),
                                   ),
                                   SizedBox(width: 4,),
                                   Expanded(
@@ -96,8 +97,8 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        NeoText(data['fullname']!=null?data['fullname']:'', textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: CommonColor.black)),
-                                        NeoText(data['timestamp']!=null?postedTime(data['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: CommonColor.black_light)),
+                                        NeoText(data['fullname']!=null?data['fullname']:'', textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.black)),
+                                        NeoText(data['timestamp']!=null?postedTime(data['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: AppColors.black_light)),
                                       ],
                                     ),
                                   ),
@@ -105,11 +106,11 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: NeoText(data['description']!=null?data['description']:'', textStyle: TextStyle(color: CommonColor.black, fontSize: 14,)),
+                                child: NeoText(data['description']!=null?data['description']:'', textStyle: TextStyle(color: AppColors.black, fontSize: 14,)),
                               ),
                               listImage.length==1
                                   ? InkWell(
-                                  onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>PhotosPageView(data['mediaUrl'], 0))),
+                                  onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(data['mediaUrl'], 0))),
                                   child: loadPhoto.imageNetworkWrapContent(
                                       listImage[0] != null ? listImage[0] : ''))
                                   :listImage.length==2?InkWell(
@@ -119,9 +120,9 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    loadPhoto.imageNetwork(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
+                                    loadPhoto.networkImage(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
                                     Spacer(),
-                                    loadPhoto.imageNetwork(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
+                                    loadPhoto.networkImage(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
                                   ],
                                 ),
                               ): InkWell(
@@ -131,20 +132,20 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    loadPhoto.imageNetwork(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/2, getWidthDevice(context)/2-16),
+                                    loadPhoto.networkImage(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/2, getWidthDevice(context)/2-16),
                                     Spacer(),
                                     Column(
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        loadPhoto.imageNetwork(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
+                                        loadPhoto.networkImage(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
                                         SizedBox(height: 8,),
                                         Stack(
                                           alignment: Alignment.center,
                                           children: [
-                                            loadPhoto.imageNetwork(listImage[2]!=null?listImage[2]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
-                                            NeoText('${listImage.length>3?'+${listImage.length}':''}', textStyle: TextStyle(color: CommonColor.greyLight, fontSize: 25))
+                                            loadPhoto.networkImage(listImage[2]!=null?listImage[2]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
+                                            NeoText('${listImage.length>3?'+${listImage.length}':''}', textStyle: TextStyle(color: AppColors.greyLight, fontSize: 25))
                                           ],
                                         ),
                                       ],
@@ -159,7 +160,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                 stream: _streamComment,
                                 builder: (context, snapshotsComment){
                                   if(snapshotsComment.connectionState==ConnectionState.waiting){
-                                    return Center(child: Text("Loading..."),);
+                                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50));
                                   }else if(snapshotsComment.hasError){
                                     return notfound(Languages.of(context).noData);
                                   }else if(!snapshotsComment.hasData){
@@ -197,7 +198,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
               margin: EdgeInsets.only(top: 8,),
               padding: EdgeInsets.only(top: 8, bottom: 8),
               decoration: BoxDecoration(
-                  color: CommonColor.grayLight
+                  color: AppColors.grayLight
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -211,7 +212,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                       IconButton(
                         icon: Icon(
                           Icons.clear,
-                          color: CommonColor.redAccent,
+                          color: AppColors.redAccent,
                         ),
                         onPressed: ()=>setState(()=>_fileImage=null),
                       )
@@ -227,12 +228,12 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                         onPressed: ()=>cropImage(context, (p0) => setState(()=> _fileImage=p0!), ''),
                         icon: Icon(
                           Icons.image,
-                          color: CommonColor.blue,
+                          color: AppColors.blue,
                         ),
                       ),
                       Expanded(
                         child: TextFormField(
-                          decoration: CommonTheme.textFieldInputDecorationChat(),
+                          decoration: AppThemes.textFieldInputDecorationChat(),
                           onChanged: (value)=>setState(()=>_message=value),
                           controller: _controllerMess,
                         ),
@@ -299,7 +300,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                           },
                           icon: Icon(
                             Icons.send,
-                            color: CommonColor.blue,
+                            color: AppColors.blue,
                           ),
                         ),
                       )
@@ -327,7 +328,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipOval(
-              child: loadPhoto.imageNetwork(comment.avatar, 40, 40),
+              child: loadPhoto.networkImage(comment.avatar, 40, 40),
             ),
             SizedBox(width: 8,),
             SizedBox(
@@ -337,9 +338,9 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  NeoText(comment.name!, textStyle: TextStyle(fontSize: 14, color: CommonColor.gray,)),
-                  (comment.nameFeedback==null||comment.nameFeedback!.isEmpty)?SizedBox():NeoText(comment.nameFeedback!, textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: CommonColor.black)),
-                  NeoText(comment.content!, textStyle: TextStyle(fontSize: 14, color: CommonColor.black,))
+                  NeoText(comment.name!, textStyle: TextStyle(fontSize: 14, color: AppColors.gray,)),
+                  (comment.nameFeedback==null||comment.nameFeedback!.isEmpty)?SizedBox():NeoText(comment.nameFeedback!, textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.black)),
+                  NeoText(comment.content!, textStyle: TextStyle(fontSize: 14, color: AppColors.black,))
                 ],
               ),
             ),
@@ -349,8 +350,8 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
             ?Padding(
           padding: const EdgeInsets.only(left: 50, top: 8),
           child: InkWell(
-              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>PhotosPageView(image, 0))),
-              child: loadPhoto.imageNetwork(comment.imageLink, getWidthDevice(context)*0.5, getWidthDevice(context)*0.5)),
+              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(image, 0))),
+              child: loadPhoto.networkImage(comment.imageLink, getWidthDevice(context)*0.5, getWidthDevice(context)*0.5)),
         )
             :SizedBox(),
         SizedBox(height: 12,),
@@ -383,7 +384,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
               },
               child: NeoText(
                   Languages.of(context).feedback,
-                  textStyle: TextStyle(color: CommonColor.blue, fontSize: 10)
+                  textStyle: TextStyle(color: AppColors.blue, fontSize: 10)
               ),
             ),
             SizedBox(width: 50,),
@@ -393,7 +394,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
               },
               child: NeoText(
                   Languages.of(context).delete,
-                  textStyle: TextStyle(color: CommonColor.blue, fontSize: 10)
+                  textStyle: TextStyle(color: AppColors.blue, fontSize: 10)
               ),
             ):SizedBox(),
           ],
@@ -420,7 +421,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ClipOval(
-                child: loadPhoto.imageNetwork(comment.avatar, 35, 35),
+                child: loadPhoto.networkImage(comment.avatar, 35, 35),
               ),
               SizedBox(width: 8,),
               SizedBox(
@@ -435,14 +436,14 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        NeoText(comment.name!, textStyle: TextStyle(fontSize: 15, color: CommonColor.black,fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis), maxline: 1),
+                        NeoText(comment.name!, textStyle: TextStyle(fontSize: 15, color: AppColors.black,fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis), maxline: 1),
                         SizedBox(width: 4,),
-                        Expanded(child:(comment.nameFeedback==null||comment.nameFeedback!.isEmpty)?SizedBox():NeoText('@${comment.nameFeedback!}', textStyle: TextStyle(fontSize: 15,  color: CommonColor.gray, overflow: TextOverflow.ellipsis), maxline: 1),
+                        Expanded(child:(comment.nameFeedback==null||comment.nameFeedback!.isEmpty)?SizedBox():NeoText('@${comment.nameFeedback!}', textStyle: TextStyle(fontSize: 15,  color: AppColors.gray, overflow: TextOverflow.ellipsis), maxline: 1),
                         )
                       ],
                     ),
                     SizedBox(height: 4,),
-                    NeoText(comment.content!, textStyle: TextStyle(fontSize: 15, color: CommonColor.black,))
+                    NeoText(comment.content!, textStyle: TextStyle(fontSize: 15, color: AppColors.black,))
                   ],
                 ),
               ),
@@ -452,8 +453,8 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
               ?Padding(
             padding: const EdgeInsets.only(left: 50, top: 8),
             child: InkWell(
-                onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>PhotosPageView(image, 0))),
-                child: loadPhoto.imageNetwork(comment.imageLink, getWidthDevice(context)*0.5, getWidthDevice(context)*0.5)),
+                onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(image, 0))),
+                child: loadPhoto.networkImage(comment.imageLink, getWidthDevice(context)*0.5, getWidthDevice(context)*0.5)),
           )
               :SizedBox(),
           SizedBox(height: 12,),
@@ -479,7 +480,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                 },
                 child: NeoText(
                     Languages.of(context).feedback,
-                    textStyle: TextStyle(color: CommonColor.blue, fontSize: 10)
+                    textStyle: TextStyle(color: AppColors.blue, fontSize: 10)
                 ),
               ),
               SizedBox(width: 50,),
@@ -494,7 +495,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                 },
                 child: NeoText(
                     Languages.of(context).delete,
-                    textStyle: TextStyle(color: CommonColor.blue, fontSize: 10)
+                    textStyle: TextStyle(color: AppColors.blue, fontSize: 10)
                 ),
               ):SizedBox(),
             ],

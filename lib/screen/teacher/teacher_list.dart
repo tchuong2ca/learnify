@@ -11,6 +11,7 @@ import '../../languages/languages.dart';
 import '../../res/images.dart';
 import 'add_new_teacher_ui.dart';
 
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 class TeacherPage extends StatefulWidget {
   String? _role;
 
@@ -57,14 +58,14 @@ class _TeacherPageState extends State<TeacherPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText( Languages.of(context).teacher, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText( Languages.of(context).teacher, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 ElevatedButton(
                     onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (_)=>AddNewTeacherUI(null, widget._role)));
                     },
-                    child: NeoText('Thêm giáo viên', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CommonColor.white))),
+                    child: NeoText('Thêm giáo viên', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                 SizedBox(width: 8,)
               ],
             ),
@@ -83,9 +84,9 @@ class _TeacherPageState extends State<TeacherPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(width: 8,),
-            IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+            IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
             SizedBox(width: 8,),
-            Expanded(child: NeoText(Languages.of(context).teacher, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+            Expanded(child: NeoText(Languages.of(context).teacher, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
             SizedBox(width: 52,)
           ],
         ),
@@ -96,7 +97,7 @@ class _TeacherPageState extends State<TeacherPage> {
                 stream: _streamTeacher!,
                 builder: (context, snapshot){
                   if(snapshot.connectionState==ConnectionState.waiting){
-                    return Center(child: Text('Loading...'),);
+                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
                   }else if(snapshot.hasError){
                     return Center(child: Text('No data...'),);
                   }else if(!snapshot.hasData){
@@ -121,7 +122,7 @@ class _TeacherPageState extends State<TeacherPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  loadPhoto.imageNetwork(data['avatar'], getWidthDevice(context)/4, getWidthDevice(context)/2-32),
+                                  loadPhoto.networkImage(data['avatar'], getWidthDevice(context)/4, getWidthDevice(context)/2-32),
                                   SizedBox(height: 8,),
                                   NeoText('GV: ${data['fullname']}', textStyle: TextStyle(fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2, textAlign: TextAlign.center),
                                   SizedBox(height: 8,),
@@ -143,7 +144,7 @@ class _TeacherPageState extends State<TeacherPage> {
 
                                         icon: Icon(
                                           Icons.edit,
-                                          color: CommonColor.blue,
+                                          color: AppColors.blue,
                                         ),
                                       ),
                                       IconButton(
@@ -159,7 +160,10 @@ class _TeacherPageState extends State<TeacherPage> {
                                                   child: Text('No'),
                                                 ),
                                                 TextButton(
-                                                  onPressed: () =>   _presenter!.lookAccount(data['phone']),
+                                                  onPressed: (){
+                                                    _presenter!.lookAccount(data['phone']);
+                                                    Navigator.pop(context);
+                                                  },
                                                   child: Text('Yes'),
                                                 ),
                                               ],
@@ -169,7 +173,7 @@ class _TeacherPageState extends State<TeacherPage> {
                                         },
                                         icon: Icon(
                                           Icons.lock_open_sharp,
-                                          color: CommonColor.blue,
+                                          color: AppColors.blue,
                                         ),
                                       ),
                                     ],

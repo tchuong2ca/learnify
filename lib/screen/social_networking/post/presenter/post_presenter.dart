@@ -13,19 +13,27 @@ import '../model/image.dart';
 import '../model/posts.dart';
 
 class PostPresenter {
-  List<ImageModel> getListImage(List<ImageModel> list, List<File> listFile){
-    List<ImageModel> imageList = list;
+  List<FileModel> getFileList(List<FileModel> list, List<File> listFile){
+    List<FileModel> fileList = list;
     for(File f in listFile){
-      imageList.add(ImageModel(fileImage: f));
+      fileList.add(FileModel(fileImage: f));
     }
-    return imageList;
+    return fileList;
   }
 
+  List<String> _fileList = [];
+  Future<List<String>> getLink(List<FileModel> fileList,Posts news)async{
+    for(FileModel model in fileList){
+      String url = await uploadFile(model.fileImage!, news.username!);
+      _fileList.add(url);
+    }
+    return _fileList;
+  }
   String _url='';
-  Future<String> upLoadImage(File file, String username) async{
-    final metadata = SettableMetadata(contentType: "image/jpeg");
+  Future<String> uploadFile(File file, String username) async{
+    final metadata = SettableMetadata(contentType: getFileExtension(file.path)=='.mp4'?"video/mp4":"image/jpeg");
     final storageRef = FirebaseStorage.instance.ref();
-    String path = 'social/$username/${getCurrentTime()}.jpg';
+    String path = getFileExtension(file.path)=='.mp4'?'social/$username/${getCurrentTime()}.mp4':'social/$username/${getCurrentTime()}.jpg';
     await storageRef
         .child("$path")
         .putFile(file, metadata).whenComplete(() async{
@@ -34,14 +42,7 @@ class PostPresenter {
     return _url;
   }
 
-  List<String> _imageList = [];
-  Future<List<String>> getLink(List<ImageModel> listImage,Posts news)async{
-    for(ImageModel model in listImage){
-      String url = await upLoadImage(model.fileImage!, news.username!);
-      _imageList.add(url);
-    }
-    return _imageList;
-  }
+
 
   Future<bool> createNewPost( List<String> imageList, Posts news) async{
 
@@ -74,16 +75,16 @@ class PostPresenter {
     return person;
   }
 
-  List<ImageModel> getImageUpdate(List<dynamic> listImage){
-    List<ImageModel> listImageModel = [];
+  List<FileModel> getImageUpdate(List<dynamic> listImage){
+    List<FileModel> listImageModel = [];
     for(dynamic list in listImage){
-      listImageModel.add(ImageModel(imageLink: list));
+      listImageModel.add(FileModel(imageLink: list));
     }
     return listImageModel;
   }
 
-  Future<bool> UpdatePost({required String idNews,required List<ImageModel> listModel, required List<dynamic> listLink,required String description, required Posts news})async{
-    List<ImageModel> listModelFile = await listModel.where((element) => element.fileImage!=null).toList();
+  Future<bool> updatePost({required String idNews,required List<FileModel> listModel, required List<dynamic> listLink,required String description, required Posts news})async{
+    List<FileModel> listModelFile = await listModel.where((element) => element.fileImage!=null).toList();
     if(listModelFile.length>0){
       List<String> listLinkImage = await getLink(listModelFile, news);
       listLink.addAll(listLinkImage);

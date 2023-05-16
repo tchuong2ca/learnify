@@ -49,9 +49,9 @@ class _DocDetailsPageState extends State<DocDetailsPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(widget._document!.name!, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(widget._document!.name!, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 SizedBox(width: 52,)
               ],
             ),
@@ -62,11 +62,11 @@ class _DocDetailsPageState extends State<DocDetailsPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                loadPhoto.imageNetwork(widget._document!.imageUrl, getHeightDevice(context)*0.3, getWidthDevice(context)),
+                loadPhoto.networkImage(widget._document!.imageUrl, getHeightDevice(context)*0.3, getWidthDevice(context)),
                 SizedBox(height: 8,),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: NeoText('${Languages.of(context).teacher}: ${widget._document!.teacher}', textStyle: TextStyle(fontSize: 14, color: CommonColor.black)),
+                  child: NeoText('${Languages.of(context).teacher}: ${widget._document!.teacher}', textStyle: TextStyle(fontSize: 14, color: AppColors.black)),
                 ),
                 Divider(),
                 SizedBox(height: 8,),
@@ -99,10 +99,10 @@ class _DocDetailsPageState extends State<DocDetailsPage> {
             children: [
               Icon(
                 Icons.document_scanner,
-                color: CommonColor.blue,
+                color: AppColors.blue,
               ),
               SizedBox(width: 4,),
-              Expanded(child: NeoText(doc.fileName!, textStyle: TextStyle(fontSize: 12, color: CommonColor.blue, overflow: TextOverflow.ellipsis), maxline: 1)),
+              Expanded(child: NeoText(doc.fileName!, textStyle: TextStyle(fontSize: 12, color: AppColors.blue, overflow: TextOverflow.ellipsis), maxline: 1)),
             ],
           ),
           Divider(),

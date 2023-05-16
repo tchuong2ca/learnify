@@ -124,7 +124,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
         gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: <Color>[CommonColor.white, Colors.lightBlueAccent]),
+            colors: <Color>[AppColors.white, Colors.lightBlueAccent]),
       ),
       // decoration: BoxDecoration(
       //   image: DecorationImage(
@@ -158,12 +158,12 @@ class SplashTutorialState extends State<SplashTutorialPage>{
             onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (_)=>Login(_now.hour < 18&&_now.hour>5?Mode.day:Mode.night, 0))),
             child: NeoText(
                 Languages.of(context).login,
-                textStyle: TextStyle(fontSize: 16, color: CommonColor.blue)
+                textStyle: TextStyle(fontSize: 16, color: AppColors.blue)
             ),
             shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(16.0),
             ),
-            color: CommonColor.white,
+            color: AppColors.white,
           ),
         ):SizedBox(),
         SizedBox(height: AppDimens.spaceHalf,),
@@ -173,15 +173,15 @@ class SplashTutorialState extends State<SplashTutorialPage>{
             onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>Login(_now.hour < 18&&_now.hour>5?Mode.day:Mode.night,1))),
             child: NeoText(
                 Languages.of(context).signUp,
-                textStyle: TextStyle(fontSize: 16, color: CommonColor.white)),
+                textStyle: TextStyle(fontSize: 16, color: AppColors.white)),
             shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(16.0),
                 side: BorderSide(
-                    color: CommonColor.white,
+                    color: AppColors.white,
                     width: 0.5
                 )
             ),
-            color: CommonColor.blue,
+            color: AppColors.blue,
           ),
         ):SizedBox(),
 
@@ -209,8 +209,8 @@ class SplashTutorialState extends State<SplashTutorialPage>{
             radius: 4.0,
             dotWidth: 8.0,
             dotHeight: 8.0,
-            dotColor: CommonColor.blue,
-            activeDotColor: CommonColor.white),
+            dotColor: AppColors.blue,
+            activeDotColor: AppColors.white),
       ),
     );
   }

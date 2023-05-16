@@ -32,7 +32,7 @@ class PdfViewerPage extends StatelessWidget{
                   ElevatedButton(child: Text(Languages.of(context).exercise),onPressed: (){ Navigator.push(context,
                       MaterialPageRoute(builder: (_)=>
                           //ExercisePage(_listQA, _lessonDetail)
-                      ExercisePage()
+                      ExercisePage(_listQA, _lessonDetail)
                       ));},)
               // ButtonDefault(Languages.of(context).exercise, (data) {
               //   Navigator.push(context, MaterialPageRoute(builder: (_)=>ExercisePage(_listQA, _lessonDetail)));

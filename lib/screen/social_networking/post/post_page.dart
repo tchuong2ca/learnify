@@ -23,7 +23,7 @@ class PostPage extends StatefulWidget {
 
 class _PostPageState extends State<PostPage> {
   PostPresenter? _presenter;
-  List<ImageModel> _imageList=[];
+  List<FileModel> _fileList=[];
   String _content = '';
   Info? _person;
   TextEditingController _textController = TextEditingController();
@@ -35,7 +35,7 @@ class _PostPageState extends State<PostPage> {
     if(CommonKey.EDIT==widget._keyFlow){
       _textController = TextEditingController(text: widget._data!['description']);
       _listLink = widget._data!['mediaUrl'];
-      _imageList = _presenter!.getImageUpdate(_listLink);
+      _fileList = _presenter!.getImageUpdate(_listLink);
       _content = widget._data!['description'];
     }
   }
@@ -64,7 +64,7 @@ class _PostPageState extends State<PostPage> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.arrow_back_sharp,
-                          color: CommonColor.white, size: 24),
+                          color: AppColors.white, size: 24),
                       onPressed: () {
                         Navigator.pop(context);
                       },
@@ -73,7 +73,7 @@ class _PostPageState extends State<PostPage> {
                       alignment: Alignment.center,
                       child: NeoText('Đăng bài',
                           textStyle: TextStyle(
-                              fontSize: 18, color: CommonColor.white)),
+                              fontSize: 18, color: AppColors.white)),
                     ),
                   ],
                 ),
@@ -82,16 +82,16 @@ class _PostPageState extends State<PostPage> {
                   child: TextButton(
                     style: ButtonStyle(
                         backgroundColor:
-                        MaterialStateProperty.all<Color>(CommonColor.white),
+                        MaterialStateProperty.all<Color>(AppColors.white),
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0),
-                                side: BorderSide(color: CommonColor.blue)))),
+                                side: BorderSide(color: AppColors.blue)))),
                     onPressed: () {
                       if(_content.isEmpty){
                         Fluttertoast.showToast(msg: Languages.of(context).emptyContent);
 
-                      }else if(_imageList.length==0){
+                      }else if(_fileList.length==0){
                         Fluttertoast.showToast(msg: Languages.of(context).imageNull);
                       }else{
                         Posts news = Posts(
@@ -102,12 +102,24 @@ class _PostPageState extends State<PostPage> {
                           username: _person!.phone,
 
                         );
-                        showLoaderDialog(context);
+                        AlertDialog alert=AlertDialog(
+                          content: new Row(
+                            children: [
+                              CircularProgressIndicator(),
+                              Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+                            ],),
+                        );
+                        showDialog(barrierDismissible: false,
+                          context:context,
+                          builder:(BuildContext context){
+                            return alert;
+                          },
+                        );
                         CommonKey.EDIT!=widget._keyFlow
-                            ?_presenter!.getLink(_imageList, news).then((value) => _presenter!.createNewPost(value, news).then((value) {
+                            ?_presenter!.getLink(_fileList, news).then((value) => _presenter!.createNewPost(value, news).then((value) {
                           listenStatus(context, value);
                         }))
-                            :_presenter!.UpdatePost(idNews: widget._data!['id'], listModel: _imageList, listLink: widget._data!['mediaUrl']
+                            :_presenter!.updatePost(idNews: widget._data!['id'], listModel: _fileList, listLink: widget._data!['mediaUrl']
                             , description: _content, news: news).then((value) {
                           listenStatus(context, value);
                         });
@@ -133,8 +145,8 @@ class _PostPageState extends State<PostPage> {
                   child: TextField(
                     autocorrect: true,
                     decoration: InputDecoration.collapsed(
-                        hintText: 'Bạn đang nghĩ j',
-                        hintStyle: TextStyle(fontSize: 18,fontFamily: 'LexendLight',color: CommonColor.grey)
+                        hintText: 'Bạn đang nghĩ gì',
+                        hintStyle: TextStyle(fontSize: 18,fontFamily: 'LexendLight',color: AppColors.grey)
                     ),
                     maxLines: 10,
                     onChanged: (value)=>setState(()=>_content=value),
@@ -144,7 +156,7 @@ class _PostPageState extends State<PostPage> {
                 Container(
                   width: getWidthDevice(context),
                   height: getHeightDevice(context)/13,
-                  color: CommonColor.greyLight,
+                  color: AppColors.greyLight,
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -154,27 +166,37 @@ class _PostPageState extends State<PostPage> {
                       Expanded(
                         child: NeoText(
                             Languages.of(context).choseImage,
-                            textStyle: TextStyle(fontSize: 16, color: CommonColor.blue)
+                            textStyle: TextStyle(fontSize: 16, color: AppColors.blue)
                         ),
                       ),
                       IconButton(
-                        onPressed: ()=>selectPhoto((p0){
-                          _imageList = _presenter!.getListImage(_imageList, p0!);
+                        onPressed: ()=>selectFile((p0){
+                          _fileList = _presenter!.getFileList(_fileList, p0!);
                           setState(()=> null);
                         }, CommonKey.CAMERA),
                         icon: Icon(
                           Icons.camera_alt,
-                          color: CommonColor.blue,
+                          color: AppColors.blue,
                         ),
                       ),
                       IconButton(
-                        onPressed: ()=>selectPhoto((p0) {
-                          _imageList = _presenter!.getListImage(_imageList, p0!);
+                        onPressed: ()=>selectFile((p0) {
+                          _fileList = _presenter!.getFileList(_fileList, p0!);
                           setState(()=> null);
                         }, ''),
                         icon: Icon(
                           Icons.image,
-                          color: CommonColor.blue,
+                          color: AppColors.blue,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: ()=>selectFile((p0) {
+                          _fileList = _presenter!.getFileList(_fileList, p0!);
+                          setState(()=> null);
+                        },'VIDEO'),
+                        icon: Icon(
+                          Icons.video_collection_rounded,
+                          color: AppColors.blue,
                         ),
                       )
                     ],
@@ -182,9 +204,9 @@ class _PostPageState extends State<PostPage> {
                 ),
                 Expanded(
                   child: GridView.count(
-                    crossAxisCount: 2,
+                    crossAxisCount: 4,
                     shrinkWrap: true,
-                    children: List.generate(_imageList.length, (index) =>_itemImage(_imageList[index], index)),
+                    children: List.generate(_fileList.length, (index) =>_itemImage(_fileList[index], index)),
                   ),
                 )
 
@@ -196,24 +218,30 @@ class _PostPageState extends State<PostPage> {
     );
   }
 
-  Widget _itemImage(ImageModel imageModel, int index){
+  Widget _itemImage(FileModel fileModel, int index){
     return Card(
         margin: EdgeInsets.all(8),
         child: Stack(
           children: [
-            imageModel.imageLink!=null
-                ?loadPhoto.imageNetwork('${imageModel.imageLink}', getWidthDevice(context)/2-16, getWidthDevice(context)/2-16)
-                :Image(image: FileImage(imageModel.fileImage!), width: getWidthDevice(context)/2-16, height: getWidthDevice(context)/2-16,),
+            fileModel.imageLink!=null
+                ?loadPhoto.networkImage('${fileModel.imageLink}', getWidthDevice(context)/2-16, getWidthDevice(context)/2-16)
+                :Image(image: FileImage(fileModel.fileImage!),
+              width: getWidthDevice(context)/2-16, height: getWidthDevice(context)/2-16,
+              errorBuilder:
+                  (BuildContext context, Object exception, StackTrace? stackTrace) {
+
+                return  Center(child:  Text(getFileExtension(fileModel.fileImage!.path)),);
+              },),
             Positioned(
               top: 0,
               right: 0,
               child: IconButton(
                 icon: Icon(
                   Icons.close,
-                  color: CommonColor.greyLight,
+                  color: AppColors.greyLight,
                 ),
                 onPressed: ()=>setState((){
-                  _imageList.removeAt(index);
+                  _fileList.removeAt(index);
                   if(CommonKey.EDIT==widget._keyFlow){
                     _listLink.removeAt(index);
                   }
@@ -229,4 +257,5 @@ class _PostPageState extends State<PostPage> {
     _person = await _presenter!.getAccountInfor();
     setState(()=>null);
   }
+
 }

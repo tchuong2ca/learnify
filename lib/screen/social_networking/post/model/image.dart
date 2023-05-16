@@ -1,8 +1,8 @@
 import 'dart:io';
 
-class ImageModel{
+class FileModel{
   File? fileImage;
   String? imageLink;
 
-  ImageModel({this.fileImage, this.imageLink});
+  FileModel({this.fileImage, this.imageLink});
 }

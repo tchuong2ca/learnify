@@ -92,9 +92,9 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width: 8,),
-                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText( Languages.of(context).teacherAdd, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText( Languages.of(context).teacherAdd, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
                       onPressed: (){
                         showLoaderDialog(context);
@@ -127,7 +127,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                           });
                         }
                       },
-                      child: NeoText('Xác nhận', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CommonColor.white))),
+                      child: NeoText('Xác nhận', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                   SizedBox(width: 8,)
                 ],
               ),
@@ -147,9 +147,9 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width: 8,),
-                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText(Languages.of(context).teacher, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText(Languages.of(context).teacher, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   SizedBox(width: 52,)
                 ],
               ),
@@ -167,7 +167,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                                 decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(Radius.circular(200)),
                                     border: Border.all(
-                                        color: CommonColor.orangeOriginLight,
+                                        color: AppColors.orangeOriginLight,
                                         width: 1.0
                                     )
                                 ),
@@ -195,12 +195,12 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                                   width: 28,
                                   decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(Radius.circular(200)),
-                                      color: CommonColor.white,
-                                      border: Border.all(width: 1.0, color: CommonColor.orangeOriginLight)
+                                      color: AppColors.white,
+                                      border: Border.all(width: 1.0, color: AppColors.orangeOriginLight)
                                   ),
                                   child: Center(
                                     child: IconButton(
-                                      icon: const Icon(Icons.camera_alt, size: 12, color: CommonColor.grey,),
+                                      icon: const Icon(Icons.camera_alt, size: 12, color: AppColors.grey,),
                                       onPressed: (){
                                         cropImage(context, (p0) => setState(()=>_fileImage=p0), CommonKey.CAMERA);
                                       },
@@ -212,7 +212,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0, left: 8.0, top: 16),
                         child: TextFormField(
-                          decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).fullName, hintText: Languages.of(context).fullName),
+                          decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).fullName, hintText: Languages.of(context).fullName),
                           controller: _nameController,
                           maxLines: 1,
                           onChanged: (value)=>setState((){
@@ -228,7 +228,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                         padding: EdgeInsets.all(8),
                         child: TextFormField(
                           controller: _phoneController,
-                          decoration: CommonTheme.textFieldInputDecoration(hintText: Languages.of(context).phone, labelText: Languages.of(context).phone),
+                          decoration: AppThemes.textFieldInputDecoration(hintText: Languages.of(context).phone, labelText: Languages.of(context).phone),
                           maxLines: 1,
                           onChanged: (value)=>setState(()=> _phone=value),
                           keyboardType: TextInputType.phone,
@@ -243,7 +243,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                         padding: EdgeInsets.all(8),
                         child: TextFormField(
                           controller: _mailController,
-                          decoration: CommonTheme.textFieldInputDecoration(hintText: Languages.of(context).email, labelText: Languages.of(context).email),
+                          decoration: AppThemes.textFieldInputDecoration(hintText: Languages.of(context).email, labelText: Languages.of(context).email),
                           maxLines: 1,
                           onChanged: (value)=>setState(()=> _email=value),
                           keyboardType: TextInputType.emailAddress,
@@ -258,7 +258,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                         padding: EdgeInsets.all(8),
                         child: TextFormField(
                           controller: _expController,
-                          decoration: CommonTheme.textFieldInputDecoration(hintText: 'Số năm kinh nghiệm', labelText: 'Số năm kinh nghiệm'),
+                          decoration: AppThemes.textFieldInputDecoration(hintText: 'Số năm kinh nghiệm', labelText: 'Số năm kinh nghiệm'),
                           maxLines: 1,
                           onChanged: (value)=>setState(()=> _exp=value),
                           enabled: CommonKey.ADMIN==widget._role?true:false,
@@ -268,7 +268,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                         padding: EdgeInsets.all(8),
                         child: TextFormField(
                           controller: _specializeController,
-                          decoration: CommonTheme.textFieldInputDecoration(hintText: 'Chuyên môn', labelText: 'Chuyên môn'),
+                          decoration: AppThemes.textFieldInputDecoration(hintText: 'Chuyên môn', labelText: 'Chuyên môn'),
                           maxLines: 1,
                           onChanged: (value)=>setState(()=> _specialize=value),
                           enabled: CommonKey.ADMIN==widget._role?true:false,
@@ -278,7 +278,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                         padding: EdgeInsets.all(8),
                         child: TextFormField(
                           controller: _introController,
-                          decoration: CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).describeInfo, hintText: Languages.of(context).describeInfo),
+                          decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).describeInfo, hintText: Languages.of(context).describeInfo),
                           maxLines: 10,
                           onChanged: (value)=>setState(()=> _intro=value,
                           ),

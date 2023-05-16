@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:online_learning/screen/course/class_list.dart';
 import 'package:online_learning/screen/course/create_course_ui.dart';
 import 'package:online_learning/screen/course/model/course_model.dart';
@@ -61,8 +62,8 @@ class _CourseListState extends State<CourseList> {
             Stack(
               fit: StackFit.expand,
               children: [
-                Center(child: NeoText(CommonKey.HOME_PAGE==widget._keyFlow?'Khóa học':'', textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
-                Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),left: 0,)
+                Center(child: NeoText(CommonKey.HOME_PAGE==widget._keyFlow?'Khóa học':'', textStyle: TextStyle(color: AppColors.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.blue,)),left: 0,)
               ],
             ),
           ),
@@ -75,7 +76,10 @@ class _CourseListState extends State<CourseList> {
                     stream: _stream,
                     builder: (context, snapshot){
                       if(snapshot.connectionState == ConnectionState.waiting){
-                        return Center(child: Text('Loading'),);
+                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(
+                          color: AppColors.blueLight,
+                          size: 50,
+                        ),);
                       }else if(snapshot.hasError){
                         return Center(child: Text('No data'),);
                       }

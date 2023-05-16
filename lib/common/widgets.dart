@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../languages/languages.dart';
 import '../res/images.dart';
@@ -16,12 +17,7 @@ Widget NeoText(String content, {textStyle, maxline, overFlow, textAlign}){
     textAlign: textAlign,
   );
 }
-// Widget LoadingView(){
-//   return SpinKitCircle(
-//     color: Colors.blue,
-//     size: 75.0,
-//   );
-// }
+
 Widget imageClipRRect({String? url,String? urlError,double? width, double? height, double? borderRadius, bool? fitCover}){
   return ClipRRect(
     borderRadius: BorderRadius.all(Radius.circular(borderRadius!=null?borderRadius:50)),
@@ -54,13 +50,13 @@ CustomDialog(
             children: [
               iconData!=null?Icon(
                 iconData,
-                color: CommonColor.yellowDeep,
+                color: AppColors.yellowDeep,
                 size: 80,
               ):SizedBox(),
-              title==null||title.isEmpty?SizedBox():NeoText(title, overFlow: TextOverflow.ellipsis, maxline: 2, textAlign: TextAlign.center, textStyle: TextStyle(fontSize: 16, color: CommonColor.black, fontWeight: FontWeight.bold)),
+              title==null||title.isEmpty?SizedBox():NeoText(title, overFlow: TextOverflow.ellipsis, maxline: 2, textAlign: TextAlign.center, textStyle: TextStyle(fontSize: 16, color: AppColors.black, fontWeight: FontWeight.bold)),
             ],
           ),
-          content: NeoText(content, overFlow: TextOverflow.ellipsis, maxline: 2, textAlign: TextAlign.center, textStyle: TextStyle(fontSize: 14, color: CommonColor.black,)),
+          content: NeoText(content, overFlow: TextOverflow.ellipsis, maxline: 2, textAlign: TextAlign.center, textStyle: TextStyle(fontSize: 14, color: AppColors.black,)),
 
           actions: [
             MaterialButton(
@@ -74,19 +70,9 @@ CustomDialog(
 }
 
 showLoaderDialog(BuildContext context){
-  AlertDialog alert=AlertDialog(
-    content: new Row(
-      children: [
-        CircularProgressIndicator(),
-        Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
-      ],),
-  );
-  showDialog(barrierDismissible: false,
-    context:context,
-    builder:(BuildContext context){
-      return alert;
-    },
-  );
+ return Center(
+   child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50)
+ );
 }
 Widget itemCourseAdmin(BuildContext context, String title, String content, String imageLink,Function(bool click) onClickEdit, Function(bool click) onClickDelete, Function(String id) onClick){
   return InkWell(
@@ -97,7 +83,7 @@ Widget itemCourseAdmin(BuildContext context, String title, String content, Strin
       width: getWidthDevice(context)/2-16,
       padding: EdgeInsets.all(4),
       decoration: BoxDecoration(
-          color: CommonColor.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
           boxShadow: [
             BoxShadow(
@@ -113,15 +99,15 @@ Widget itemCourseAdmin(BuildContext context, String title, String content, Strin
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          loadPhoto.imageNetwork('$imageLink', 150, getWidthDevice(context)),
+          loadPhoto.networkImage('$imageLink', 150, getWidthDevice(context)),
           SizedBox(height: 16,),
-          NeoText('$title', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
+          NeoText('$title', textStyle: TextStyle(color: AppColors.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
           SizedBox(height: 8,),
           NeoText(
               'GV: $content',
               textStyle: TextStyle(
                 overflow: TextOverflow.ellipsis,
-                color: CommonColor.black,
+                color: AppColors.black,
               ),
               maxline: 2
           ),
@@ -135,11 +121,11 @@ Widget itemCourseAdmin(BuildContext context, String title, String content, Strin
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IconButton(
-                  icon: Icon(Icons.edit, color: CommonColor.blue,),
+                  icon: Icon(Icons.edit, color: AppColors.blue,),
                   onPressed: ()=>onClickEdit(true),
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete_forever,color: CommonColor.blue,),
+                  icon: Icon(Icons.delete_forever,color: AppColors.blue,),
                   onPressed: ()=>onClickDelete(true),
                 )
               ],
@@ -159,7 +145,7 @@ Widget itemCourse(BuildContext context, String title, String content, String ima
       width: getWidthDevice(context)/2-16,
       padding: EdgeInsets.all(4),
       decoration: BoxDecoration(
-          color: CommonColor.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
           boxShadow: [
             BoxShadow(
@@ -175,15 +161,15 @@ Widget itemCourse(BuildContext context, String title, String content, String ima
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          loadPhoto.imageNetwork('$imageLink', 150, getWidthDevice(context)),
+          loadPhoto.networkImage('$imageLink', 150, getWidthDevice(context)),
           SizedBox(height: 16,),
-          NeoText('$title', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
+          NeoText('$title', textStyle: TextStyle(color: AppColors.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
           SizedBox(height: 8,),
           NeoText(
               'GV: $content',
               textStyle: TextStyle(
                 overflow: TextOverflow.ellipsis,
-                color: CommonColor.black,
+                color: AppColors.black,
               ),
               maxline: 2
           ),
@@ -201,7 +187,7 @@ Widget itemCourseAdminHours(BuildContext context, String title, String content, 
       width:getWidthDevice(context)/2-16,
       padding: EdgeInsets.all(4),
       decoration: BoxDecoration(
-          color: CommonColor.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
           boxShadow: [
             BoxShadow(
@@ -217,15 +203,15 @@ Widget itemCourseAdminHours(BuildContext context, String title, String content, 
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          loadPhoto.imageNetwork('$imageLink', 150, getWidthDevice(context)),
+          loadPhoto.networkImage('$imageLink', 150, getWidthDevice(context)),
           SizedBox(height: 16,),
-          NeoText('$title', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
+          NeoText('$title', textStyle: TextStyle(color: AppColors.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
           SizedBox(height: 8,),
           NeoText(
               'GV: $content',
               textStyle: TextStyle(
                 overflow: TextOverflow.ellipsis,
-                color: CommonColor.black,
+                color: AppColors.black,
               ),
               maxline: 2
           ),
@@ -236,7 +222,7 @@ Widget itemCourseAdminHours(BuildContext context, String title, String content, 
             children: [
               NeoText( '${Languages.of(context).time}: ', textStyle: TextStyle(
                 overflow: TextOverflow.ellipsis,
-                color: CommonColor.black,
+                color: AppColors.black,
               ),maxline: 1),
               Column(crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -244,7 +230,7 @@ Widget itemCourseAdminHours(BuildContext context, String title, String content, 
                       '$firstDay',
                       textStyle: TextStyle(
                         overflow: TextOverflow.ellipsis,
-                        color: CommonColor.black,
+                        color: AppColors.black,
                       ),
                       maxline: 1
                   ),
@@ -252,7 +238,7 @@ Widget itemCourseAdminHours(BuildContext context, String title, String content, 
                       '$secondDay',
                       textStyle: TextStyle(
                         overflow: TextOverflow.ellipsis,
-                        color: CommonColor.black,
+                        color: AppColors.black,
                       ),
                       maxline: 1
                   ),
@@ -270,11 +256,11 @@ Widget itemCourseAdminHours(BuildContext context, String title, String content, 
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IconButton(
-                  icon: Icon(Icons.edit, color: CommonColor.blue,),
+                  icon: Icon(Icons.edit, color: AppColors.blue,),
                   onPressed: ()=>onClickEdit(true),
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete_forever,color: CommonColor.blue,),
+                  icon: Icon(Icons.delete_forever,color: AppColors.blue,),
                   onPressed: ()=>onClickDelete(true),
                 )
               ],
@@ -292,18 +278,11 @@ Widget itemSeeMore(BuildContext context, String title, Function(String call) cal
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       SizedBox(width: 8,),
-      Expanded(child: NeoText(title, textStyle: TextStyle(color: CommonColor.blue, fontSize: 14, fontWeight: FontWeight.bold))),
+      Expanded(child: NeoText(title, textStyle: TextStyle(color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.bold))),
       InkWell(
         onTap: ()=>callback(''),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            NeoText(Languages.of(context).seeMore, textStyle: TextStyle(color: CommonColor.blue, fontWeight: FontWeight.bold)),
-            Icon(Icons.double_arrow, color: CommonColor.blue,)
-          ],
-        ),
+        child:
+        Image.asset(Images.more, height: 25,)
       ),
       SizedBox(width: 8,),
     ],
@@ -318,7 +297,7 @@ Widget itemCourseHours(BuildContext context, String title, String content, Strin
       width: getWidthDevice(context)/2-16,
       padding: EdgeInsets.all(4),
       decoration: BoxDecoration(
-          color: CommonColor.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.all(Radius.circular(8)),
           boxShadow: [
             BoxShadow(
@@ -334,15 +313,15 @@ Widget itemCourseHours(BuildContext context, String title, String content, Strin
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          loadPhoto.imageNetwork('$imageLink', 150, getWidthDevice(context)),
+          loadPhoto.networkImage('$imageLink', 150, getWidthDevice(context)),
           SizedBox(height: 16,),
-          NeoText('$title', textStyle: TextStyle(color: CommonColor.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
+          NeoText('$title', textStyle: TextStyle(color: AppColors.black, fontWeight: FontWeight.bold, fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2),
           SizedBox(height: 8,),
           NeoText(
               'GV: $content',
               textStyle: TextStyle(
                 overflow: TextOverflow.ellipsis,
-                color: CommonColor.black,
+                color: AppColors.black,
               ),
               maxline: 2
           ),
@@ -352,7 +331,7 @@ Widget itemCourseHours(BuildContext context, String title, String content, Strin
             children: [
               NeoText( '${Languages.of(context).time}: ', textStyle: TextStyle(
                 overflow: TextOverflow.ellipsis,
-                color: CommonColor.black,
+                color: AppColors.black,
               ),maxline: 1),
               Column(crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -360,7 +339,7 @@ Widget itemCourseHours(BuildContext context, String title, String content, Strin
                       '$firstDay',
                       textStyle: TextStyle(
                         overflow: TextOverflow.ellipsis,
-                        color: CommonColor.black,
+                        color: AppColors.black,
                       ),
                       maxline: 1
                   ),
@@ -368,7 +347,7 @@ Widget itemCourseHours(BuildContext context, String title, String content, Strin
                       '$secondDay',
                       textStyle: TextStyle(
                         overflow: TextOverflow.ellipsis,
-                        color: CommonColor.black,
+                        color: AppColors.black,
                       ),
                       maxline: 1
                   ),
@@ -425,7 +404,7 @@ Widget notfound(String mess){
     children: [
       Image.asset('${Images.photo_notfound}', ),
       SizedBox(height: 8,),
-      NeoText(mess, textStyle: TextStyle(color: CommonColor.grey, fontSize: 20))
+      NeoText(mess, textStyle: TextStyle(color: AppColors.grey, fontSize: 20))
     ],
   );
 }

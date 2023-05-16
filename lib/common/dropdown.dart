@@ -25,7 +25,7 @@ class CustomDropDownBox extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
             border: Border.all(
-                color: CommonColor.blue
+                color: AppColors.blue
             )
         ),
         child: DropdownButtonHideUnderline(
@@ -36,14 +36,14 @@ class CustomDropDownBox extends StatelessWidget {
                 child: DropdownButton2(
                   isExpanded: true,
                   value: value,
-                  iconEnabledColor: CommonColor.greyLight,
-                  iconDisabledColor: CommonColor.greyLight,
+                  iconEnabledColor: AppColors.greyLight,
+                  iconDisabledColor: AppColors.greyLight,
                   items: itemsList
                       .map((String item) => DropdownMenuItem<String>(
                     value: item,
                     child: NeoText(
                       item,
-                      textStyle: TextStyle(fontSize: 16, color: CommonColor.black),
+                      textStyle: TextStyle(fontSize: 16, color: AppColors.black),
                     ),
                   ))
                       .toList(),

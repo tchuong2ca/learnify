@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/res/images.dart';
 import 'package:online_learning/screen/course/model/my_class_model.dart';
@@ -77,9 +78,9 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(Languages.of(context).classDetail, textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(Languages.of(context).classDetail, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 CommonKey.MEMBER==_role?SizedBox():ElevatedButton(
                     onPressed: (){
                       showDialog<void>(
@@ -117,7 +118,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                         },
                       );
                     },
-                    child: NeoText(Languages.of(context).delete, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: CommonColor.white))),
+                    child: NeoText(Languages.of(context).delete, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                 SizedBox(width: 8,)
               ],
             ),
@@ -132,7 +133,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                     stream: _stream,
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
-                        return Center(child: Text('Loading...'),);
+                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
                       }else if(snapshot.hasError){
                         return notfound(Languages.of(context).noData);
                       }else if(!snapshot.hasData){
@@ -153,7 +154,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                             _header(),
                             Padding(
                               padding: const EdgeInsets.only(left: 8.0, bottom: 8),
-                              child: NeoText(Languages.of(context).lessonList, textStyle: TextStyle(fontSize: 18, color: CommonColor.black)),
+                              child: NeoText(Languages.of(context).lessonList, textStyle: TextStyle(fontSize: 18, color: AppColors.black)),
                             ),
                             Wrap(
                               children: List.generate(_myClassResult!.lesson!.length, (index) => _lessonItems(_myClassResult!.lesson![index])),
@@ -176,11 +177,11 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
             child: Observer(
               builder: (_){
                 if(_presenter!.state==SingleState.LOADING){
-                  return Icon(Icons.add, color: CommonColor.white,);
+                  return Icon(Icons.add, color: AppColors.white,);
                 }else if(_presenter!.state==SingleState.NO_DATA){
-                  return Icon(Icons.add, color: CommonColor.white,);
+                  return Icon(Icons.add, color: AppColors.white,);
                 }else{
-                  return Icon(Icons.edit, color: CommonColor.white,);
+                  return Icon(Icons.edit, color: AppColors.white,);
                 }
               },
             )
@@ -194,7 +195,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
       onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>LessonPage(lesson, CommonKey.ADMIN, _myClassResult, _myClass, _course, _role))),
       child: Container(
         width: getWidthDevice(context),
-        color: CommonColor.white,
+        color: AppColors.white,
         padding: EdgeInsets.all(8),
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -202,10 +203,10 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(width: 8,),
-            Icon(Icons.circle_outlined, color: CommonColor.blue,),
+            Icon(Icons.circle_outlined, color: AppColors.blue,),
             SizedBox(width: 4,),
-            Expanded(child: NeoText('${lesson.lessonName}', textStyle: TextStyle(fontSize: 14, color: CommonColor.blue))),
-            Icon(lesson.status=='READY'?Icons.start:Icons.access_time_filled, color: CommonColor.blue,),
+            Expanded(child: NeoText('${lesson.lessonName}', textStyle: TextStyle(fontSize: 14, color: AppColors.blue))),
+            Icon(lesson.status=='READY'?Icons.start:Icons.access_time_filled, color: AppColors.blue,),
             SizedBox(width: 8,),
           ],
         ),
@@ -219,29 +220,29 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        loadPhoto.imageNetwork(_myClassResult!.imageLink, getHeightDevice(context)/3, getWidthDevice(context)),
+        loadPhoto.networkImage(_myClassResult!.imageLink, getHeightDevice(context)/3, getWidthDevice(context)),
         SizedBox(height: 8,),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: NeoText(_myClassResult!.nameClass!, textStyle: TextStyle(color: CommonColor.black, fontSize: 18, fontWeight: FontWeight.bold)),
+          child: NeoText(_myClassResult!.nameClass!, textStyle: TextStyle(color: AppColors.black, fontSize: 18, fontWeight: FontWeight.bold)),
         ),
         Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            IconButton(onPressed: ()=>null, icon: Icon(Icons.info, color: CommonColor.blue,)),
-            Expanded(child: NeoText(Languages.of(context).infor, textStyle: TextStyle(fontSize: 14, color: CommonColor.blue))),
+            IconButton(onPressed: ()=>null, icon: Icon(Icons.info, color: AppColors.blue,)),
+            Expanded(child: NeoText(Languages.of(context).infor, textStyle: TextStyle(fontSize: 14, color: AppColors.blue))),
             TextButton(
               onPressed: ()=>_showDialog(),
-              child: NeoText(Languages.of(context).rating, textStyle: TextStyle(fontSize: 14, color: CommonColor.orangeLight)),
+              child: NeoText(Languages.of(context).rating, textStyle: TextStyle(fontSize: 14, color: AppColors.orangeLight)),
             ),
             SizedBox(width: 8,),
           ],
         ),
         Padding(
           padding: const EdgeInsets.only(top: 4, left: 16, right: 16),
-          child: NeoText(_myClassResult!.describe!=null?_myClassResult!.describe!:Languages.of(context).noData, textStyle: TextStyle(color: CommonColor.blue, fontSize: 16)),
+          child: NeoText(_myClassResult!.describe!=null?_myClassResult!.describe!:Languages.of(context).noData, textStyle: TextStyle(color: AppColors.blue, fontSize: 16)),
         ),
         Divider(),
         SizedBox(height: 8,),
@@ -254,7 +255,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
     showDialog(
         context: context,
         builder: (_)=>StatefulBuilder(builder: (_, setState)=>AlertDialog(
-          title: NeoText(_myClassResult!.describe!=null?_myClassResult!.describe!:Languages.of(context).noData, textStyle: TextStyle(color: CommonColor.blue, fontSize: 16)),
+          title: NeoText(_myClassResult!.describe!=null?_myClassResult!.describe!:Languages.of(context).noData, textStyle: TextStyle(color: AppColors.blue, fontSize: 16)),
           content: TextField(
             onChanged: (value)=>setState(()=>_content=value),
           ),

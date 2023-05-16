@@ -8,10 +8,11 @@ import '../../../common/colors.dart';
 import '../../../languages/languages.dart';
 import '../../../res/images.dart';
 
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 class ChatListPage extends StatefulWidget {
-  Map<String, dynamic>? _dataUser;
+  Map<String, dynamic>? _userData;
 
-  ChatListPage(this._dataUser);
+  ChatListPage(this._userData);
 
   @override
   State<ChatListPage> createState() => _ChatListPageState();
@@ -23,7 +24,7 @@ class _ChatListPageState extends State<ChatListPage> {
 
   @override
   void initState() {
-    _streamChat = FirebaseFirestore.instance.collection('user_chat').doc(widget._dataUser!['phone']).collection(widget._dataUser!['phone']).snapshots();
+    _streamChat = FirebaseFirestore.instance.collection('user_chat').doc(widget._userData!['phone']).collection(widget._userData!['phone']).snapshots();
   }
 
   @override
@@ -31,7 +32,7 @@ class _ChatListPageState extends State<ChatListPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        backgroundColor: CommonColor.blue,
+        backgroundColor: AppColors.blue,
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -51,8 +52,8 @@ class _ChatListPageState extends State<ChatListPage> {
                 Stack(
                   fit: StackFit.expand,
                   children: [
-                    Center(child: NeoText('Tin nhắn', textStyle: TextStyle(color: CommonColor.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
-                    Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: CommonColor.blue,)),left: 0,)
+                    Center(child: NeoText('Tin nhắn', textStyle: TextStyle(color: AppColors.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                    Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.blue,)),left: 0,)
                   ],
                 ),
           ),
@@ -61,7 +62,7 @@ class _ChatListPageState extends State<ChatListPage> {
               stream: _streamChat,
               builder: (context, snapshot){
                 if(snapshot.connectionState==ConnectionState.waiting){
-                  return Center(child: Text('Loading...'),);
+                  return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
                 }else if(snapshot.hasError){
                   return notfound(Languages.of(context).noData);
                 }else if(!snapshot.hasData){
@@ -89,7 +90,7 @@ class _ChatListPageState extends State<ChatListPage> {
 
   Widget _itemChatList(Map<String, dynamic> data){
     return InkWell(
-      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatRoomPage(widget._dataUser!, data))),
+      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatRoomPage(widget._userData!, data))),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -100,24 +101,8 @@ class _ChatListPageState extends State<ChatListPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Stack(
-                children: [
-                  ClipOval(
-                    child: loadPhoto.imageNetwork(data['userAvatar']!=null?data['userAvatar']:'', getWidthDevice(context)*0.15, getWidthDevice(context)*0.15),
-                  ),
-                  Positioned(
-                    top: 2,
-                    right: 0,
-                    child: Container(
-                      width: getWidthDevice(context)*0.03,
-                      height: getWidthDevice(context)*0.03,
-                      decoration: BoxDecoration(
-                          color: data['isOnline']==true?CommonColor.green:CommonColor.grey,
-                          shape: BoxShape.circle
-                      ),
-                    ),
-                  )
-                ],
+              ClipOval(
+                child: loadPhoto.networkImage(data['userAvatar']!=null?data['userAvatar']:'', getWidthDevice(context)*0.15, getWidthDevice(context)*0.15),
               ),
               SizedBox(width: 8.0,),
               Expanded(
@@ -126,9 +111,9 @@ class _ChatListPageState extends State<ChatListPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    NeoText(data['fullname']!=null?data['fullname']:'user', textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: CommonColor.black)),
+                    NeoText(data['fullname']!=null?data['fullname']:'user', textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.black)),
                     SizedBox(height: 8,),
-                    NeoText(postedTime(data['timestamp']), textStyle: TextStyle(fontSize: 12, color: CommonColor.gray))
+                    NeoText(postedTime(data['timestamp']), textStyle: TextStyle(fontSize: 12, color: AppColors.gray))
                   ],
                 ),
               )

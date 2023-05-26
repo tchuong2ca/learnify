@@ -92,7 +92,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   SizedBox(width: 8,),
                   IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText('Cập nhật thông tin', textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText('Cập nhật thông tin', textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
                       onPressed: (){
                         showLoaderDialog(context);
@@ -120,7 +120,7 @@ class _PersonalPageState extends State<PersonalPage> {
                 stream: _stream,
                 builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
                   if(snapshot.connectionState==ConnectionState.waiting){
-                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
+                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
                   }
                   if(snapshot.hasError){
                     return Center(child: Text('No data...'),);
@@ -189,7 +189,7 @@ class _PersonalPageState extends State<PersonalPage> {
                         decoration: BoxDecoration(
                             borderRadius: const BorderRadius.all(Radius.circular(200)),
                             border: Border.all(
-                                color: AppColors.orangeOriginLight,
+                                color: AppColors.philippineOrange,
                                 width: 1.0
                             )
                         ),
@@ -212,7 +212,7 @@ class _PersonalPageState extends State<PersonalPage> {
                           decoration: BoxDecoration(
                               borderRadius: const BorderRadius.all(Radius.circular(200)),
                               color: AppColors.white,
-                              border: Border.all(width: 1.0, color: AppColors.orangeOriginLight)
+                              border: Border.all(width: 1.0, color: AppColors.philippineOrange)
                           ),
                           child: Center(
                             child: IconButton(

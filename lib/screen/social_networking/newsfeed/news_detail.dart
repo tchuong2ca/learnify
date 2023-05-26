@@ -50,7 +50,7 @@ class NewsDetailPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             NeoText(data!['fullname']!=null?data!['fullname']:'', textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.black)),
-                            NeoText(data!['timestamp']!=null?postedTime(data!['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: AppColors.black_light)),
+                            NeoText(data!['timestamp']!=null?postedTime(data!['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: AppColors.lightBlack)),
                           ],
                         ),
                       ),

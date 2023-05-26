@@ -73,7 +73,7 @@ class _ScheduleState extends State<Schedule> {
                 SizedBox(width: 8,),
                 IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(_role=='MEMBER'?Languages.of(context).schedule:'Lịch dạy', textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(_role=='MEMBER'?Languages.of(context).schedule:'Lịch dạy', textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 SizedBox(width: 52,)
               ],
             ),
@@ -82,7 +82,7 @@ class _ScheduleState extends State<Schedule> {
             child: Observer(
               builder: (_){
                 if(_presenter!.state==SingleState.LOADING){
-                  return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
+                  return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
                 }else if(_presenter!.state==SingleState.NO_DATA){
                   return Center(child: Text('No data...'),);
                 }else{
@@ -111,7 +111,7 @@ class _ScheduleState extends State<Schedule> {
                         ),
                       ),
                       Container(
-                        color: AppColors.gray,
+                        color: AppColors.pastelBlue,
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,7 +189,7 @@ class _ScheduleState extends State<Schedule> {
         height: _dateNow==date?getWidthDevice(context)/4:getWidthDevice(context)/5.5,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(200)),
-            color: _dateNow==date?AppColors.blue:AppColors.grayLight,
+            color: _dateNow==date?AppColors.blue:AppColors.brightGray,
             boxShadow: [
               BoxShadow(
                 color: _dateNow==date?AppColors.white.withOpacity(0.5):AppColors.white.withOpacity(0),
@@ -216,8 +216,8 @@ class _ScheduleState extends State<Schedule> {
                 :CommonKey.Saturday==day
                 ?Languages.of(context).saturday:
             CommonKey.Sunday==day
-                ?Languages.of(context).sunday:''}', textStyle: TextStyle(fontSize: 14, color: _dateNow==date?AppColors.white:AppColors.black_light)),
-            NeoText('$date', textStyle: TextStyle(fontSize: 12, color: _dateNow==date?AppColors.white:AppColors.black_light))
+                ?Languages.of(context).sunday:''}', textStyle: TextStyle(fontSize: 14, color: _dateNow==date?AppColors.white:AppColors.lightBlack)),
+            NeoText('$date', textStyle: TextStyle(fontSize: 12, color: _dateNow==date?AppColors.white:AppColors.lightBlack))
           ],
         ),
       ),
@@ -229,13 +229,13 @@ class _ScheduleState extends State<Schedule> {
       onTap: (){
         if(CommonKey.MEMBER==_role){
           _presenter!.getCourse(_role!, myClass.idTeacher!).then((value){
-            CourseModel course = _presenter!.getModelCourse(myClass.idCourse!);
+            CourseModel course = _presenter!.getCourseModel(myClass.idCourse!);
             Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(
                 MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, nameClass: myClass.nameClass)
                 , course, _role)));
           });
         }else{
-          Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, nameClass: myClass.nameClass), _presenter!.getModelCourse(myClass.idCourse!), _role)));
+          Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, nameClass: myClass.nameClass), _presenter!.getCourseModel(myClass.idCourse!), _role)));
         }
       },
       child: Row(
@@ -255,7 +255,7 @@ class _ScheduleState extends State<Schedule> {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 boxShadow: [
                   BoxShadow(
-                    color:AppColors.greyLight.withOpacity(0.2),
+                    color:AppColors.cultured.withOpacity(0.2),
                     spreadRadius: 1,
                     offset: Offset(0, 0),
                   )
@@ -303,22 +303,22 @@ class _ScheduleState extends State<Schedule> {
                             ?Languages.of(context).sunday:''} - ${myClass.startHours}',
                             textStyle: TextStyle(fontSize: 14,
                                 color: AppColors.black, overflow: TextOverflow.ellipsis), maxline: 2),
-                      NeoText('${CommonKey.SUN==myClass.onStageSun
-                          ?Languages.of(context).sunday
-                          :CommonKey.SAT==myClass.onStageSat
-                          ?Languages.of(context).saturday
-                          :CommonKey.FRI==myClass.onStageFri
-                          ?Languages.of(context).friday
-                          :CommonKey.THU==myClass.onStageThu
-                          ?Languages.of(context).thursday
-                          :CommonKey.WED==myClass.onStageWed
-                          ?Languages.of(context).wednesday
-                          :CommonKey.TUE==myClass.onStageTue
-                          ?Languages.of(context).tuesday:
-                      CommonKey.MON==myClass.onStageMon
-                          ?Languages.of(context).monday:''} - ${myClass.startHours}',
-                          textStyle: TextStyle(fontSize: 14,
-                              color: AppColors.black, overflow: TextOverflow.ellipsis), maxline: 2)
+                        NeoText('${CommonKey.SUN==myClass.onStageSun
+                            ?Languages.of(context).sunday
+                            :CommonKey.SAT==myClass.onStageSat
+                            ?Languages.of(context).saturday
+                            :CommonKey.FRI==myClass.onStageFri
+                            ?Languages.of(context).friday
+                            :CommonKey.THU==myClass.onStageThu
+                            ?Languages.of(context).thursday
+                            :CommonKey.WED==myClass.onStageWed
+                            ?Languages.of(context).wednesday
+                            :CommonKey.TUE==myClass.onStageTue
+                            ?Languages.of(context).tuesday:
+                        CommonKey.MON==myClass.onStageMon
+                            ?Languages.of(context).monday:''} - ${myClass.startHours}',
+                            textStyle: TextStyle(fontSize: 14,
+                                color: AppColors.black, overflow: TextOverflow.ellipsis), maxline: 2)
                       ],
                     )
                   ],
@@ -337,11 +337,11 @@ class _ScheduleState extends State<Schedule> {
         padding: EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 4),
         height: getHeightDevice(context)/8,
         decoration: BoxDecoration(
-            color: AppColors.greyLight,
+            color: AppColors.cultured,
             border: Border(
                 right: BorderSide(
                     width: 1,
-                    color: AppColors.gray
+                    color: AppColors.pastelBlue
                 )
             )
         ),

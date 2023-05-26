@@ -12,7 +12,7 @@ class AppThemes{
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.blueLight),
+        borderSide: BorderSide(color: AppColors.lightBlue),
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       hintText: hintText,
@@ -28,23 +28,23 @@ class AppThemes{
 
   static InputDecoration textFieldInputDecorationChat({IconData? iconData, String? labelText, String? hintText, String? errorText}){
     InputDecoration decoration = InputDecoration(
-      fillColor: AppColors.grayLight,
+      fillColor: AppColors.brightGray,
       contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       border: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.gray),
+        borderSide: BorderSide(color: AppColors.pastelBlue),
         borderRadius: BorderRadius.all(Radius.circular(100)),
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.gray),
+        borderSide: BorderSide(color: AppColors.pastelBlue),
         borderRadius: BorderRadius.all(Radius.circular(100)),
       ),
       disabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.gray),
+        borderSide: BorderSide(color: AppColors.pastelBlue),
         borderRadius: BorderRadius.all(Radius.circular(100)),
       ),
       hintText: hintText,
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.gray),
+        borderSide: BorderSide(color: AppColors.pastelBlue),
         borderRadius: BorderRadius.all(Radius.circular(100)),
       ),
       // helperText: errorText,

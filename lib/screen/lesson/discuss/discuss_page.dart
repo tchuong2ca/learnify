@@ -41,7 +41,7 @@ class _DiscussPageState extends State<DiscussPage> {
   String _nameFeedback = '';
   @override
   void initState() {
-    _stream = FirebaseFirestore.instance.collection('lesson_detail').doc(_lesson!.idLessonDetail!).snapshots();
+    _stream = FirebaseFirestore.instance.collection('lesson_detail').doc(_lesson!.lessonDetailId!).snapshots();
     _presenter = DiscussPresenter();
     getAccountInfor();
   }
@@ -58,7 +58,7 @@ class _DiscussPageState extends State<DiscussPage> {
           stream: _stream!,
           builder: (context, snapshot){
             if(snapshot.connectionState==ConnectionState.waiting){
-              return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
+              return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
             }else if(snapshot.hasError){
               return notfound(Languages.of(context).noData);
             }else if(!snapshot.hasData){
@@ -98,7 +98,7 @@ class _DiscussPageState extends State<DiscussPage> {
                               onPressed: ()=>setState(()=>_fileImage=null),
                               icon: Icon(
                                 Icons.clear,
-                                color: AppColors.grayLight,
+                                color: AppColors.brightGray,
                               ),
                             )
                           ],

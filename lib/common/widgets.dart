@@ -50,7 +50,7 @@ CustomDialog(
             children: [
               iconData!=null?Icon(
                 iconData,
-                color: AppColors.yellowDeep,
+                color: AppColors.golden,
                 size: 80,
               ):SizedBox(),
               title==null||title.isEmpty?SizedBox():NeoText(title, overFlow: TextOverflow.ellipsis, maxline: 2, textAlign: TextAlign.center, textStyle: TextStyle(fontSize: 16, color: AppColors.black, fontWeight: FontWeight.bold)),
@@ -71,7 +71,7 @@ CustomDialog(
 
 showLoaderDialog(BuildContext context){
  return Center(
-   child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50)
+   child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50)
  );
 }
 Widget itemCourseAdmin(BuildContext context, String title, String content, String imageLink,Function(bool click) onClickEdit, Function(bool click) onClickDelete, Function(String id) onClick){
@@ -406,5 +406,20 @@ Widget notfound(String mess){
       SizedBox(height: 8,),
       NeoText(mess, textStyle: TextStyle(color: AppColors.grey, fontSize: 20))
     ],
+  );
+}
+Widget button(BuildContext context, String label, buttonWidth, buttonColor){
+  return Container(
+    padding: EdgeInsets.symmetric(vertical: 12),
+    decoration: BoxDecoration(
+        color: buttonColor,
+        borderRadius: BorderRadius.circular(30)
+    ),
+    alignment: Alignment.center,
+    width: buttonWidth,
+    child: Text(
+      label,
+      style: TextStyle(color: Colors.white, fontSize: 16),
+    ),
   );
 }

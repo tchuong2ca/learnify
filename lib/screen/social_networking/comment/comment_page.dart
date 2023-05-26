@@ -65,7 +65,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                     stream: _streamNew,
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
-                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
+                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
                       }else if(snapshot.hasError){
                         return notfound(Languages.of(context).noData);
                       }else if(!snapshot.hasData){
@@ -98,7 +98,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
                                         NeoText(data['fullname']!=null?data['fullname']:'', textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.black)),
-                                        NeoText(data['timestamp']!=null?postedTime(data['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: AppColors.black_light)),
+                                        NeoText(data['timestamp']!=null?postedTime(data['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: AppColors.lightBlack)),
                                       ],
                                     ),
                                   ),
@@ -145,7 +145,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                           alignment: Alignment.center,
                                           children: [
                                             loadPhoto.networkImage(listImage[2]!=null?listImage[2]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
-                                            NeoText('${listImage.length>3?'+${listImage.length}':''}', textStyle: TextStyle(color: AppColors.greyLight, fontSize: 25))
+                                            NeoText('${listImage.length>3?'+${listImage.length}':''}', textStyle: TextStyle(color: AppColors.cultured, fontSize: 25))
                                           ],
                                         ),
                                       ],
@@ -160,7 +160,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                 stream: _streamComment,
                                 builder: (context, snapshotsComment){
                                   if(snapshotsComment.connectionState==ConnectionState.waiting){
-                                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50));
+                                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50));
                                   }else if(snapshotsComment.hasError){
                                     return notfound(Languages.of(context).noData);
                                   }else if(!snapshotsComment.hasData){
@@ -198,7 +198,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
               margin: EdgeInsets.only(top: 8,),
               padding: EdgeInsets.only(top: 8, bottom: 8),
               decoration: BoxDecoration(
-                  color: AppColors.grayLight
+                  color: AppColors.brightGray
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -338,7 +338,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  NeoText(comment.name!, textStyle: TextStyle(fontSize: 14, color: AppColors.gray,)),
+                  NeoText(comment.name!, textStyle: TextStyle(fontSize: 14, color: AppColors.pastelBlue,)),
                   (comment.nameFeedback==null||comment.nameFeedback!.isEmpty)?SizedBox():NeoText(comment.nameFeedback!, textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.black)),
                   NeoText(comment.content!, textStyle: TextStyle(fontSize: 14, color: AppColors.black,))
                 ],
@@ -438,7 +438,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                       children: [
                         NeoText(comment.name!, textStyle: TextStyle(fontSize: 15, color: AppColors.black,fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis), maxline: 1),
                         SizedBox(width: 4,),
-                        Expanded(child:(comment.nameFeedback==null||comment.nameFeedback!.isEmpty)?SizedBox():NeoText('@${comment.nameFeedback!}', textStyle: TextStyle(fontSize: 15,  color: AppColors.gray, overflow: TextOverflow.ellipsis), maxline: 1),
+                        Expanded(child:(comment.nameFeedback==null||comment.nameFeedback!.isEmpty)?SizedBox():NeoText('@${comment.nameFeedback!}', textStyle: TextStyle(fontSize: 15,  color: AppColors.pastelBlue, overflow: TextOverflow.ellipsis), maxline: 1),
                         )
                       ],
                     ),

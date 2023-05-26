@@ -1,26 +1,19 @@
 import 'discuss.dart';
-import 'homework.dart';
 
 class LessonDetail {
   LessonDetail({
-    this.idLessonDetail,
-    this.nameLesson,
+    this.lessonDetailId,
+    this.lessonName,
     this.fileContent,
     this.videoLink,
-    this.homework,
     this.discuss});
 
   LessonDetail.fromJson(dynamic json) {
-    idLessonDetail = json['idLessonDetail'];
-    nameLesson = json['nameLesson'];
+    lessonDetailId = json['idLessonDetail'];
+    lessonName = json['nameLesson'];
     fileContent = json['fileContent'];
     videoLink = json['videoLink'];
-    if (json['homework'] != null) {
-      homework = [];
-      json['homework'].forEach((v) {
-        homework!.add(Homework.fromJson(v));
-      });
-    }
+
     if (json['discuss'] != null) {
       discuss = [];
       json['discuss'].forEach((v) {
@@ -28,22 +21,18 @@ class LessonDetail {
       });
     }
   }
-  String? idLessonDetail;
-  String? nameLesson;
+  String? lessonDetailId;
+  String? lessonName;
   String? fileContent;
   String? videoLink;
-  List<Homework>? homework;
   List<Discuss>? discuss;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['idLessonDetail'] = idLessonDetail;
-    map['nameLesson'] = nameLesson;
+    map['idLessonDetail'] = lessonDetailId;
+    map['nameLesson'] = lessonName;
     map['fileContent'] = fileContent;
     map['videoLink'] = videoLink;
-    if (homework != null) {
-      map['homework'] = homework!.map((v) => v.toJson()).toList();
-    }
     if (discuss != null) {
       map['discuss'] = discuss!.map((v) => v.toJson()).toList();
     }

@@ -36,8 +36,8 @@ class CustomDropDownBox extends StatelessWidget {
                 child: DropdownButton2(
                   isExpanded: true,
                   value: value,
-                  iconEnabledColor: AppColors.greyLight,
-                  iconDisabledColor: AppColors.greyLight,
+                  iconEnabledColor: AppColors.cultured,
+                  iconDisabledColor: AppColors.cultured,
                   items: itemsList
                       .map((String item) => DropdownMenuItem<String>(
                     value: item,

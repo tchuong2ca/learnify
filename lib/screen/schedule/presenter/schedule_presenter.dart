@@ -86,7 +86,7 @@ abstract class _SchedulePresenter with Store{
     });
   }
 
-  CourseModel getModelCourse(String idCourse){
+  CourseModel getCourseModel(String idCourse){
     List<CourseModel> course = listCours.where((element) => element.getIdCourse==idCourse).toList();
     return course[0];
   }

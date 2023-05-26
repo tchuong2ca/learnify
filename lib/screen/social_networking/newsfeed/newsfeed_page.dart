@@ -70,7 +70,7 @@ class _NewsPage extends State<NewsPage>{
                 SizedBox(width: 8,),
                IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(Languages.of(context).qa, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(Languages.of(context).qa, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 IconButton(
                   onPressed:()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatListPage(_userData))),
                   icon: Icon(Icons.message, color: AppColors.blue,),
@@ -90,7 +90,7 @@ class _NewsPage extends State<NewsPage>{
                     stream: _stream,
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
-                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
+                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
                       }else if(snapshot.hasError){
                         return Center(child: Text('No data...'),);
                       }else{
@@ -200,7 +200,7 @@ class _NewsPage extends State<NewsPage>{
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     NeoText(data['fullname']!=null?data['fullname']:'', textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.black)),
-                    NeoText(data['timestamp']!=null?postedTime(data['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: AppColors.black_light)),
+                    NeoText(data['timestamp']!=null?postedTime(data['timestamp']):'', textStyle: TextStyle(fontSize: 12, color: AppColors.lightBlack)),
                   ],
                 ),
               ),
@@ -335,7 +335,7 @@ class _NewsPage extends State<NewsPage>{
                       children: [
                         listImage[3].toString().contains('mp4')?
                         Image.asset(Images.horizontalplaybtn, height: getHeightDevice(context)/5,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[3]!=null?listImage[3]:'', getHeightDevice(context)/5, getWidthDevice(context)/2-16),
-                        NeoText('${listImage.length>4?'+${listImage.length-4}':''}', textStyle: TextStyle(color: AppColors.greyLight, fontSize: 25))
+                        NeoText('${listImage.length>4?'+${listImage.length-4}':''}', textStyle: TextStyle(color: AppColors.cultured, fontSize: 25))
                       ],
                     ),
                   ],
@@ -362,7 +362,7 @@ class _NewsPage extends State<NewsPage>{
                       image: AssetImage(Images.love),
                       height: 22,
                       width: 22,
-                      color: isLike ? AppColors.redLight : AppColors.grey,
+                      color: isLike ? AppColors.coralRed : AppColors.grey,
                     ),
                     label: NeoText('$_likeCounter',
                         textStyle: TextStyle(

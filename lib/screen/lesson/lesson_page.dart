@@ -15,8 +15,9 @@ import '../../common/functions.dart';
 import '../../common/keys.dart';
 import '../../common/state.dart';
 import '../../languages/languages.dart';
-import 'create_new_lesson_page.dart';
+import 'create_lesson_content_and_exercises.dart';
 import 'discuss/discuss_page.dart';
+import 'exercise/exercise_page.dart';
 import 'lesson_pdf_viewer.dart';
 
 class LessonPage extends StatefulWidget {
@@ -47,7 +48,8 @@ class _LessonPageState extends State<LessonPage> {
   bool _isPlayerReady = false;
   LessonPagePresenter? _presenter;
   bool _isLoadFirst = true;
-
+  int? _tabIndex =0;
+  bool _isQuizTab=false;
   @override
   void initState() {
     _presenter = LessonPagePresenter();
@@ -104,7 +106,7 @@ class _LessonPageState extends State<LessonPage> {
           if(_presenter!.state==SingleState.LOADING){
             return Scaffold(
               appBar: AppBar(toolbarHeight: 0,),
-              body: Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),),
+              body: Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),),
             );
 
           }else if(_presenter!.state==SingleState.NO_DATA){
@@ -115,7 +117,6 @@ class _LessonPageState extends State<LessonPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //CustomAppBar(appType: AppType.child, title: _lesson!.lessonName!),
                   Expanded(
                     child: RefreshIndicator(
                         child: CustomScrollView(
@@ -164,7 +165,7 @@ class _LessonPageState extends State<LessonPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => LessonProductPage(_lesson!, '', _course!, _myClass!, _myClassDetail!, null))),
+                            builder: (_) => CreateLessonPage(_lesson!, '', _course!, _myClass!, _myClassDetail!, null))),
                     _controller.pause(),
                   },
                   child: Icon(
@@ -193,132 +194,135 @@ class _LessonPageState extends State<LessonPage> {
 
                 },
               ),
-              builder: (context, player)=>DefaultTabController(
-                length: 4,
-                child: Scaffold(
-                  appBar: AppBar(
-                    toolbarHeight: 0,
-                    elevation: 0,
-                  ),
-                  body: Stack(
-                    children: [
-                      SplitView(children: [
-                        player,
-                        SizedBox(
-                          width: getWidthDevice(context),
-                          child: Column(
-                            children: [
-                              TabBar(
-                                labelColor: AppColors.blue,
-                                tabs: [
-                                  Tab(
-                                    text: Languages.of(context).content,
-                                  ),
-                                  Tab(
-                                    text: Languages.of(context).exercise,
-                                  ),
-                                  Tab(
-                                    text: Languages.of(context).answer,
-                                  ),
-                                  Tab(
-                                    text: Languages.of(context).discuss,
-                                  )
-                                ],
-                              ),
-                              Expanded(
-                                child: TabBarView(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  children: [
-                                    Container(
-                                        child: _presenter!.detail!=null?PdfViewerPage(_presenter!.detail!.fileContent, null, null)
-                                            :notfound(Languages.of(context).noData)
+              builder: (context, player){
+                return DefaultTabController(
+
+                  length: 3,
+                  child: Scaffold(
+                    appBar: AppBar(
+                      toolbarHeight: 0,
+                      elevation: 0,
+                    ),
+                    body: Stack(
+                      children: [
+                        SplitView(children: [
+                          player,
+                          SizedBox(
+                            width: getWidthDevice(context),
+                            child: Column(
+                              children: [
+                                TabBar(
+                                  onTap: (int index) {
+                                  setState(() {
+                                   if(index==1){
+                                     _isQuizTab = true;
+                                   }
+                                   else{
+                                     _isQuizTab=false;
+                                   }
+                                    _tabIndex = index;
+                                  });
+                                  },
+                                  labelColor: AppColors.blue,
+                                  tabs: [
+                                    Tab(
+                                      text: Languages.of(context).content,
                                     ),
-                                    Container(
-                                        child: _presenter!.detail!=null?PdfViewerPage(_presenter!.detail!.homework![0].question, _presenter!.detail!.homework![0].listQuestion, _presenter!.detail)
-                                            :notfound(Languages.of(context).noData)
-                                    ),
-                                    Container(
-                                        child: _presenter!.detail!=null?PdfViewerPage(_presenter!.detail!.homework![0].answer, null, null)
-                                            :notfound(Languages.of(context).noData)
-                                    ),
-                                    Container(
-                                      child: _presenter!.detail!=null?
-                                      //SizedBox()
-                                      DiscussPage(_presenter!.detail)
-                                          :notfound(Languages.of(context).noData),
+                                    Tab(
+                                      text: Languages.of(context).exercise,),
+                                    Tab(
+                                      text: Languages.of(context).discuss,
                                     )
                                   ],
                                 ),
-                              )
-                            ],
+                                Expanded(
+                                  child: TabBarView(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    children: [
+                                      Container(
+                                          child: _presenter!.detail!=null?PdfViewerPage(_presenter!.detail!.fileContent)
+                                              :notfound(Languages.of(context).noData)
+                                      ),
+                                      ExercisePage(_presenter!.detail!.lessonDetailId!, _role!),
+                                      Container(
+                                        child: _presenter!.detail!=null?
+                                        DiscussPage(_presenter!.detail)
+                                            :notfound(Languages.of(context).noData),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ],  gripSize: 16,
-                        gripColorActive: AppColors.blueLight,
-                        gripColor: AppColors.transparent,
-                        viewMode: SplitViewMode.Vertical,
-                        indicator: SplitIndicator(viewMode: SplitViewMode.Vertical, color: AppColors.blueLight,),
-                        activeIndicator: SplitIndicator(
+                        ],  gripSize: 16,
+                          gripColorActive: AppColors.lightBlue,
+                          gripColor: AppColors.transparent,
                           viewMode: SplitViewMode.Vertical,
-                          isActive: true,
-                        ),
-                        controller: SplitViewController(weights: [0.28],limits: [null, WeightLimit(min: 0.72)]),),
-                      Positioned(child:  Container(
-                        color: AppColors.transparent,
-                        height: 45,
-                        width: 45,
-                        //margin: EdgeInsets.all(4),
-                        child: Center(
-                          child: Card(
-                            shadowColor: AppColors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            elevation: 2,
-                            child:  IconButton(
-                              icon: Icon(Icons.close, color: AppColors.blue, size: 22),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
+                          indicator: SplitIndicator(viewMode: SplitViewMode.Vertical, color: AppColors.lightBlue,),
+                          activeIndicator: SplitIndicator(
+                            viewMode: SplitViewMode.Vertical,
+                            isActive: true,
+                          ),
+                          controller: SplitViewController(weights: [_isQuizTab?0:0.28],limits: [null, WeightLimit(min: _isQuizTab?1:0.72)]),),
+                        Positioned(child:  Container(
+                          color: AppColors.transparent,
+                          height: 45,
+                          width: 45,
+                          //margin: EdgeInsets.all(4),
+                          child: Center(
+                            child: Card(
+                              shadowColor: AppColors.blue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              elevation: 2,
+                              child:  IconButton(
+                                icon: Icon(Icons.close, color: AppColors.blue, size: 22),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                        top: 0, left: 0,),
-                    ],
-                  ),
-                  floatingActionButton: Visibility(
-                    visible: CommonKey.ADMIN==_role||CommonKey.TEACHER==_role,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 50.0),
-                      child: FloatingActionButton(
-                          onPressed: ()=> {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) => LessonProductPage(_lesson!, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'', _course!, _myClass!, _myClassDetail!, _presenter!.state==SingleState.HAS_DATA?_presenter!.detail:null))),
-                            _controller.pause(),
-                          },
-                          child: Observer(
-                            builder: (_){
-                              if(_presenter!.state==SingleState.HAS_DATA){
-                                return Icon(
-                                  Icons.edit,
-                                  color: AppColors.white,
-                                );
-                              }else{
-                                return Icon(
-                                  Icons.edit,
-                                  color: AppColors.white,
-                                );
-                              }
+                          top: 0, left: 0,),
+                      ],
+                    ),
+                    floatingActionButton: Visibility(
+                      visible: CommonKey.ADMIN==_role&&_tabIndex==0||CommonKey.TEACHER==_role&&_tabIndex==0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 50.0),
+                        child: FloatingActionButton(
+                            onPressed: ()=> {
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => CreateLessonPage(_lesson!, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'', _course!, _myClass!, _myClassDetail!, _presenter!.state==SingleState.HAS_DATA?_presenter!.detail:null))),
+                              _controller.pause(),
                             },
-                          )
+                            child: Observer(
+                              builder: (_){
+                                if(_presenter!.state==SingleState.HAS_DATA){
+                                  return Icon(
+                                    Icons.edit,
+                                    color: AppColors.white,
+                                  );
+                                }else{
+                                  return Icon(
+                                    Icons.edit,
+                                    color: AppColors.white,
+                                  );
+                                }
+                              },
+                            )
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
             );
           }
         },

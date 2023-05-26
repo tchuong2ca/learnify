@@ -37,8 +37,8 @@ class DropDownBoxStatus extends StatelessWidget {
                 child: DropdownButton2(
                   isExpanded: true,
                   value: value,
-                  iconEnabledColor: AppColors.greyLight,
-                  iconDisabledColor: AppColors.greyLight,
+                  iconEnabledColor: AppColors.cultured,
+                  iconDisabledColor: AppColors.cultured,
                   items: itemsList
                       .map((Status item) => DropdownMenuItem<Status>(
                     value: item,

@@ -83,7 +83,7 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
                               Radius.circular(8)),
                           boxShadow: [
                             BoxShadow(
-                                color: AppColors.lightGrey
+                                color: AppColors.chineseSilver
                                     .withOpacity(0.2),
                                 spreadRadius: 1,
                                 offset: Offset(0, 0))
@@ -94,8 +94,8 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
                         children: [
                           Image.asset(Images.ratestar,width: 60,height: 46,),
                           _data!['exp'] != null?
-                          NeoText('${_data!['exp']}',textStyle: TextStyle(fontSize: 16,color: AppColors.orange_primary),maxline: 1)
-                              : NeoText('5+',textStyle: TextStyle(fontSize: 14,color: AppColors.orange_primary_2)),
+                          NeoText('${_data!['exp']}',textStyle: TextStyle(fontSize: 16,color: AppColors.orangePeel),maxline: 1)
+                              : NeoText('5+',textStyle: TextStyle(fontSize: 14,color: AppColors.pumpkin)),
                           NeoText('Kinh nghiệm',textStyle: TextStyle(fontSize: 14,color: AppColors.black))
                         ],),
                     )
@@ -115,7 +115,7 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
                     borderRadius: BorderRadius.all(
                         Radius.circular(8)),
                     boxShadow: [
-                      BoxShadow(color: AppColors.lightGrey.withOpacity(0.2), spreadRadius: 1, offset: Offset(0, 0))]),
+                      BoxShadow(color: AppColors.chineseSilver.withOpacity(0.2), spreadRadius: 1, offset: Offset(0, 0))]),
                 child: Padding(
                     padding: EdgeInsets.all(8),
                     child: Container(
@@ -170,8 +170,8 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
                     valueLabelPadding:
                     const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
                     valueLabelMargin: const EdgeInsets.only(right: 0),
-                    starOffColor: AppColors.orange,
-                    starColor: AppColors.orange,
+                    starOffColor: AppColors.giantsOrange,
+                    starColor: AppColors.giantsOrange,
                   ),
                 ),
               ],)

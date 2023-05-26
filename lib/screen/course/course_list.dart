@@ -62,7 +62,7 @@ class _CourseListState extends State<CourseList> {
             Stack(
               fit: StackFit.expand,
               children: [
-                Center(child: NeoText(CommonKey.HOME_PAGE==widget._keyFlow?'Khóa học':'', textStyle: TextStyle(color: AppColors.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Center(child: NeoText(CommonKey.HOME_PAGE==widget._keyFlow?'Khóa học':'', textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.blue,)),left: 0,)
               ],
             ),
@@ -77,7 +77,7 @@ class _CourseListState extends State<CourseList> {
                     builder: (context, snapshot){
                       if(snapshot.connectionState == ConnectionState.waiting){
                         return Center(child: LoadingAnimationWidget.staggeredDotsWave(
-                          color: AppColors.blueLight,
+                          color: AppColors.lightBlue,
                           size: 50,
                         ),);
                       }else if(snapshot.hasError){

@@ -230,7 +230,7 @@ class loadPhoto{
               child:
 
               LoadingAnimationWidget.staggeredDotsWave(
-                color: AppColors.blueLight,
+                color: AppColors.lightBlue,
                 size: 25,
               )
             );
@@ -262,7 +262,7 @@ class loadPhoto{
             return Center(
               child:
               LoadingAnimationWidget.staggeredDotsWave(
-                color: AppColors.blueLight,
+                color: AppColors.lightBlue,
                 size: 25,
               )
             );

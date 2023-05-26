@@ -60,7 +60,7 @@ class _TeacherPageState extends State<TeacherPage> {
                 SizedBox(width: 8,),
                 IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText( Languages.of(context).teacher, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText( Languages.of(context).teacher, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 ElevatedButton(
                     onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (_)=>AddNewTeacherUI(null, widget._role)));
@@ -86,7 +86,7 @@ class _TeacherPageState extends State<TeacherPage> {
             SizedBox(width: 8,),
             IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
             SizedBox(width: 8,),
-            Expanded(child: NeoText(Languages.of(context).teacher, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+            Expanded(child: NeoText(Languages.of(context).teacher, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
             SizedBox(width: 52,)
           ],
         ),
@@ -97,7 +97,7 @@ class _TeacherPageState extends State<TeacherPage> {
                 stream: _streamTeacher!,
                 builder: (context, snapshot){
                   if(snapshot.connectionState==ConnectionState.waiting){
-                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
+                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
                   }else if(snapshot.hasError){
                     return Center(child: Text('No data...'),);
                   }else if(!snapshot.hasData){

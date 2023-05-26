@@ -643,10 +643,10 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       Navigator.pop(context);
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
-        CustomDialog(context: context, content: Languages.of(context).accountWrong);
+        CustomDialog(context: context, content: Languages.of(context).wrongEmail);
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
-        CustomDialog(context: context, content: Languages.of(context).passWrong);
+        CustomDialog(context: context, content: Languages.of(context).wrongPass);
       }
 
     }

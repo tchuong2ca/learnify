@@ -24,7 +24,7 @@ class DiscussPresenter{
     if(imageFile!=null){
       final metadata = SettableMetadata(contentType: "image/jpeg");
       final storageRef = FirebaseStorage.instance.ref();
-      String path = 'discuss/${lessonDetail.nameLesson}/${discuss.name}/${getCurrentTime()}.jpg';
+      String path = 'discuss/${lessonDetail.lessonName}/${discuss.name}/${getCurrentTime()}.jpg';
       await storageRef
           .child("$path")
           .putFile(imageFile, metadata).whenComplete(() async{
@@ -40,7 +40,7 @@ class DiscussPresenter{
     List<Map<String, dynamic>> dataDiscuss =[];
     lessonDetail.discuss!.forEach((element) => dataDiscuss.add(element.toJson()));
     print(dataDiscuss);
-    FirebaseFirestore.instance.collection('lesson_detail').doc(lessonDetail.idLessonDetail).update({
+    FirebaseFirestore.instance.collection('lesson_detail').doc(lessonDetail.lessonDetailId).update({
       'discuss': dataDiscuss
     });
   }

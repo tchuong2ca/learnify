@@ -10,9 +10,9 @@ import '../../../common/functions.dart';
 import '../../../common/keys.dart';
 import '../model/lesson_detail.dart';
 
-class LessonProductPresenter{
+class CreateLessonContentPresenter{
   String _url = '';
-  Future<String> UploadFilePdf(File file, ClassDetail? myClassDetail,
+  Future<String> uploadPdfFile(File file, ClassDetail? myClassDetail,
       CourseModel? course, MyClassModel? myClass, String fileName) async{
     String path = '${CommonKey.COURSE}/${course!.getIdCourse}/${course.getNameCourse}/${myClass!.idClass}/$fileName';
     final reference = FirebaseStorage.instance.ref().child('$path');
@@ -28,28 +28,23 @@ class LessonProductPresenter{
     return _url;
   }
 
-  Future<bool> CreateLessonDetail(LessonDetail lessonDetail) async{
+  Future<bool> createLessonDetail(LessonDetail lessonDetail) async{
     Map<String, dynamic> data = lessonDetail.toJson();
-    // List<Map<String, dynamic>> homework =[];
-    // homeworkList.forEach((element) {homework.add(element.toJson());});
-    await FirebaseFirestore.instance.collection('lesson_detail').doc(lessonDetail.idLessonDetail).set(/*{
-      'idLessonDetail': lessonDetail.idLessonDetail,
-      'nameLesson': lessonDetail.nameLesson,
-      'fileContent': lessonDetail.fileContent,
-      'videoLink': lessonDetail.videoLink,
-      'homework': homework
-    }*/data).catchError((onError)=> false);
+
+    await FirebaseFirestore.instance.collection('lesson_detail').doc(lessonDetail.lessonDetailId)
+        .set(data).catchError((onError)=> false);
     return true;
   }
-
+  Future<void> addQuestionData(Map<String, dynamic>  questionData, String quizId, String questionId) async{
+    await FirebaseFirestore.instance.collection("lesson_detail").doc(quizId).collection("QNA").doc(questionId).set(questionData).catchError((e){
+      print(e.toString());
+    });
+  }
   Future<bool> updateLessonDetail(LessonDetail lessonDetail) async{
     List<Map<String, dynamic>> discuss =[];
-    List<Map<String, dynamic>> dataHomework =[];
-    lessonDetail.homework!.forEach((element) => dataHomework.add(element.toJson()));
-    await FirebaseFirestore.instance.collection('lesson_detail').doc(replaceSpace(lessonDetail.idLessonDetail!)).update({
+    await FirebaseFirestore.instance.collection('lesson_detail').doc(replaceSpace(lessonDetail.lessonDetailId!)).update({
       'fileContent': lessonDetail.fileContent,
       'videoLink': lessonDetail.videoLink,
-      'homework':dataHomework,
     }).then((value) => true).catchError((onError)=>false);
     return true;
   }

@@ -1,330 +1,385 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:online_learning/common/keys.dart';
+import 'package:online_learning/screen/lesson/exercise/edit_quiz.dart';
 import 'package:online_learning/screen/lesson/exercise/presenter/exercise_presenter.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
-
+import 'package:online_learning/screen/lesson/exercise/result_page.dart';
 import '../../../common/colors.dart';
 import '../../../common/functions.dart';
-import '../../../common/themes.dart';
+import '../../../common/play_quiz_widget.dart';
 import '../../../common/widgets.dart';
-import '../../../languages/languages.dart';
-import '../../../res/images.dart';
-import '../model/lesson_detail.dart';
-import '../model/questionAnswer.dart';
+import '../model/question.dart';
+class ExercisePage extends StatefulWidget {
 
-class ExercisePage extends StatefulWidget{
-
-  List<QA>? _listQA;
-  LessonDetail? _lessonDetail;
-  ExercisePage(this._listQA, this._lessonDetail);
+  final String quizId;
+  String role;
+  ExercisePage(this.quizId, this.role);
 
   @override
-  State<StatefulWidget> createState() =>_ExercisePage();
-
+  _ExercisePageState createState() => _ExercisePageState(this.role);
 }
 
-class _ExercisePage extends State<ExercisePage>{
-  List<QA>? _listQAStudent;
+int? total = 0;
+int _correct = 0;
+int _incorrect = 0;
+
+
+Stream? infoStream;
+
+class _ExercisePageState extends State<ExercisePage> {
+  String _role;
+  _ExercisePageState( this._role);
   ExercisePresenter? _presenter;
+  // DatabaseService _databaseService = new DatabaseService();
+  QuerySnapshot? querySnapshot;
+
+  bool _isLoading = true;
+
+  QuestionModel getQuestionModelFromSnapshot(DocumentSnapshot questionSnapshot){
+
+    QuestionModel questionModel = new QuestionModel();
+    Map<String, dynamic> data = questionSnapshot.data() as Map<String, dynamic>;
+    questionModel.question = data["question"];
+
+    List<String> options =
+    [
+      data["option1"],
+      data["option2"],
+      data["option3"],
+      data["option4"],
+    ];
+    options.shuffle();
+
+    questionModel.option1 = options[0];
+    questionModel.option2 = options[1];
+    questionModel.option3 = options[2];
+    questionModel.option4 = options[3];
+
+    questionModel.correctOption = data["correctAnswer"];
+    questionModel.correctAnswer = data["correctAnswer"];
+    questionModel.answered = false;
+
+    return questionModel;
+  }
+
   @override
   void initState() {
-    _listQAStudent = widget._listQA!;
     _presenter = ExercisePresenter();
-    _listQAStudent = _presenter!.initData(_listQAStudent!);
+    _presenter!.getQuestionData(widget.quizId).then((value){
+      querySnapshot = value;
+      _correct = 0;
+      _incorrect = 0;
+      total = querySnapshot!.docs.length;
+      _isLoading = false;
+      setState(() {
+
+      });
+    });
+
+    if(infoStream == null){
+      infoStream = Stream<List<int>>.periodic(
+          Duration(milliseconds: 100), (x){
+
+        return [_correct, _incorrect] ;
+      });
+    }
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    infoStream = null;
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return GestureDetector(
-      onTap: ()=>hideKeyboard(),
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 0,
-        ),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+    return Scaffold(
+      appBar: AppBar(
 
-            Container(
-              width: getWidthDevice(context),
-              height: 52,
-              decoration:  BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(Images.tabBar),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(width: 8,),
-                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
-                  SizedBox(width: 8,),
-                  Expanded(child: NeoText(Languages.of(context).exercise, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
-                  ElevatedButton(
-                      onPressed: (){
-                        _listQAStudent=_presenter!.ResultSubmit(_listQAStudent!);
-                        _checkValueAnswer(_presenter!.Score(_listQAStudent!));
-                      },
-                      child: NeoText(Languages.of(context).createNew, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
-                  SizedBox(width: 8,)
-                ],
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: ListView.separated(
-                  itemBuilder: (context, index)=>_itemQA(widget._listQA![index], index),
-                  itemCount: widget._listQA!.length,
-                  separatorBuilder: (context, index)=>Divider(),
-                  shrinkWrap: true,
-                ),
-              ),
-            )
-          ],
-        ),
+        toolbarHeight: 0,
       ),
-    );
-  }
+      body: _isLoading? Container(
+        child: Center(child: CircularProgressIndicator()),
+      ) :
+      Column(
+        children: [
+          InfoHeader(
+            length: querySnapshot!.docs.length,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                child: Column(
+                  children: [
 
-  Widget _itemQA(QA qa, int index){
-    return Card(
-      margin: EdgeInsets.all(16),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                NeoText('${Languages.of(context).indexQA} ${index+1}: ', textStyle: TextStyle(color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.bold)),
-                Expanded(child: NeoText(qa.question!, textStyle: TextStyle(color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.bold))),
-              ],
-            ),
-            SizedBox(height: 8,),
-            TextField(
-              decoration: AppThemes.textFieldInputDecoration(hintText: Languages.of(context).answer, labelText: Languages.of(context).answer),
-              onChanged: (value){
-                qa.studentAnswer = value;
-                setState(()=>null);
-              },
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  _dialogAnswerResult(double number, String comment,String type){
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: AppColors.transparent,
-        builder: (_) => Container(
-            color: Color.fromRGBO(0, 0, 0, 0.001),
-            child: DraggableScrollableSheet(
-              initialChildSize: 0.9,
-              minChildSize: 0.2,
-              maxChildSize: 0.90,
-              builder: (BuildContext context, ScrollController scrollController) {
-                return Padding(
-                    padding: MediaQuery.of(context).viewInsets,
-                    child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(16.0),
-                            topRight: const Radius.circular(16.0),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: ()=>Navigator.pop(context),
-                              child: Icon(
-                                Icons.remove,
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                            Expanded(
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            NeoText('${Languages.of(context).result} ${_presenter!.ScroreCorrect(_listQAStudent!)}/${widget._listQA!.length}'),
-                                            NeoText('${Languages.of(context).resultCategory}: $type'),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 8,),
-                                      LinearPercentIndicator(
-                                        animation: true,
-                                        percent: number,
-                                        animationDuration: 2500,
-                                        progressColor: AppColors.green,
-                                        linearStrokeCap: LinearStrokeCap.roundAll,
-                                        lineHeight: 26,
-                                        barRadius: Radius.circular(16),
-                                        center: NeoText('${number*100} %',),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 16, bottom: 8.0),
-                                        child: Center(child: NeoText(comment,)),
-                                      ),
-                                      // SizedBox(height: 16,),
-                                      ListView.builder(
-                                          shrinkWrap: true,
-                                          physics: NeverScrollableScrollPhysics(),
-                                          scrollDirection: Axis.vertical,
-                                          itemCount: _listQAStudent!.length,
-                                          itemBuilder: (BuildContext context, int index) {
-                                            return _itemAnswerResult(index, _listQAStudent![index]);
-                                          }),
-                                    ],
-                                  ),
-                                )
-                            ),
-
-                          ],
-                        )
+                    querySnapshot!.docs == null ? Container(
+                      child: Center(child: Text("Không có câu hỏi nào", style: TextStyle(fontSize: 18, color: Colors.red)),),
+                    ) :
+                    ListView.builder(
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        itemCount: querySnapshot!.docs.length,
+                        itemBuilder: (context, index){
+                          return QuizPlayTile(
+                            questionModel: getQuestionModelFromSnapshot(querySnapshot!.docs[index]),
+                            index: index,
+                          );
+                        }
                     )
-                );
-              },
-            )
-        )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+
+      floatingActionButton: _role==CommonKey.ADMIN||_role==CommonKey.TEACHER?
+      FloatingActionButton(
+          child: Icon(Icons.edit_note),onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>EditQuiz(widget.quizId)));
+      })
+          :FloatingActionButton(
+        child: Icon(Icons.done_outline_sharp),
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Results(
+              correct: _correct,
+              incorrect: _incorrect,
+              total: total
+          )));
+        },
+      ),
     );
   }
+}
 
-  _checkValueAnswer(double percentCorrect) async{
-    late String correctDetail;
-    String type='';
-    if(percentCorrect <= 1 && percentCorrect >= 0.9){
-      correctDetail = Languages.of(context).supperGood;
-      type = Languages.of(context).exellent;
-    }
-    else if(percentCorrect >= 0.7 && percentCorrect < 0.9){
-      correctDetail = Languages.of(context).wellDone;
-      type = Languages.of(context).good;
-    }
-    else if(percentCorrect < 0.7 && percentCorrect >= 0.5){
-      correctDetail = Languages.of(context).averageExam;
-      type = Languages.of(context).goodless;
-    }else{
-      correctDetail = Languages.of(context).bad;
-      type = Languages.of(context).low;
-    }
-    widget._lessonDetail!.homework![0].totalQA=percentCorrect*10;
-    widget._lessonDetail!.homework![0].listQuestion=_listQAStudent;
-    _presenter!.UpdateTotalLesson(widget._lessonDetail!, widget._lessonDetail!.homework!);
-    _dialogAnswerResult(percentCorrect,correctDetail, type);
+class InfoHeader extends StatefulWidget {
+
+  final int? length;
+
+  InfoHeader({@required this.length});
+
+  @override
+  _InfoHeaderState createState() => _InfoHeaderState();
+}
+
+class _InfoHeaderState extends State<InfoHeader> {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: infoStream,
+        builder: (context, snapshot){
+          return snapshot.hasData ?
+          Column(
+            children: [
+              Container(
+                height: 40,
+                margin: EdgeInsets.only(left: 14),
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    NumberOfQuestionTile(
+                      text: "Câu hỏi",
+                      number: widget.length,
+                    ),
+                    NumberOfQuestionTile(
+                      text: "Đúng",
+                      number: _correct,
+                    ),
+                    NumberOfQuestionTile(
+                      text: "Sai",
+                      number: _incorrect,
+                    ),
+
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: getWidthDevice(context)/1.5,
+                child:  NeoText('Chú ý: Suy nghĩ kỹ trước khi chọn vì bạn chỉ được chọn 1 lần',
+                    textStyle: TextStyle(color: AppColors.red),
+                    textAlign: TextAlign.center),
+              )
+            ],
+          ) : SizedBox();
+        }
+    );
   }
+}
 
-  Widget _itemAnswerResult(int positon, QA answers){
+
+class QuizPlayTile extends StatefulWidget {
+
+  final QuestionModel? questionModel;
+  final int? index;
+  QuizPlayTile({this.questionModel, this.index});
+
+  @override
+  _QuizPlayTileState createState() => _QuizPlayTileState();
+}
+
+class _QuizPlayTileState extends State<QuizPlayTile> {
+
+  String optionSelected = "";
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8),
-      padding: EdgeInsets.only(top: 16, bottom: 16, left: 8, right: 8),
-      decoration: BoxDecoration(
-          color: AppColors.grayLight,
-          borderRadius: BorderRadius.all(Radius.circular(16))
-      ),
       child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: 25,
-                width: 25,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
-                    color: AppColors.blue
-                ),
-                child: Center(child: NeoText('${positon+1}', textAlign: TextAlign.center, )),
+          Text("Câu ${widget.index!+1}: ${widget.questionModel!.question}", style: TextStyle(fontSize: 18, color: Colors.black87),),
+          SizedBox(height: 12,),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: (){
+                if(!widget.questionModel!.answered!){
+                  if(widget.questionModel!.option1 == widget.questionModel!.correctOption){
+
+                    optionSelected = widget.questionModel!.option1!;
+                    widget.questionModel!.answered = true;
+                    _correct = _correct + 1;
+
+                    setState(() {
+
+                    });
+
+                  }else{
+
+                    optionSelected = widget.questionModel!.option1!;
+                    widget.questionModel!.answered = true;
+                    _incorrect = _incorrect + 1;
+                    setState(() {
+
+                    });
+
+                  }
+                }
+              },
+              child: OptionTile(
+                  option: "A",
+                  description: widget.questionModel!.option1,
+                  correctAnswer: widget.questionModel!.correctAnswer,
+                  optionSelected: optionSelected
               ),
-              SizedBox(width: 4,),
-              Expanded(child: NeoText('${Languages.of(context).indexQA} ${positon+1}:',  textStyle: TextStyle(fontSize: 14, color: AppColors.black, overflow: TextOverflow.ellipsis), maxline: 1)),
-              Container(
-                height: 25,
-                width: 25,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(50)),
-                    color: answers.correct!?AppColors.green:AppColors.redLight
-                ),
-                child: Center(child: NeoText('${answers.correct!?Languages.of(context).right:Languages.of(context).wrong}', textAlign: TextAlign.center, textStyle: TextStyle(fontSize: 14, color: AppColors.white))),
+            ),
+            SizedBox(height: 4,),
+            GestureDetector(
+              onTap: (){
+                if(!widget.questionModel!.answered!){
+                  if(widget.questionModel!.option2 == widget.questionModel!.correctOption!){
+
+                    optionSelected = widget.questionModel!.option2!;
+                    widget.questionModel!.answered = true;
+                    _correct = _correct + 1;
+                    setState(() {
+
+                    });
+
+                  }else{
+
+                    optionSelected = widget.questionModel!.option2!;
+                    widget.questionModel!.answered = true;
+                    _incorrect = _incorrect + 1;
+                    setState(() {
+
+                    });
+
+                  }
+                }
+              },
+              child: OptionTile(
+                  option: "B",
+                  description: widget.questionModel!.option2!,
+                  correctAnswer: widget.questionModel!.correctAnswer,
+                  optionSelected: optionSelected
               ),
-            ],
-          ),
-          SizedBox(height: 8,),
+            ),
+            SizedBox(height: 4,),
+          ],
+        ),
           Row(
             mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width/2-36,
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(8))
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    NeoText('${Languages.of(context).answer}', textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                    SizedBox(height: 4,),
-                    NeoText('${answers.answer!}', textStyle:TextStyle(fontSize: 14, color: AppColors.black, overflow: TextOverflow.ellipsis), maxline: 1)
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width/2-36,
-                padding: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(8))
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    NeoText('${Languages.of(context).anwserHomework}', textStyle: TextStyle(fontSize: 14)),
-                    SizedBox(height: 4,),
-                    NeoText('${answers.studentAnswer!=null?answers.studentAnswer:''}', textStyle: TextStyle(fontSize: 14, color: AppColors.black, overflow: TextOverflow.ellipsis), maxline: 1)
-                  ],
+              GestureDetector(
+                onTap: (){
+                  if(!widget.questionModel!.answered!){
+                    if(widget.questionModel!.option3 == widget.questionModel!.correctOption){
+
+                      optionSelected = widget.questionModel!.option3!;
+                      widget.questionModel!.answered = true;
+                      _correct = _correct + 1;
+                      setState(() {
+
+                      });
+
+                    }else{
+
+                      optionSelected = widget.questionModel!.option3!;
+                      widget.questionModel!.answered = true;
+                      _incorrect = _incorrect + 1;
+                      setState(() {
+
+                      });
+
+                    }
+                  }
+                },
+                child: OptionTile(
+                    option: "C",
+                    description: widget.questionModel!.option3,
+                    correctAnswer: widget.questionModel!.correctAnswer,
+                    optionSelected: optionSelected
                 ),
               ),
+              SizedBox(height: 4,),
+              GestureDetector(
+                onTap: (){
+                  if(!widget.questionModel!.answered!){
+                    if(widget.questionModel!.option4 == widget.questionModel!.correctOption){
+
+                      optionSelected = widget.questionModel!.option4!;
+                      widget.questionModel!.answered = true;
+                      _correct = _correct + 1;
+                      setState(() {
+
+                      });
+
+                    }else{
+
+                      optionSelected = widget.questionModel!.option4!;
+                      widget.questionModel!.answered = true;
+                      _incorrect = _incorrect + 1;
+                      setState(() {
+
+                      });
+
+                    }
+                  }
+                },
+                child: OptionTile(
+                    option: "D",
+                    description: widget.questionModel!.option4,
+                    correctAnswer: widget.questionModel!.correctAnswer,
+                    optionSelected: optionSelected
+                ),
+              ),
+              SizedBox(height: 4,),
             ],
           ),
+
+          SizedBox(height: 20,)
         ],
       ),
     );

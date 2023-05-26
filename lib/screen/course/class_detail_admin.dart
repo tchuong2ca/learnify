@@ -80,7 +80,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                 SizedBox(width: 8,),
                 IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(Languages.of(context).classDetail, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(Languages.of(context).detailClass, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 CommonKey.MEMBER==_role?SizedBox():ElevatedButton(
                     onPressed: (){
                       showDialog<void>(
@@ -133,7 +133,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                     stream: _stream,
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
-                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),);
+                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
                       }else if(snapshot.hasError){
                         return notfound(Languages.of(context).noData);
                       }else if(!snapshot.hasData){
@@ -232,10 +232,10 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             IconButton(onPressed: ()=>null, icon: Icon(Icons.info, color: AppColors.blue,)),
-            Expanded(child: NeoText(Languages.of(context).infor, textStyle: TextStyle(fontSize: 14, color: AppColors.blue))),
+            Expanded(child: NeoText(Languages.of(context).info, textStyle: TextStyle(fontSize: 14, color: AppColors.blue))),
             TextButton(
               onPressed: ()=>_showDialog(),
-              child: NeoText(Languages.of(context).rating, textStyle: TextStyle(fontSize: 14, color: AppColors.orangeLight)),
+              child: NeoText(Languages.of(context).rating, textStyle: TextStyle(fontSize: 14, color: AppColors.outrageousOrange)),
             ),
             SizedBox(width: 8,),
           ],

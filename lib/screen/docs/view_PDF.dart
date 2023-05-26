@@ -38,7 +38,7 @@ class PDFViewerFromUrl extends StatelessWidget {
                 SizedBox(width: 8,),
                 IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(name!, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(name!, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 SizedBox(width: 52,)
               ],
             ),

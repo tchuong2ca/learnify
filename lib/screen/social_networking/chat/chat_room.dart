@@ -80,7 +80,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                     child: loadPhoto.networkImage(widget._friendData!['userAvatar']!=null?widget._friendData!['userAvatar']:'', 50, 50),
                   ),
                   SizedBox(width: 8.0,),
-                  NeoText( widget._friendData!['fullname'], textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                  NeoText( widget._friendData!['fullname'], textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                   SizedBox(width: 52,)
                 ],
               ),
@@ -93,7 +93,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                     builder: (_, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
                         return Center(
-                          child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.blueLight, size: 50),
+                          child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),
                         );
                       }else if(snapshot.hasError){
                         return  Center(
@@ -117,7 +117,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
               margin: EdgeInsets.only(top: 8,),
               padding: EdgeInsets.only(top: 8, bottom: 8),
               decoration: BoxDecoration(
-                  color: AppColors.grayLight
+                  color: AppColors.brightGray
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.max,

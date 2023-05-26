@@ -94,7 +94,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                   SizedBox(width: 8,),
                   IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText( Languages.of(context).teacherAdd, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText( Languages.of(context).teacherAdd, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
                       onPressed: (){
                         showLoaderDialog(context);
@@ -149,7 +149,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                   SizedBox(width: 8,),
                   IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText(Languages.of(context).teacher, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText(Languages.of(context).teacher, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   SizedBox(width: 52,)
                 ],
               ),
@@ -167,7 +167,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                                 decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(Radius.circular(200)),
                                     border: Border.all(
-                                        color: AppColors.orangeOriginLight,
+                                        color: AppColors.philippineOrange,
                                         width: 1.0
                                     )
                                 ),
@@ -196,7 +196,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                                   decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.all(Radius.circular(200)),
                                       color: AppColors.white,
-                                      border: Border.all(width: 1.0, color: AppColors.orangeOriginLight)
+                                      border: Border.all(width: 1.0, color: AppColors.philippineOrange)
                                   ),
                                   child: Center(
                                     child: IconButton(

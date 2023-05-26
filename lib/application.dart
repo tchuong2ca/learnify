@@ -126,12 +126,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
             end: Alignment.bottomCenter,
             colors: <Color>[AppColors.white, Colors.lightBlueAccent]),
       ),
-      // decoration: BoxDecoration(
-      //   image: DecorationImage(
-      //     image: AssetImage("${Images.background_tutorial}"),
-      //     fit: BoxFit.cover,
-      //   ),
-      // ),
+
       padding: EdgeInsets.only(left:AppDimens.spaceHalf, right: AppDimens.spaceHalf, bottom: AppDimens.spaceMedium, top: AppDimens.spaceLarge),
       child: Column(children: [
         Image.asset(Images.logo_nobackground),

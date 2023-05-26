@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../model/homework.dart';
 import '../../model/lesson_detail.dart';
 import '../../model/questionAnswer.dart';
 
@@ -15,7 +14,7 @@ class ExercisePresenter{
     return listQAResult;
   }
 
-  List<QA> ResultSubmit(List<QA> listQA){
+  List<QA> listCorrectAnswers(List<QA> listQA){
     List<QA> listQAResult = [];
     for(QA qa in listQA){
       if(qa.answer==qa.studentAnswer){
@@ -28,7 +27,7 @@ class ExercisePresenter{
     return listQAResult;
   }
 
-  int ScroreCorrect(List<QA> listQA){
+  int scoreCalculate(List<QA> listQA){
     int totalCorrect = 0;
     for(QA qa in listQA){
       if(qa.correct==true){
@@ -37,16 +36,18 @@ class ExercisePresenter{
     }
     return totalCorrect;
   }
-  double Score(List<QA> listQA){
+  double correctPercentage(List<QA> listQA){
     double total = 0.0;
-    int totalCorect = ScroreCorrect(listQA);
-    int lengthQA = listQA.length;
-    total = totalCorect/lengthQA;
+    int numberOfCorrectAnswers = scoreCalculate(listQA);
+    int numberOfQuestions = listQA.length;
+    total = numberOfCorrectAnswers/numberOfQuestions;
     return total;
   }
-
-  void UpdateTotalLesson(LessonDetail lessonDetail, List<Homework> listHomework){
+  getQuestionData(String quizId) async{
+    return await FirebaseFirestore.instance.collection("lesson_detail").doc(quizId).collection("QNA").get();
+  }
+  void update(LessonDetail lessonDetail){
     Map<String, dynamic> data = lessonDetail.toJson();
-    FirebaseFirestore.instance.collection('lesson_detail').doc(lessonDetail.idLessonDetail).set(data);
+    FirebaseFirestore.instance.collection('lesson_detail').doc(lessonDetail.lessonDetailId).set(data);
   }
 }

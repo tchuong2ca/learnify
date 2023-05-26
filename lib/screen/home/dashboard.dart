@@ -160,7 +160,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                       borderRadius: BorderRadius.only(bottomLeft:Radius.circular(25),bottomRight:Radius.circular(25)),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.grayLight.withOpacity(1),
+                          color: AppColors.brightGray.withOpacity(1),
                           spreadRadius: 1,
                           offset: Offset(0, 0), // changes position of shadow
                         ),
@@ -201,7 +201,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                ),
                              );}, icon: Icon(Icons.logout)),
                               SizedBox(width: 8,),
-                              Expanded(child: NeoText(Languages.of(context).appName, textStyle: TextStyle(color: AppColors.blueLight, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                              Expanded(child: NeoText(Languages.of(context).appName, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                               IconButton(
                                 onPressed: (){},
                                 icon: Icon(Icons.search_sharp, color: AppColors.blue,),
@@ -361,7 +361,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
                         return Center(child: LoadingAnimationWidget.staggeredDotsWave(
-                          color: AppColors.blueLight,
+                          color: AppColors.lightBlue,
                           size: 50,
                         ),);
                       }else if(snapshot.hasError){
@@ -386,7 +386,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                 }else if(CommonKey.MEMBER==_role){
                                   Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,CommonKey.MEMBER))),
                                 } else{
-                                  Fluttertoast.showToast(msg: Languages.of(context).denyAccess)
+                                  Fluttertoast.showToast(msg: Languages.of(context).accessDenied)
                                 }
 
                               }
@@ -410,7 +410,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
                         return Center(child: LoadingAnimationWidget.staggeredDotsWave(
-                          color: AppColors.blueLight,
+                          color: AppColors.lightBlue,
                           size: 50,
                         ),);
                       }else if(snapshot.hasError){
@@ -440,7 +440,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                     }else if(CommonKey.INK_WELL==click&&CommonKey.TEACHER==_role&&_phoneNumber==data['idTeacher']){
                                       _navigatorClass(data, myClass),
                                     }else if(CommonKey.INK_WELL==click&&CommonKey.TEACHER==_role&&_phoneNumber!=data['idTeacher']){
-                                      Fluttertoast.showToast(msg: Languages.of(context).denyAccess),
+                                      Fluttertoast.showToast(msg: Languages.of(context).accessDenied),
                                     } else if(CommonKey.INK_WELL==click&&CommonKey.ADMIN==_role){
                                       _navigatorClass(data, myClass),
                                     } else{
@@ -526,7 +526,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.grayLight,
+              color: AppColors.brightGray,
               borderRadius: BorderRadius.all(Radius.circular(25)),
               boxShadow: [
                 BoxShadow(

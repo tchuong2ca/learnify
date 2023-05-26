@@ -156,7 +156,7 @@ class _PostPageState extends State<PostPage> {
                 Container(
                   width: getWidthDevice(context),
                   height: getHeightDevice(context)/13,
-                  color: AppColors.greyLight,
+                  color: AppColors.cultured,
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -238,7 +238,7 @@ class _PostPageState extends State<PostPage> {
               child: IconButton(
                 icon: Icon(
                   Icons.close,
-                  color: AppColors.greyLight,
+                  color: AppColors.cultured,
                 ),
                 onPressed: ()=>setState((){
                   _fileList.removeAt(index);

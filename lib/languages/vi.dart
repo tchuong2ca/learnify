@@ -88,15 +88,15 @@ class LanguagesVn extends Languages{
 
   @override
   // TODO: implement accountWrong
-  String get accountWrong => 'Thông tin đăng nhập không chính xác';
+  String get wrongEmail => 'Thông tin đăng nhập không chính xác';
 
   @override
   // TODO: implement passWrong
-  String get passWrong => 'Mật khẩu không đúng, vui lòng nhập lại!';
+  String get wrongPass => 'Mật khẩu không đúng, vui lòng nhập lại!';
 
   @override
   // TODO: implement classNew
-  String get classNew => 'Lớp học mới';
+  String get newClass => 'Lớp học mới';
 
   @override
   // TODO: implement seeMore
@@ -259,7 +259,7 @@ class LanguagesVn extends Languages{
 
   @override
   // TODO: implement classDetail
-  String get classDetail => 'Chi tiết lớp học';
+  String get detailClass => 'Chi tiết lớp học';
 
   @override
   // TODO: implement classDetailNew
@@ -295,7 +295,7 @@ class LanguagesVn extends Languages{
 
   @override
   // TODO: implement infor
-  String get infor => 'Thông tin';
+  String get info => 'Thông tin';
 
   @override
   // TODO: implement rating
@@ -407,7 +407,7 @@ class LanguagesVn extends Languages{
 
   @override
   // TODO: implement denyAccess
-  String get denyAccess => 'Truy cập bị từ chối';
+  String get accessDenied => 'Truy cập bị từ chối';
 
   @override
   // TODO: implement post
@@ -447,48 +447,8 @@ class LanguagesVn extends Languages{
   String get indexQA => 'Câu';
 
   @override
-  // TODO: implement right
-  String get right => 'Đ';
-
-  @override
-  // TODO: implement wrong
-  String get wrong => 'S';
-
-  @override
   // TODO: implement anwserHomework
-  String get anwserHomework => 'Trả lời';
-
-  @override
-  // TODO: implement bad
-  String get bad => 'Cần xem lại bài giảng và nghe video để hiểu bài hơn';
-
-  @override
-  // TODO: implement supperGood
-  String get supperGood => 'Bạn rất xuất sắc, có vẻ chúng tôi không làm khó được bạn rồi!';
-
-  @override
-  // TODO: implement wellDone
-  String get wellDone => 'Bạn thật khá đấy, hãy nâng hạng của mình lên nhé!';
-
-  @override
-  // TODO: implement averageExam
-  String get averageExam => 'Bạn đã nỗ lực, tuy nhiên kết quả còn chưa được như mong muốn. Hãy xem lại bài và làm tốt hơn.';
-
-  @override
-  // TODO: implement exellent
-  String get exellent => 'Xuất sắc';
-
-  @override
-  // TODO: implement good
-  String get good => 'Tốt';
-
-  @override
-  // TODO: implement goodless
-  String get goodless => 'Khá';
-
-  @override
-  // TODO: implement low
-  String get low => 'Yếu';
+  String get reply => 'Trả lời';
 
   @override
   // TODO: implement result
@@ -545,4 +505,16 @@ class LanguagesVn extends Languages{
   @override
   // TODO: implement specialize
   String get specialize => 'Chuyên môn';
+
+  @override
+  // TODO: implement editQuestion
+  String get editQuestion => 'Chỉnh sửa câu hỏi';
+
+  @override
+  // TODO: implement editQuiz
+  String get editQuiz => 'Chỉnh sửa bài tập';
+
+  @override
+  // TODO: implement addQuestion
+  String get addQuestion => 'Thêm câu hỏi';
 }

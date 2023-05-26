@@ -8,8 +8,6 @@ import 'package:online_learning/screen/course/model/class_detail.dart';
 import 'package:online_learning/screen/course/model/course_model.dart';
 import 'package:online_learning/screen/course/model/my_class_model.dart';
 import 'package:online_learning/screen/lesson/presenter/create_new_lesson_presenter.dart';
-
-import 'package:random_string/random_string.dart';
 import '../../common/colors.dart';
 import '../../common/functions.dart';
 import '../../common/keys.dart';
@@ -53,47 +51,6 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
   String _avatar = '';
   TextEditingController _controllerUrlLink = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
-  String quizImageUrl ='';
-  String quizTitle= '';
-  String quizDescription ='';
-  String quizId='';
-  String question='';
-  String option1='';
-  String option2 ='';
-  String option3 ='';
-  String option4 ='';
-  String correctAnswer ='';
-  String questionId  ='';
-
-  bool _isLoading = false;
-
-  _uploadQuestionData() async{
-    if(_formKey.currentState!.validate()){
-
-      setState(() {
-        _isLoading = true;
-      });
-
-      questionId = randomAlphaNumeric(16);
-
-      Map<String, String> questionData = {
-        "question" : question,
-        "option1" : option1,
-        "option2" : option2,
-        "option3" : option3,
-        "option4" : option4,
-        "correctAnswer" : correctAnswer,
-        "questionId" : questionId
-      };
-
-      await _presenter!.addQuestionData(questionData, replaceSpace(_lessonDetail!.lessonDetailId!), questionId).then((value) => {
-        setState(() {
-          _isLoading = false;
-        })
-      });
-    }
-  }
   @override
   void initState() {
     _presenter = CreateLessonContentPresenter();
@@ -110,11 +67,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
         toolbarHeight: 0,
         elevation: 0,
       ),
-      body: _isLoading ? Container(
-        child: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      ) : Column(
+      body:Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +90,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                 const SizedBox(width: 8,),
                 IconButton(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back, color: AppColors.blue,)),
                 const SizedBox(width: 8,),
-                Expanded(child: NeoText(_lesson!.lessonName!, textStyle: const TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(_lesson!.lessonName!=null?_lesson!.lessonName!:'', textStyle: const TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 ElevatedButton(
                     onPressed: (){
                       if(_videoLink.isEmpty){
@@ -147,7 +100,6 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                       }
                       else{
                         if(CommonKey.EDIT!=_keyFlow){
-                          quizId = randomAlphaNumeric(16);
                           Discuss? discuss = Discuss(name: _fullname, avatar: _avatar, timeStamp: getTimestamp(), content: Languages.of(context).youNeed, nameFeedback: '');
                           LessonDetail lessonDetail = LessonDetail(
                               lessonDetailId: replaceSpace(_lesson!.lessonId!),
@@ -241,97 +193,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                       controller: _controllerUrlLink,
                     ),
                   ),
-                  Form(
-                    key: _formKey,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 24),
-                      child: Column(
-                        children: [
 
-                          TextFormField(
-                            decoration: InputDecoration(
-                                hintText: "Câu hỏi"
-                            ),
-                            onChanged: (val){
-                              question = val;
-                            },
-                            validator: (val){
-                              return val!.isEmpty ? "Nhập câu hỏi" : null;
-                            },
-                          ),
-                          SizedBox(height: 6,),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                hintText: "Đáp án A"
-                            ),
-                            onChanged: (val){
-                              option1 = val;
-                            },
-                            validator: (val){
-                              return val!.isEmpty ? "Nhập đáp án A" : null;
-                            },
-                          ),
-                          SizedBox(height: 6,),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                hintText: "Đáp án B"
-                            ),
-                            onChanged: (val){
-                              option2 = val;
-                            },
-                            validator: (val){
-                              return val!.isEmpty ? "Nhập đáp án B" : null;
-                            },
-                          ),
-                          SizedBox(height: 6,),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                hintText: "Đáp án C"
-                            ),
-                            onChanged: (val){
-                              option3 = val;
-                            },
-                            validator: (val){
-                              return val!.isEmpty ? "Nhập đáp án C" : null;
-                            },
-                          ),
-                          SizedBox(height: 6,),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                hintText: "Đáp án D"
-                            ),
-                            onChanged: (val){
-                              option4 = val;
-                            },
-                            validator: (val){
-                              return val!.isEmpty ? "Nhập đáp án D" : null;
-                            },
-                          ),
-                          SizedBox(height: 6,),
-                          TextFormField(
-                            decoration: InputDecoration(
-                                hintText: "Câu trả lời"
-                            ),
-                            onChanged: (val){
-                              correctAnswer = val;
-                            },
-                            validator: (val){
-                              return val!.isEmpty||val ==''||(val!=option1&&val!=option2&&val!=option3&&val!=option4) ? "Nhập câu trả lời hợp lệ" : null;
-                            },
-                          ),
-                   SizedBox(height: 20,),
-
-                          GestureDetector(
-                              onTap: (){
-                                _uploadQuestionData();
-                              },
-                              child: button(context, "Thêm câu hỏi", MediaQuery.of(context).size.width/2 - 36, Colors.blueAccent)
-                          ),
-                          SizedBox(height: 40.0)
-                        ],
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),

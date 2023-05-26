@@ -15,7 +15,7 @@ import '../../common/functions.dart';
 import '../../common/keys.dart';
 import '../../common/state.dart';
 import '../../languages/languages.dart';
-import 'create_lesson_content_and_exercises.dart';
+import 'create_lesson_content.dart';
 import 'discuss/discuss_page.dart';
 import 'exercise/exercise_page.dart';
 import 'lesson_pdf_viewer.dart';

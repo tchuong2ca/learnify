@@ -21,7 +21,7 @@ class AddQuestion extends StatefulWidget {
 
 class _AddQuestionState extends State<AddQuestion> {
 
-  final _formKey = GlobalKey<FormState>();
+  final _addQuestionFormKey = GlobalKey<FormState>();
   String question='';
   String option1='';
   String option2 ='';
@@ -38,7 +38,7 @@ class _AddQuestionState extends State<AddQuestion> {
     _presenter= CreateLessonContentPresenter();
   }
   _uploadQuestionData() async{
-    if(_formKey.currentState!.validate()){
+    if(_addQuestionFormKey.currentState!.validate()){
 
       setState(() {
         _isLoading = true;
@@ -104,7 +104,7 @@ class _AddQuestionState extends State<AddQuestion> {
           ),
           Expanded(
             child: Form(
-              key: _formKey,
+              key: _addQuestionFormKey,
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
@@ -178,10 +178,10 @@ class _AddQuestionState extends State<AddQuestion> {
                         correctAnswer = val;
                       },
                       validator: (val){
-                        return val!.isEmpty ? "Nhập câu trả lời đúng" : null;
+                        return val!.isEmpty||val ==''||(val!=option1&&val!=option2&&val!=option3&&val!=option4) ? "Nhập câu trả lời hợp lệ" : null;
                       },
                     ),
-                    Spacer(),
+                    SizedBox(height: 20,),
 
                     GestureDetector(
                         onTap: (){

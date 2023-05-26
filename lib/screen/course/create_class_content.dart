@@ -221,7 +221,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
         children: [
           (CommonKey.EDIT==_keyFlow&&_indexLength>index)?Padding(
             padding: EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 16),
-            child: NeoText(lesson.lessonName!, textStyle: TextStyle(fontSize: 14, color: AppColors.black)),
+            child: NeoText(lesson.lessonName!=null?lesson.lessonName!:'', textStyle: TextStyle(fontSize: 14, color: AppColors.black)),
           ):SizedBox(),
           Padding(
             padding: const EdgeInsets.all(16.0),

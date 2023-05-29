@@ -32,7 +32,6 @@ class _AddQuestionState extends State<AddQuestion> {
 
   bool _isLoading = false;
   CreateLessonContentPresenter? _presenter;
-  //DatabaseService _databaseService = new DatabaseService();
   @override
   void initState(){
     _presenter= CreateLessonContentPresenter();

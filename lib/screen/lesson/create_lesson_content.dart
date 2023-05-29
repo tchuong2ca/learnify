@@ -204,7 +204,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
   }
 Future<void> getDataUser() async{
     Map<String, dynamic> data;
-    dynamic user = await SharedPreferencesData.GetData(CommonKey.USER);
+    dynamic user = await SharedPreferencesData.getData(CommonKey.USER);
     data = jsonDecode(user.toString());
     _fullname = data['fullname'];
     _avatar = data['avatar'];

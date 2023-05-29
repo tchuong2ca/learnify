@@ -212,8 +212,8 @@ class SplashTutorialState extends State<SplashTutorialPage>{
   Future<void> getData() async{
     String role = '';
     String phone = '';
-    dynamic username = await SharedPreferencesData.GetData(CommonKey.USERNAME);
-    dynamic data = await SharedPreferencesData.GetData(CommonKey.USER);
+    dynamic username = await SharedPreferencesData.getData(CommonKey.USERNAME);
+    dynamic data = await SharedPreferencesData.getData(CommonKey.USER);
     if(username.toString().isNotEmpty){
       setState(() {
         _checkLogin=true;

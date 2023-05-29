@@ -192,7 +192,7 @@ String getFileExtension(String fileName) {
   return "." + fileName.split('.').last;
 }
 Future<void> signOut(BuildContext context) async {
-  await SharedPreferencesData.DeleteAll();
+  await SharedPreferencesData.reset();
   await FirebaseAuth.instance.signOut();
   RestartPage.restartApp(context);
 }

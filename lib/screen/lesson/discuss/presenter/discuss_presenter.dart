@@ -13,13 +13,13 @@ import '../../model/discuss.dart';
 class DiscussPresenter{
 
   Future<Map<String, dynamic>> getAccountInfo() async{
-    dynamic user = await SharedPreferencesData.GetData(CommonKey.USER);
+    dynamic user = await SharedPreferencesData.getData(CommonKey.USER);
     Map<String, dynamic> userData = jsonDecode(user.toString());
     user = userData;
     return userData;
   }
 
-  Future SendChat({required LessonDetail lessonDetail, required Discuss discuss, File? imageFile}) async{
+  Future sendMessage({required LessonDetail lessonDetail, required Discuss discuss, File? imageFile}) async{
     lessonDetail.discuss!.add(discuss);
     if(imageFile!=null){
       final metadata = SettableMetadata(contentType: "image/jpeg");
@@ -29,14 +29,14 @@ class DiscussPresenter{
           .child("$path")
           .putFile(imageFile, metadata).whenComplete(() async{
         discuss.imageLink = await getLinkStorage(path).then((value) => discuss.imageLink=value);
-        PostData(lessonDetail);
+        post(lessonDetail);
       });
     }else{
-      PostData(lessonDetail);
+      post(lessonDetail);
     }
   }
 
-  void PostData(LessonDetail lessonDetail){
+  void post(LessonDetail lessonDetail){
     List<Map<String, dynamic>> dataDiscuss =[];
     lessonDetail.discuss!.forEach((element) => dataDiscuss.add(element.toJson()));
     print(dataDiscuss);

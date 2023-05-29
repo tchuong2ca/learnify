@@ -434,7 +434,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                   }else{
                                     if(CommonKey.INK_WELL!=click&&!listUser.contains(_phoneNumber)){
                                       listUser.add(_phoneNumber!),
-                                      _phoneNumber!.isNotEmpty?_presenter!.RegisterClass(data['idClass'], listUser, data['idCourse']):null,
+                                      _phoneNumber!.isNotEmpty?_presenter!.classRegistration(data['idClass'], listUser, data['idCourse']):null,
                                     }else if(CommonKey.INK_WELL==click&&listUser.contains(_phoneNumber)){
                                       _navigatorClass(data, myClass),
                                     }else if(CommonKey.INK_WELL==click&&CommonKey.TEACHER==_role&&_phoneNumber==data['idTeacher']){

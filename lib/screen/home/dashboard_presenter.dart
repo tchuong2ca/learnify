@@ -42,7 +42,7 @@ abstract class _DashboardPresenter with Store {
     print(classModel);
     return classModel!;
 }
-  void RegisterClass(String idClass, List<dynamic> userRegister, String idCourse){
+  void classRegistration(String idClass, List<dynamic> userRegister, String idCourse){
     FirebaseFirestore.instance.collection('class').doc(idClass).update({
       'subscribe': userRegister
     });
@@ -62,7 +62,7 @@ abstract class _DashboardPresenter with Store {
   }
   Map<String, dynamic>? user;
   Future<Map<String, dynamic>> getUserInfo() async{
-    dynamic user = await SharedPreferencesData.GetData(CommonKey.USER);
+    dynamic user = await SharedPreferencesData.getData(CommonKey.USER);
     Map<String, dynamic> userData = jsonDecode(user.toString());
     user = userData;
     return userData;

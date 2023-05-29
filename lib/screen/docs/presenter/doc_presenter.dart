@@ -43,7 +43,7 @@ class CreateDocPresenter{
   }
 
   Future<Map<String, dynamic>> getAccountInfor() async{
-    dynamic user = await SharedPreferencesData.GetData(CommonKey.USER);
+    dynamic user = await SharedPreferencesData.getData(CommonKey.USER);
     Map<String, dynamic> userData = jsonDecode(user.toString());
     user = userData;
     return userData;

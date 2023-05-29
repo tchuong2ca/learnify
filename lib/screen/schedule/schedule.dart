@@ -381,7 +381,7 @@ class _ScheduleState extends State<Schedule> {
     );
   }
   Future<void> _getData() async{
-    dynamic data =await SharedPreferencesData.GetData(CommonKey.USER);
+    dynamic data =await SharedPreferencesData.getData(CommonKey.USER);
     if(data!=null){
       Map<String, dynamic>json = jsonDecode(data.toString());
       String phone = json['phone']!=null?json['phone']:'';

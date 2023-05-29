@@ -34,7 +34,7 @@ abstract class _ClassDetailAdminPresenter with Store{
   }
 
   Future<Map<String, dynamic>> getUserInfor() async{
-    dynamic user = await SharedPreferencesData.GetData(CommonKey.USER);
+    dynamic user = await SharedPreferencesData.getData(CommonKey.USER);
     Map<String, dynamic> userData = jsonDecode(user.toString());
     user = userData;
     return userData;

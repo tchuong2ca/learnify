@@ -144,7 +144,7 @@ class CreateClassPresenter{
 
   Future<String> getUserInfo() async{
     String phone = '';
-    dynamic data = await SharedPreferencesData.GetData(CommonKey.USER);
+    dynamic data = await SharedPreferencesData.getData(CommonKey.USER);
     if(data!=null){
       Map<String, dynamic>json = jsonDecode(data.toString());
       phone = json['phone']!=null?json['phone']:'';

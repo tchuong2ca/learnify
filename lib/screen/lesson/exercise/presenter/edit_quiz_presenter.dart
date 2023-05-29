@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../../model/lesson_detail.dart';
-import '../../model/questionAnswer.dart';
-
 class EditQuizPresenter{
 
 

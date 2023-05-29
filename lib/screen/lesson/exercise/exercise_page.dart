@@ -30,7 +30,6 @@ class _ExercisePageState extends State<ExercisePage> {
   String _role;
   _ExercisePageState( this._role);
   ExercisePresenter? _presenter;
-  // DatabaseService _databaseService = new DatabaseService();
   QuerySnapshot? querySnapshot;
 
   bool _isLoading = true;

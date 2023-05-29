@@ -621,11 +621,11 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
             Map<String, dynamic> data1 = element.data() as Map<String, dynamic>;
             String phone = data1['phone'];
             if(phone.isNotEmpty){
-              await SharedPreferencesData.SaveData(CommonKey.USERNAME, phone);
+              await SharedPreferencesData.saveData(CommonKey.USERNAME, phone);
               FirebaseFirestore.instance.collection('users').doc(phone).get().then((value) {
                 if(value.exists){
                   Map<String, dynamic>? data = value.data() ;
-                  SharedPreferencesData.SaveData(CommonKey.USER, jsonEncode(data));
+                  SharedPreferencesData.saveData(CommonKey.USER, jsonEncode(data));
                   print(data);
                 }
               });

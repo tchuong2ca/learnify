@@ -146,7 +146,7 @@ abstract class _NewsPresenter with Store {
     print(response);
   }
   Future<Map<String, dynamic>> getUserInfor() async{
-    dynamic user = await SharedPreferencesData.GetData(CommonKey.USER);
+    dynamic user = await SharedPreferencesData.getData(CommonKey.USER);
     Map<String, dynamic> userData = jsonDecode(user.toString());
     user = userData;
     return userData;

@@ -137,8 +137,8 @@ class _DiscussPageState extends State<DiscussPage> {
                                         nameFeedback: _nameFeedback
                                     );
                                     _fileImage!=null
-                                        ?_presenter!.SendChat(lessonDetail: _detail!, discuss: discuss,imageFile: _fileImage)
-                                        :_presenter!.SendChat(lessonDetail: _detail!, discuss: discuss);
+                                        ?_presenter!.sendMessage(lessonDetail: _detail!, discuss: discuss,imageFile: _fileImage)
+                                        :_presenter!.sendMessage(lessonDetail: _detail!, discuss: discuss);
                                     _message = '';
                                     _fileImage = null;
                                     _controllerMess = TextEditingController(text: _message);
@@ -209,38 +209,6 @@ class _DiscussPageState extends State<DiscussPage> {
         )
             :SizedBox(),
         SizedBox(height: 12,),
-        // _dataUser['phone']== Row(
-        //   mainAxisSize: MainAxisSize.max,
-        //   mainAxisAlignment: MainAxisAlignment.start,
-        //   crossAxisAlignment: CrossAxisAlignment.start,
-        //   children: [
-        //     SizedBox(width: index==0?48:46,),
-        //     InkWell(
-        //       onTap: (){
-        //         setState((){
-        //           _isFeedback = true;
-        //           _nameFeedback = '${discuss.name}';
-        //           _controllerMess = TextEditingController(text: _nameFeedback);
-        //         });
-        //       },
-        //       child: NeoText(
-        //         Languages.of(context).feedback,
-        //         textStyle: TextStyle(color: CommonColor.blue, fontSize: 10)
-        //       ),
-        //     ),
-        //     SizedBox(width: 50,),
-        //     InkWell(
-        //       onTap: (){
-        //         _detail!.discuss!.removeAt(index);
-        //         _presenter!.PostData(_detail!);
-        //       },
-        //       child: NeoText(
-        //           Languages.of(context).delete,
-        //           textStyle: TextStyle(color: CommonColor.blue, fontSize: 10)
-        //       ),
-        //     ),
-        //   ],
-        // )
       ],
     );
   }

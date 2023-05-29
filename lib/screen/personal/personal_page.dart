@@ -100,7 +100,7 @@ class _PersonalPageState extends State<PersonalPage> {
                           FirebaseFirestore.instance.collection('users').doc(_user!['phone']).get().then((value) {
                             if(value.exists){
                               Map<String, dynamic>? data = value.data() ;
-                              SharedPreferencesData.SaveData(CommonKey.USER, jsonEncode(data));
+                              SharedPreferencesData.saveData(CommonKey.USER, jsonEncode(data));
                               print(data);
                             }
                           });

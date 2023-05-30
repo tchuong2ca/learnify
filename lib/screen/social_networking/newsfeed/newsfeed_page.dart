@@ -165,7 +165,6 @@ class _NewsPage extends State<NewsPage>{
   Widget _newsItem(Map<String, dynamic> data){
     List<dynamic> listImage = data['mediaUrl'];
     List<dynamic> likes = data['user_likes'];
-    // List<dynamic> topic = data['topic'];
     bool isLike = false;
     if (likes.length > 0) {
       for (int i = 0; i < likes.length; i++) {
@@ -228,7 +227,7 @@ class _NewsPage extends State<NewsPage>{
                       Navigator.of(context).push(MaterialPageRoute(builder: (_)=>PostPage(CommonKey.EDIT, data)));
                       break;
                     case MenuEnum.DELETE:
-                      _presenter!.DeleteNews(data['id']);
+                      _presenter!.deletePost(data['id']);
                       break;
                   }
                 },
@@ -401,7 +400,6 @@ class _NewsPage extends State<NewsPage>{
                   width: 100,
                   child: TextButton.icon(
                     onPressed: () {
-                      // onShare(data['id']);
                     },
                     icon: Image(
                       image: AssetImage(Images.share),
@@ -421,7 +419,7 @@ class _NewsPage extends State<NewsPage>{
   }
 
   Future<void> _getUserInfo() async{
-    _userData = await _presenter!.getUserInfor();
+    _userData = await _presenter!.getUserInfo();
     _username = _userData!['phone'];
     _streamUser = FirebaseFirestore.instance.collection('users').doc(_username).snapshots();
     setState((){});

@@ -9,7 +9,7 @@ import '../../../../common/functions.dart';
 import '../../../../common/keys.dart';
 
 class CommentPresenter{
-  Future SendChat({required String idNews,required Comment comment, File? imageFile, required type}) async{
+  Future sendMessage({required String idNews,required Comment comment, File? imageFile, required type}) async{
     if(imageFile!=null){
       final metadata = SettableMetadata(contentType: "image/jpeg");
       final storageRef = FirebaseStorage.instance.ref();
@@ -19,18 +19,18 @@ class CommentPresenter{
           .putFile(imageFile, metadata).whenComplete(() async{
         comment.imageLink = await getLinkStorage(path).then((value) => comment.imageLink=value);
         CommonKey.UPDATE_CHILD==type
-            ?UpdateChildComment(comment, idNews)
-            :_PostData(comment, idNews);
+            ?updateCommentReply(comment, idNews)
+            :_postComment(comment, idNews);
       });
     }else{
       CommonKey.UPDATE_CHILD==type
-          ?UpdateChildComment(comment, idNews)
-          :_PostData(comment, idNews);
+          ?updateCommentReply(comment, idNews)
+          :_postComment(comment, idNews);
     }
   }
 
 
-  Future<String> getLinkImage({required String idNews,required Comment comment, required File imageFile}) async{
+  Future<String> getPhotoLink({required String idNews,required Comment comment, required File imageFile}) async{
     String linkUrl = '';
     final metadata = SettableMetadata(contentType: "image/jpeg");
     final storageRef = FirebaseStorage.instance.ref();
@@ -42,7 +42,7 @@ class CommentPresenter{
     });
     return linkUrl;
   }
-  void _PostData(Comment comment, String idNews){
+  void _postComment(Comment comment, String idNews){
     Map<String, dynamic> commentList = comment.toJson();
     FirebaseFirestore.instance.collection('comment').doc(idNews).collection(idNews).add(commentList).then((value) {
       FirebaseFirestore.instance.collection('comment').doc(idNews).collection(idNews).doc(value.id).update({
@@ -51,7 +51,7 @@ class CommentPresenter{
     });
   }
 
-  void UpdateChildComment(Comment comment, String idNews){
+  void updateCommentReply(Comment comment, String idNews){
     List<Map<String, dynamic>> listComment = [];
     comment.listComment!.forEach((element) => listComment.add(element.toJson()));
     FirebaseFirestore.instance.collection('comment').doc(idNews).collection(idNews).doc(comment.id).update({
@@ -59,7 +59,7 @@ class CommentPresenter{
     });
   }
 
-  void DeleteComment(Comment comment, String idNews){
+  void deleteComment(Comment comment, String idNews){
     FirebaseFirestore.instance.collection('comment').doc(idNews).collection(idNews).doc(comment.id).delete();
   }
 }

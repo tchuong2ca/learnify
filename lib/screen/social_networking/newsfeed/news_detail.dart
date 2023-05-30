@@ -24,7 +24,6 @@ class NewsDetailPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //CustomAppBar(appType: AppType.child, title: data!['description']),
           SizedBox(height: 8,),
           Expanded(
             child: SingleChildScrollView(

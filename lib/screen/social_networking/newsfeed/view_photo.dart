@@ -78,7 +78,6 @@ class _PhotosPageView extends State<MediaPageView>{
                     child: Center(
                       child: AspectRatio(
                         aspectRatio: _videoController.value.aspectRatio,
-                        //margin: EdgeInsets.only(top: 52, bottom: 16),
                           child: _videoController.value.isInitialized
                               ? VideoPlayer(_videoController)
                               : const Center(

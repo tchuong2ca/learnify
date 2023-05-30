@@ -4,9 +4,9 @@ class Message{
   String? message;
   String? linkImage;
   String? username;
-  String? fullname;
+  String? fullName;
   String? usernameFriend;
-  String? fullnameFriend;
+  String? friendName;
   Timestamp? timestamp;
   String? avatar;
 
@@ -14,32 +14,32 @@ class Message{
       {this.message,
         this.linkImage,
         this.username,
-        this.fullname,
+        this.fullName,
         this.usernameFriend,
-        this.fullnameFriend,
+        this.friendName,
         this.timestamp,
         this.avatar});
 
   Message.fromJson(dynamic json) {
     username = json['username'];
-    fullname = json['fullname'];
+    fullName = json['fullname'];
     avatar = json['avatar'];
     message = json['message'];
     timestamp = json['timestamp'];
     usernameFriend = json['usernameFriend'];
-    fullnameFriend = json['fullnameFriend'];
+    friendName = json['fullnameFriend'];
     linkImage = json['linkImage'];
   }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['username'] = username;
-    map['fullname'] = fullname;
+    map['fullname'] = fullName;
     map['avatar'] = avatar;
     map['message']=message;
     map['timestamp']=timestamp;
     map['usernameFriend']=usernameFriend;
-    map['fullnameFriend']=fullnameFriend;
+    map['fullnameFriend']=friendName;
     map['linkImage']=linkImage;
     return map;
   }

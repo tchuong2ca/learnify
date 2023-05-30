@@ -66,7 +66,7 @@ class PostPresenter {
     return true;
   }
 
-  Future<Info> getAccountInfor() async{
+  Future<Info> getAccountInfo() async{
     dynamic user = await SharedPreferencesData.getData(CommonKey.USER);
     Map<String, dynamic>json = jsonDecode(user.toString());
 

@@ -132,10 +132,6 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   toolbarHeight: 0,
-        //   backgroundColor: CommonColor.transparent,
-        // ),
         body: WillPopScope(
           child: Column(
             mainAxisSize: MainAxisSize.max,

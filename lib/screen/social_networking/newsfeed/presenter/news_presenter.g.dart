@@ -89,14 +89,6 @@ mixin _$NewsPresenter on _NewsPresenter, Store {
         .run(() => super.getImageFromGallery(context));
   }
 
-  late final _$getTopicsAsyncAction =
-      AsyncAction('_NewsPresenter.getTopics', context: context);
-
-  @override
-  Future<void> getTopics() {
-    return _$getTopicsAsyncAction.run(() => super.getTopics());
-  }
-
   @override
   String toString() {
     return '''

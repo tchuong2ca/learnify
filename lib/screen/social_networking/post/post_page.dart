@@ -254,7 +254,7 @@ class _PostPageState extends State<PostPage> {
   }
 
   Future<void> _getAccountInfor() async{
-    _person = await _presenter!.getAccountInfor();
+    _person = await _presenter!.getAccountInfo();
     setState(()=>null);
   }
 

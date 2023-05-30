@@ -58,7 +58,6 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //CustomAppBar(appType: AppType.child, title: widget._data!['description']),
               Expanded(
                 child: SingleChildScrollView(
                   child: StreamBuilder<DocumentSnapshot>(
@@ -247,7 +246,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                               Comment? comment = await _level!='1'
                                   ?_comment
                                   :Comment(
-                                  nameFeedback: _nameFeedback,
+                                  feedbackName: _nameFeedback,
                                   name: widget._dataUser!['fullname'],
                                   content: _message,
                                   idUser: widget._dataUser!['phone'],
@@ -258,12 +257,12 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                   ]
                               );
                               if(_level!='1'&&_fileImage!=null){
-                                _linkImage = await _presenter!.getLinkImage(idNews: widget._data!['id'], comment: comment!, imageFile: _fileImage!);
+                                _linkImage = await _presenter!.getPhotoLink(idNews: widget._data!['id'], comment: comment!, imageFile: _fileImage!);
                               }
                               _level=='2'?_comment!.listComment!.add(
                                   Comment(
                                       id: getCurrentTime(),
-                                      nameFeedback: _nameFeedback,
+                                      feedbackName: _nameFeedback,
                                       name: widget._dataUser!['fullname'],
                                       content: replaceKey(_message, _nameFeedback),
                                       idUser: widget._dataUser!['phone'],
@@ -276,7 +275,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                   )
                               ):_level=='3'?_comment!.listComment![_indexLevel].listComment!.add( Comment(
                                 id: getCurrentTime(),
-                                nameFeedback: _nameFeedback,
+                                feedbackName: _nameFeedback,
                                 name: widget._dataUser!['fullname'],
                                 content: replaceKey(_message, _nameFeedback),
                                 idUser: widget._dataUser!['phone'],
@@ -286,8 +285,8 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                 level: _level,
                               )):null;
                               _fileImage!=null
-                                  ?_presenter!.SendChat(idNews: widget._data!['id'], comment: comment!, type: _level!='1'?CommonKey.UPDATE_CHILD:CommonKey.ADD_NEW, imageFile: _fileImage!)
-                                  :_presenter!.SendChat(idNews: widget._data!['id'], comment: comment!, type: _level!='1'?CommonKey.UPDATE_CHILD:CommonKey.ADD_NEW);
+                                  ?_presenter!.sendMessage(idNews: widget._data!['id'], comment: comment!, type: _level!='1'?CommonKey.UPDATE_CHILD:CommonKey.ADD_NEW, imageFile: _fileImage!)
+                                  :_presenter!.sendMessage(idNews: widget._data!['id'], comment: comment!, type: _level!='1'?CommonKey.UPDATE_CHILD:CommonKey.ADD_NEW);
                               _message = '';
                               _fileImage = null;
                               _controllerMess = TextEditingController(text: _message);
@@ -339,7 +338,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   NeoText(comment.name!, textStyle: TextStyle(fontSize: 14, color: AppColors.pastelBlue,)),
-                  (comment.nameFeedback==null||comment.nameFeedback!.isEmpty)?SizedBox():NeoText(comment.nameFeedback!, textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.black)),
+                  (comment.feedbackName==null||comment.feedbackName!.isEmpty)?SizedBox():NeoText(comment.feedbackName!, textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.black)),
                   NeoText(comment.content!, textStyle: TextStyle(fontSize: 14, color: AppColors.black,))
                 ],
               ),
@@ -369,7 +368,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                   _controllerMess = TextEditingController(text: _nameFeedback);
                   _level='2';
                   _comment = Comment(
-                      nameFeedback: comment.nameFeedback,
+                      feedbackName: comment.feedbackName,
                       name: comment.name,
                       content: comment.content,
                       idUser: comment.idUser,
@@ -390,7 +389,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
             SizedBox(width: 50,),
             widget._dataUser!['phone']==comment.idUser?InkWell(
               onTap: (){
-                _presenter!.DeleteComment(comment,widget._data!['id']);
+                _presenter!.deleteComment(comment,widget._data!['id']);
               },
               child: NeoText(
                   Languages.of(context).delete,
@@ -438,7 +437,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                       children: [
                         NeoText(comment.name!, textStyle: TextStyle(fontSize: 15, color: AppColors.black,fontWeight: FontWeight.bold, overflow: TextOverflow.ellipsis), maxline: 1),
                         SizedBox(width: 4,),
-                        Expanded(child:(comment.nameFeedback==null||comment.nameFeedback!.isEmpty)?SizedBox():NeoText('@${comment.nameFeedback!}', textStyle: TextStyle(fontSize: 15,  color: AppColors.pastelBlue, overflow: TextOverflow.ellipsis), maxline: 1),
+                        Expanded(child:(comment.feedbackName==null||comment.feedbackName!.isEmpty)?SizedBox():NeoText('@${comment.feedbackName!}', textStyle: TextStyle(fontSize: 15,  color: AppColors.pastelBlue, overflow: TextOverflow.ellipsis), maxline: 1),
                         )
                       ],
                     ),
@@ -475,7 +474,6 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                     _controllerMess = TextEditingController(text: _nameFeedback);
                     _level='3';
                     _comment = commentParent;
-                    print(commentParent);
                   });
                 },
                 child: NeoText(
@@ -491,7 +489,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                   }else{
                     commentParent.listComment![index].listComment!.remove(comment);
                   }
-                  _presenter!.UpdateChildComment(commentParent, widget._data!['id']);
+                  _presenter!.updateCommentReply(commentParent, widget._data!['id']);
                 },
                 child: NeoText(
                     Languages.of(context).delete,

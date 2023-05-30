@@ -8,7 +8,7 @@ class Comment {
     this.content,
     this.imageLink,
     this.timeStamp,
-    this.nameFeedback,
+    this.feedbackName,
     this.level,
     this.listComment,
     this.idUser});
@@ -21,7 +21,7 @@ class Comment {
     imageLink = json['imageLink'];
     timeStamp = json['timeStamp'];
     idUser = json['idUser'];
-    nameFeedback = json['nameFeedback'];
+    feedbackName = json['nameFeedback'];
     level = json['level'];
     if (json['listComment'] != null) {
       listComment = [];
@@ -37,7 +37,7 @@ class Comment {
   String? avatar;
   String? content;
   String? imageLink;
-  String? nameFeedback;
+  String? feedbackName;
   String? level;
   Timestamp? timeStamp;
   List<Comment>? listComment;
@@ -50,7 +50,7 @@ class Comment {
     map['content'] = content;
     map['imageLink'] = imageLink;
     map['timeStamp'] = timeStamp;
-    map['nameFeedback'] = nameFeedback;
+    map['nameFeedback'] = feedbackName;
     map['level'] = level;
     map['idUser'] = idUser;
     if (listComment != null) {

@@ -39,11 +39,11 @@ class ChatRoomPresenter{
         message: message,
         avatar: user['avatar'],
         username: user['phone'],
-        fullname: user['fullname'],
+        fullName: user['fullname'],
         linkImage: link,
         timestamp: getTimestamp(),
         usernameFriend: userFriend['username'],
-        fullnameFriend: userFriend['fullname']
+        friendName: userFriend['fullname']
     );
     Map<String, dynamic> data = chat.toJson();
     FirebaseFirestore.instance.collection('chats').doc(user['phone']).collection(userFriend['username']).doc(getCurrentTime()).set(data);

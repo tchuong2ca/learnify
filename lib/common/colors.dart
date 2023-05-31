@@ -12,10 +12,11 @@ class AppColors{
   static const oriolesOrange = Color(0xfff4511e);
   static const outrageousOrange = Color(0xffff7043);
   static const vividGamboge = Color(0xffff9800);
+  static const vodka = Color(0xffbbadfc);
   static const philippineOrange = Color(0xffff6f00);
   static const golden = Color(0xffffd600);
   static const lightBlue = Color(0xff03a9f4);
-  static const blue = Color(0xff2196f3);
+  static const ultraRed = Color(0xfff06a84);
   static const yaleBlue = Color(0xff0d47a1);
   static const brightGray = Color(0xffeceff1);
   static const pastelBlue = Color(0xffb0bec5);

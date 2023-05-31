@@ -106,7 +106,7 @@ class _LessonPageState extends State<LessonPage> {
           if(_presenter!.state==SingleState.LOADING){
             return Scaffold(
               appBar: AppBar(toolbarHeight: 0,),
-              body: Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),),
+              body: Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50),),
             );
 
           }else if(_presenter!.state==SingleState.NO_DATA){
@@ -133,13 +133,13 @@ class _LessonPageState extends State<LessonPage> {
                                     //margin: EdgeInsets.all(4),
                                     child: Center(
                                       child: Card(
-                                        shadowColor: AppColors.blue,
+                                        shadowColor: AppColors.ultraRed,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10.0),
                                         ),
                                         elevation: 2,
                                         child:  IconButton(
-                                          icon: Icon(Icons.close, color: AppColors.blue, size: 22),
+                                          icon: Icon(Icons.close, color: AppColors.ultraRed, size: 22),
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
@@ -223,7 +223,7 @@ class _LessonPageState extends State<LessonPage> {
                                     _tabIndex = index;
                                   });
                                   },
-                                  labelColor: AppColors.blue,
+                                  labelColor: AppColors.ultraRed,
                                   tabs: [
                                     Tab(
                                       text: Languages.of(context).content,
@@ -256,10 +256,10 @@ class _LessonPageState extends State<LessonPage> {
                             ),
                           ),
                         ],  gripSize: 16,
-                          gripColorActive: AppColors.lightBlue,
+                          gripColorActive: AppColors.ultraRed,
                           gripColor: AppColors.transparent,
                           viewMode: SplitViewMode.Vertical,
-                          indicator: SplitIndicator(viewMode: SplitViewMode.Vertical, color: AppColors.lightBlue,),
+                          indicator: SplitIndicator(viewMode: SplitViewMode.Vertical, color: AppColors.ultraRed,),
                           activeIndicator: SplitIndicator(
                             viewMode: SplitViewMode.Vertical,
                             isActive: true,
@@ -272,13 +272,13 @@ class _LessonPageState extends State<LessonPage> {
                           //margin: EdgeInsets.all(4),
                           child: Center(
                             child: Card(
-                              shadowColor: AppColors.blue,
+                              shadowColor: AppColors.ultraRed,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               elevation: 2,
                               child:  IconButton(
-                                icon: Icon(Icons.close, color: AppColors.blue, size: 22),
+                                icon: Icon(Icons.close, color: AppColors.ultraRed, size: 22),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },

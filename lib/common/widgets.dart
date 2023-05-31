@@ -71,7 +71,7 @@ CustomDialog(
 
 showLoaderDialog(BuildContext context){
  return Center(
-   child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50)
+   child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50)
  );
 }
 Widget itemCourseAdmin(BuildContext context, String title, String content, String imageLink,Function(bool click) onClickEdit, Function(bool click) onClickDelete, Function(String id) onClick){
@@ -121,11 +121,11 @@ Widget itemCourseAdmin(BuildContext context, String title, String content, Strin
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IconButton(
-                  icon: Icon(Icons.edit, color: AppColors.blue,),
+                  icon: Icon(Icons.edit, color: AppColors.ultraRed,),
                   onPressed: ()=>onClickEdit(true),
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete_forever,color: AppColors.blue,),
+                  icon: Icon(Icons.delete_forever,color: AppColors.ultraRed,),
                   onPressed: ()=>onClickDelete(true),
                 )
               ],
@@ -256,11 +256,11 @@ Widget itemCourseAdminHours(BuildContext context, String title, String content, 
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IconButton(
-                  icon: Icon(Icons.edit, color: AppColors.blue,),
+                  icon: Icon(Icons.edit, color: AppColors.ultraRed,),
                   onPressed: ()=>onClickEdit(true),
                 ),
                 IconButton(
-                  icon: Icon(Icons.delete_forever,color: AppColors.blue,),
+                  icon: Icon(Icons.delete_forever,color: AppColors.ultraRed,),
                   onPressed: ()=>onClickDelete(true),
                 )
               ],
@@ -278,7 +278,7 @@ Widget itemSeeMore(BuildContext context, String title, Function(String call) cal
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       SizedBox(width: 8,),
-      Expanded(child: NeoText(title, textStyle: TextStyle(color: AppColors.blue, fontSize: 14, fontWeight: FontWeight.bold))),
+      Expanded(child: NeoText(title, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 14, fontWeight: FontWeight.bold))),
       InkWell(
         onTap: ()=>callback(''),
         child:

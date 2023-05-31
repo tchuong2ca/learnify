@@ -55,11 +55,36 @@ class _Application extends State<Application>{
     });
     super.didChangeDependencies();
   }
-
+  static Map<int, Color> color =
+  {
+    50:Color.fromRGBO(136,14,79, .1),
+    100:Color.fromRGBO(136,14,79, .2),
+    200:Color.fromRGBO(136,14,79, .3),
+    300:Color.fromRGBO(136,14,79, .4),
+    400:Color.fromRGBO(136,14,79, .5),
+    500:Color.fromRGBO(136,14,79, .6),
+    600:Color.fromRGBO(136,14,79, .7),
+    700:Color.fromRGBO(136,14,79, .8),
+    800:Color.fromRGBO(136,14,79, .9),
+    900:Color.fromRGBO(136,14,79, 1),
+  };
+  MaterialColor primeColor = MaterialColor(0xFFf06a84, color);
+  MaterialColor accentColor = MaterialColor(0xFF337C36, color);
   @override
   Widget build(BuildContext context) {
+
     // TODO: implement build
     return MaterialApp(
+
+        theme: ThemeData(
+          primarySwatch: Colors.deepOrange,
+          appBarTheme: AppBarTheme(
+
+            iconTheme: IconThemeData(color: Colors.black),
+            color: AppColors.vodka,
+
+          ),
+        ),
       builder: (context, child){
         return MediaQuery(data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0), child: child!);
       },
@@ -124,7 +149,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
         gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: <Color>[AppColors.white, Colors.lightBlueAccent]),
+            colors: <Color>[AppColors.white, AppColors.vodka]),
       ),
 
       padding: EdgeInsets.only(left:AppDimens.spaceHalf, right: AppDimens.spaceHalf, bottom: AppDimens.spaceMedium, top: AppDimens.spaceLarge),
@@ -153,7 +178,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
             onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (_)=>Login(_now.hour < 18&&_now.hour>5?Mode.day:Mode.night, 0))),
             child: NeoText(
                 Languages.of(context).login,
-                textStyle: TextStyle(fontSize: 16, color: AppColors.blue)
+                textStyle: TextStyle(fontSize: 16, color: AppColors.ultraRed)
             ),
             shape: RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(16.0),
@@ -176,7 +201,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
                     width: 0.5
                 )
             ),
-            color: AppColors.blue,
+            color: AppColors.ultraRed,
           ),
         ):SizedBox(),
 
@@ -204,7 +229,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
             radius: 4.0,
             dotWidth: 8.0,
             dotHeight: 8.0,
-            dotColor: AppColors.blue,
+            dotColor: AppColors.ultraRed,
             activeDotColor: AppColors.white),
       ),
     );

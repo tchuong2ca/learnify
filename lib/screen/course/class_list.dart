@@ -69,8 +69,8 @@ class _ClassListState extends State<ClassList> {
             Stack(
               fit: StackFit.expand,
               children: [
-                Center(child: NeoText('Lớp học của toi', textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
-                Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.blue,)),left: 0,)
+                Center(child: NeoText('Lớp học của toi', textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),left: 0,)
               ],
             ),
           ),
@@ -84,7 +84,7 @@ class _ClassListState extends State<ClassList> {
                       builder: (context, snapshot){
                         if(snapshot.connectionState==ConnectionState.waiting){
                           return Center(child: LoadingAnimationWidget.staggeredDotsWave(
-                          color: AppColors.lightBlue,
+                          color: AppColors.ultraRed,
                             size: 50,
                           ),);
                         }else if(snapshot.hasError){

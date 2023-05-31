@@ -58,7 +58,7 @@ class _DiscussPageState extends State<DiscussPage> {
           stream: _stream!,
           builder: (context, snapshot){
             if(snapshot.connectionState==ConnectionState.waiting){
-              return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
+              return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50),);
             }else if(snapshot.hasError){
               return notfound(Languages.of(context).noData);
             }else if(!snapshot.hasData){
@@ -114,7 +114,7 @@ class _DiscussPageState extends State<DiscussPage> {
                               onPressed: ()=>cropImage(context, (p0) => setState(()=> _fileImage=p0!), ''),
                               icon: Icon(
                                 Icons.image,
-                                color: AppColors.blue,
+                                color: AppColors.ultraRed,
                               ),
                             ),
                             Expanded(
@@ -150,7 +150,7 @@ class _DiscussPageState extends State<DiscussPage> {
                                 },
                                 icon: Icon(
                                   Icons.send,
-                                  color: AppColors.blue,
+                                  color: AppColors.ultraRed,
                                 ),
                               ),
                             )

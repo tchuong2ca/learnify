@@ -52,7 +52,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 0,
-          backgroundColor: AppColors.blue,
+          backgroundColor: AppColors.ultraRed,
         ),
         body: Column(
           mainAxisSize: MainAxisSize.max,
@@ -74,13 +74,13 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width: 8,),
-                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
+                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                   SizedBox(width: 8,),
                   ClipOval(
                     child: loadPhoto.networkImage(widget._friendData!['userAvatar']!=null?widget._friendData!['userAvatar']:'', 50, 50),
                   ),
                   SizedBox(width: 8.0,),
-                  NeoText( widget._friendData!['fullname'], textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+                  NeoText( widget._friendData!['fullname'], textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                   SizedBox(width: 52,)
                 ],
               ),
@@ -93,7 +93,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                     builder: (_, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
                         return Center(
-                          child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),
+                          child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50),
                         );
                       }else if(snapshot.hasError){
                         return  Center(
@@ -147,7 +147,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                         onPressed: ()=>cropImage(context, (p0) => setState(()=> _fileImage=p0!), ''),
                         icon: Icon(
                           Icons.image,
-                          color: AppColors.blue,
+                          color: AppColors.ultraRed,
                         ),
                       ),
                       Expanded(
@@ -176,7 +176,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                           },
                           icon: Icon(
                             Icons.send,
-                            color: AppColors.blue,
+                            color: AppColors.ultraRed,
                           ),
                         ),
                       )
@@ -248,7 +248,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          widget._userData!['phone']==data['username']?SizedBox():NeoText(data['fullname'], textStyle: TextStyle(fontSize: 12, color: AppColors.blue)),
+                          widget._userData!['phone']==data['username']?SizedBox():NeoText(data['fullname'], textStyle: TextStyle(fontSize: 12, color: AppColors.ultraRed)),
                           widget._userData!['phone']==data['username']?SizedBox():SizedBox(height: 10,),
                           NeoText(data['message'], textStyle: TextStyle(fontSize: 14, color: AppColors.black)),
                           SizedBox(height: 8,),

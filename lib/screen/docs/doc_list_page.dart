@@ -39,7 +39,7 @@ class _DocListPageState extends State<DocListPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        backgroundColor: AppColors.blue,
+        backgroundColor: AppColors.ultraRed,
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -61,9 +61,9 @@ class _DocListPageState extends State<DocListPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(Languages.of(context).document, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(Languages.of(context).document, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 SizedBox(width: 52,)
               ],
             ),
@@ -74,7 +74,7 @@ class _DocListPageState extends State<DocListPage> {
                 builder: (context, snapshot){
                   if(snapshot.connectionState==ConnectionState.waiting){
                     return Center(
-                      child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),
+                      child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50),
                     );
                   }else if(snapshot.hasError){
                     return Center(
@@ -191,7 +191,7 @@ class _DocListPageState extends State<DocListPage> {
                 IconButton(
                   icon: Icon(
                     Icons.edit,
-                    color: AppColors.blue,
+                    color: AppColors.ultraRed,
                   ),
                   onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateDocPage(CommonKey.EDIT, document)));
@@ -201,7 +201,7 @@ class _DocListPageState extends State<DocListPage> {
                 IconButton(
                   icon: Icon(
                     Icons.delete,
-                    color: AppColors.blue,
+                    color: AppColors.ultraRed,
                   ),
                   onPressed: (){
                     showDialog(

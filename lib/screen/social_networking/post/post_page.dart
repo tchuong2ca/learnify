@@ -55,7 +55,7 @@ class _PostPageState extends State<PostPage> {
           Container(
             width: double.infinity,
             height: 52,
-            color: Colors.lightBlueAccent,
+            color: AppColors.vodka,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
@@ -86,7 +86,7 @@ class _PostPageState extends State<PostPage> {
                         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0),
-                                side: BorderSide(color: AppColors.blue)))),
+                                side: BorderSide(color: AppColors.ultraRed)))),
                     onPressed: () {
                       if(_content.isEmpty){
                         Fluttertoast.showToast(msg: Languages.of(context).emptyContent);
@@ -127,7 +127,7 @@ class _PostPageState extends State<PostPage> {
                     },
                     child: NeoText('Đăng',
                         textStyle:TextStyle(
-                            fontSize: 14, color: Colors.blue)),
+                            fontSize: 14, color: AppColors.ultraRed)),
                   ),
                 )
               ],
@@ -166,7 +166,7 @@ class _PostPageState extends State<PostPage> {
                       Expanded(
                         child: NeoText(
                             Languages.of(context).choseImage,
-                            textStyle: TextStyle(fontSize: 16, color: AppColors.blue)
+                            textStyle: TextStyle(fontSize: 16, color: AppColors.ultraRed)
                         ),
                       ),
                       IconButton(
@@ -176,7 +176,7 @@ class _PostPageState extends State<PostPage> {
                         }, CommonKey.CAMERA),
                         icon: Icon(
                           Icons.camera_alt,
-                          color: AppColors.blue,
+                          color: AppColors.ultraRed,
                         ),
                       ),
                       IconButton(
@@ -186,7 +186,7 @@ class _PostPageState extends State<PostPage> {
                         }, ''),
                         icon: Icon(
                           Icons.image,
-                          color: AppColors.blue,
+                          color: AppColors.ultraRed,
                         ),
                       ),
                       IconButton(
@@ -196,7 +196,7 @@ class _PostPageState extends State<PostPage> {
                         },'VIDEO'),
                         icon: Icon(
                           Icons.video_collection_rounded,
-                          color: AppColors.blue,
+                          color: AppColors.ultraRed,
                         ),
                       )
                     ],

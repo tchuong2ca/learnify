@@ -90,9 +90,9 @@ class _PersonalPageState extends State<PersonalPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width: 8,),
-                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
+                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText('Cập nhật thông tin', textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText('Cập nhật thông tin', textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
                       onPressed: (){
                         showLoaderDialog(context);
@@ -120,15 +120,20 @@ class _PersonalPageState extends State<PersonalPage> {
                 stream: _stream,
                 builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
                   if(snapshot.connectionState==ConnectionState.waiting){
-                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
+                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50),);
                   }
                   if(snapshot.hasError){
                     return Center(child: Text('No data...'),);
                   }
                   else{
-                    Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-                    //print(data);
-                    return _itemView(data);
+                    if(snapshot.data!=null){
+                      Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                      //print(data);
+                      return _itemView(data);
+                    }
+                 else {
+                   return showLoaderDialog(context);
+                    }
                   }
 
                 },
@@ -248,7 +253,7 @@ class _PersonalPageState extends State<PersonalPage> {
                 },
                 icon: Icon(
                   Icons.edit,
-                  color: AppColors.blue,
+                  color: AppColors.ultraRed,
                 ),
               ),
             ],
@@ -262,9 +267,9 @@ class _PersonalPageState extends State<PersonalPage> {
             decoration: InputDecoration(
                 labelText: Languages.of(context).fullName, hintText: Languages.of(context).fullName,
               focusedBorder:  OutlineInputBorder(
-                borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+                borderSide:  BorderSide(color: _enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),),
               enabledBorder:  OutlineInputBorder(
-                borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+                borderSide:  BorderSide(color:_enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),
               ),
               border: const OutlineInputBorder(),
             ),
@@ -285,9 +290,9 @@ class _PersonalPageState extends State<PersonalPage> {
               InputDecoration(
                 labelText: Languages.of(context).address, hintText: Languages.of(context).address,
                 focusedBorder:  OutlineInputBorder(
-                  borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+                  borderSide:  BorderSide(color: _enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),),
                 enabledBorder:  OutlineInputBorder(
-                  borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+                  borderSide:  BorderSide(color:_enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),
                 ),
                 border: const OutlineInputBorder(),
               ),
@@ -304,9 +309,9 @@ class _PersonalPageState extends State<PersonalPage> {
               decoration: InputDecoration(
                 labelText: Languages.of(context).birthday, hintText: Languages.of(context).birthday,
                 focusedBorder:  OutlineInputBorder(
-                  borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+                  borderSide:  BorderSide(color: _enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),),
                 enabledBorder:  OutlineInputBorder(
-                  borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+                  borderSide:  BorderSide(color:_enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),
                 ),
                 border: const OutlineInputBorder(),
               ),
@@ -323,9 +328,9 @@ class _PersonalPageState extends State<PersonalPage> {
               InputDecoration(
                 labelText: 'Số năm kinh nghiệm', hintText: 'Số năm kinh nghiệm',
                 focusedBorder:  OutlineInputBorder(
-                  borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+                  borderSide:  BorderSide(color: _enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),),
                 enabledBorder:  OutlineInputBorder(
-                  borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+                  borderSide:  BorderSide(color:_enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),
                 ),
                 border: const OutlineInputBorder(),
               ),
@@ -342,9 +347,9 @@ class _PersonalPageState extends State<PersonalPage> {
               InputDecoration(
                 labelText: Languages.of(context).specialize, hintText: Languages.of(context).specialize,
                 focusedBorder:  OutlineInputBorder(
-                  borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+                  borderSide:  BorderSide(color: _enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),),
                 enabledBorder:  OutlineInputBorder(
-                  borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+                  borderSide:  BorderSide(color:_enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),
                 ),
                 border: const OutlineInputBorder(),
               ),
@@ -360,9 +365,9 @@ class _PersonalPageState extends State<PersonalPage> {
               decoration: InputDecoration(
                 labelText: Languages.of(context).describeInfo, hintText: Languages.of(context).describeInfo,
                 focusedBorder:  OutlineInputBorder(
-                  borderSide:  BorderSide(color: _enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),),
+                  borderSide:  BorderSide(color: _enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),),
                 enabledBorder:  OutlineInputBorder(
-                  borderSide:  BorderSide(color:_enableEditing==true?Colors.blue:Colors.grey, width: _enableEditing==true?1.5:0.0),
+                  borderSide:  BorderSide(color:_enableEditing==true?AppColors.ultraRed:Colors.grey, width: _enableEditing==true?1.5:0.0),
                 ),
                 border: const OutlineInputBorder(),
               ),

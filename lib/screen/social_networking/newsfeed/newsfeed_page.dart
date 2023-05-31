@@ -68,12 +68,12 @@ class _NewsPage extends State<NewsPage>{
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-               IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
+               IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(Languages.of(context).qa, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(Languages.of(context).qa, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 IconButton(
                   onPressed:()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatListPage(_userData))),
-                  icon: Icon(Icons.message, color: AppColors.blue,),
+                  icon: Icon(Icons.message, color: AppColors.ultraRed,),
                 )
               ],
             ),
@@ -90,7 +90,7 @@ class _NewsPage extends State<NewsPage>{
                     stream: _stream,
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
-                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
+                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50),);
                       }else if(snapshot.hasError){
                         return Center(child: Text('No data...'),);
                       }else{
@@ -143,15 +143,18 @@ class _NewsPage extends State<NewsPage>{
                     Navigator.push(context, MaterialPageRoute(builder: (_)=>PersonalPage(data['role']!)));
                   },),
                   SizedBox(width: 8.0,),
-                  Expanded(
-                    child: NeoText(Languages.of(context).whatsinyourmind, textStyle: TextStyle(fontSize: 14, color: AppColors.black)),
+                  InkWell(onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (_)=>PostPage('',null)));
+                  },
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      width: getWidthDevice(context)-66,
+                      height: 50,
+                      //color: AppColors.orangePeel,
+                      child: NeoText(Languages.of(context).whatsinyourmind, textStyle: TextStyle(fontSize: 14, color: AppColors.black)),
+                    ),
                   ),
-                  IconButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>PostPage('',null)));
-                    },
-                    icon: Icon(Icons.image, color: AppColors.blue,),
-                  )
+
                 ],
               ),
               SizedBox(height: 8,),
@@ -233,13 +236,13 @@ class _NewsPage extends State<NewsPage>{
                 },
                 icon: Icon(
                   Icons.more_vert_sharp,
-                  color: AppColors.blue,
+                  color: AppColors.ultraRed,
                 ),
               )
                   :IconButton(
                 icon: Icon(
                   Icons.chat_outlined,
-                  color: AppColors.blue,
+                  color: AppColors.ultraRed,
                 ),
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatRoomPage(_userData, data)));
@@ -377,7 +380,7 @@ class _NewsPage extends State<NewsPage>{
                   child: TextButton.icon(
                     onPressed: () {
                       Navigator.push(context,
-                         MaterialPageRoute(builder: (_)=>CommentNewsPage(data, _userData)))
+                         MaterialPageRoute(builder: (_)=>CommentPage(data, _userData)))
                           .then((value) {
                         if (value != null && value is bool && value) {}
                       });

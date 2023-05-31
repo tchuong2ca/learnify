@@ -71,9 +71,9 @@ class _ScheduleState extends State<Schedule> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(_role=='MEMBER'?Languages.of(context).schedule:'Lịch dạy', textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(_role=='MEMBER'?Languages.of(context).schedule:'Lịch dạy', textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 SizedBox(width: 52,)
               ],
             ),
@@ -82,7 +82,7 @@ class _ScheduleState extends State<Schedule> {
             child: Observer(
               builder: (_){
                 if(_presenter!.state==SingleState.LOADING){
-                  return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
+                  return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50),);
                 }else if(_presenter!.state==SingleState.NO_DATA){
                   return Center(child: Text('No data...'),);
                 }else{
@@ -189,7 +189,7 @@ class _ScheduleState extends State<Schedule> {
         height: _dateNow==date?getWidthDevice(context)/4:getWidthDevice(context)/5.5,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(200)),
-            color: _dateNow==date?AppColors.blue:AppColors.brightGray,
+            color: _dateNow==date?AppColors.ultraRed:AppColors.brightGray,
             boxShadow: [
               BoxShadow(
                 color: _dateNow==date?AppColors.white.withOpacity(0.5):AppColors.white.withOpacity(0),

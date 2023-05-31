@@ -62,7 +62,7 @@ Future<void> cropImage(BuildContext context,Function (File?) onResult, String ty
       uiSettings: [
         AndroidUiSettings(
             toolbarTitle: 'Cropper',
-            toolbarColor: AppColors.blue,
+            toolbarColor: AppColors.ultraRed,
             toolbarWidgetColor: AppColors.white,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
@@ -230,7 +230,7 @@ class loadPhoto{
               child:
 
               LoadingAnimationWidget.staggeredDotsWave(
-                color: AppColors.lightBlue,
+                color: AppColors.ultraRed,
                 size: 25,
               )
             );
@@ -262,7 +262,7 @@ class loadPhoto{
             return Center(
               child:
               LoadingAnimationWidget.staggeredDotsWave(
-                color: AppColors.lightBlue,
+                color: AppColors.ultraRed,
                 size: 25,
               )
             );

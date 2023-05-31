@@ -74,9 +74,9 @@ class _CreateDocPageState extends State<CreateDocPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText( Languages.of(context).documentNews, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText( Languages.of(context).documentNews, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 ElevatedButton(
                     onPressed: (){
                       if(_fileImage==null&&CommonKey.EDIT!=widget._keyFlow){
@@ -179,7 +179,7 @@ class _CreateDocPageState extends State<CreateDocPage> {
                 ),
                 IconButton(
                   icon: Icon(Icons.arrow_circle_up_sharp),
-                  color: AppColors.blue,
+                  color: AppColors.ultraRed,
                   onPressed: () async{
                     FilePickerResult? result = await FilePicker.platform.pickFiles(
                       type: FileType.custom,

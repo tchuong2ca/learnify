@@ -13,18 +13,19 @@ import '../../../common/colors.dart';
 import '../../../common/keys.dart';
 import '../../../common/themes.dart';
 import '../../../languages/languages.dart';
+import '../../../res/images.dart';
 import '../newsfeed/news_detail.dart';
 import 'dart:math' as math;
-class CommentNewsPage extends StatefulWidget {
+class CommentPage extends StatefulWidget {
   Map<String, dynamic>? _data;
   Map<String, dynamic>? _dataUser;
-  CommentNewsPage(this._data, this._dataUser);
+  CommentPage(this._data, this._dataUser);
 
   @override
-  State<CommentNewsPage> createState() => _CommentNewsPageState();
+  State<CommentPage> createState() => _CommentPageState();
 }
 
-class _CommentNewsPageState extends State<CommentNewsPage> {
+class _CommentPageState extends State<CommentPage> {
 
   Stream<DocumentSnapshot>? _streamNew;
   Stream<QuerySnapshot>? _streamComment;
@@ -64,7 +65,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                     stream: _streamNew,
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
-                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
+                        return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50),);
                       }else if(snapshot.hasError){
                         return notfound(Languages.of(context).noData);
                       }else if(!snapshot.hasData){
@@ -109,42 +110,88 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                               ),
                               listImage.length==1
                                   ? InkWell(
-                                  onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(data['mediaUrl'], 0))),
-                                  child: loadPhoto.imageNetworkWrapContent(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(data['mediaUrl'], 0)));
+                                  },
+                                  child:
+                                  listImage[0].toString().contains('mp4')?
+                                  Image.asset(Images.horizontalplaybtn):
+                                  loadPhoto.imageNetworkWrapContent(
                                       listImage[0] != null ? listImage[0] : ''))
                                   :listImage.length==2?InkWell(
-                                onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data))),
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data)));
+                                },
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    loadPhoto.networkImage(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
+                                    listImage[0].toString().contains('mp4')?
+                                    Image.asset(Images.horizontalplaybtn,  width: getWidthDevice(context)/2-16,height: getHeightDevice(context)/4,):loadPhoto.networkImage(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
                                     Spacer(),
-                                    loadPhoto.networkImage(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
+                                    listImage[1].toString().contains('mp4')?
+                                    Image.asset(Images.horizontalplaybtn, width: getWidthDevice(context)/2-16,height: getHeightDevice(context)/4,):loadPhoto.networkImage(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4, getWidthDevice(context)/2-16),
                                   ],
                                 ),
-                              ): InkWell(
-                                onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data))),
+                              ): listImage.length==3?InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data)));
+                                },
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    loadPhoto.networkImage(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/2, getWidthDevice(context)/2-16),
+                                    listImage[0].toString().contains('mp4')?
+                                    Image.asset(Images.horizontalplaybtn, height: getHeightDevice(context)/2.2,fit: BoxFit.fill,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/2, getWidthDevice(context)/2-16),
                                     Spacer(),
                                     Column(
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        loadPhoto.networkImage(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
+                                        listImage[1].toString().contains('mp4')?
+                                        Image.asset(Images.horizontalplaybtn,fit: BoxFit.fill, height:  getHeightDevice(context)/5,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
                                         SizedBox(height: 8,),
+                                        listImage[2].toString().contains('mp4')?
+                                        Image.asset(Images.horizontalplaybtn,fit: BoxFit.fill,height:  getHeightDevice(context)/5,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[2]!=null?listImage[2]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ):InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data)));
+                                },
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        listImage[0].toString().contains('mp4')?
+                                        Image.asset(Images.horizontalplaybtn, height: getHeightDevice(context)/5,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[0]!=null?listImage[0]:'', getHeightDevice(context)/5, getWidthDevice(context)/2-16),
+                                        Spacer(),
+                                        listImage[1].toString().contains('mp4')?
+                                        Image.asset(Images.horizontalplaybtn, height: getHeightDevice(context)/5,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[1]!=null?listImage[1]:'', getHeightDevice(context)/5, getWidthDevice(context)/2-16),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        listImage[2].toString().contains('mp4')?
+                                        Image.asset(Images.horizontalplaybtn,height: getHeightDevice(context)/5,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[2]!=null?listImage[2]:'', getHeightDevice(context)/5, getWidthDevice(context)/2-16),
+                                        Spacer(),
                                         Stack(
                                           alignment: Alignment.center,
                                           children: [
-                                            loadPhoto.networkImage(listImage[2]!=null?listImage[2]:'', getHeightDevice(context)/4-4, getWidthDevice(context)/2-16),
-                                            NeoText('${listImage.length>3?'+${listImage.length}':''}', textStyle: TextStyle(color: AppColors.cultured, fontSize: 25))
+                                            listImage[3].toString().contains('mp4')?
+                                            Image.asset(Images.horizontalplaybtn, height: getHeightDevice(context)/5,width: getWidthDevice(context)/2-16,):loadPhoto.networkImage(listImage[3]!=null?listImage[3]:'', getHeightDevice(context)/5, getWidthDevice(context)/2-16),
+                                            NeoText('${listImage.length>4?'+${listImage.length-4}':''}', textStyle: TextStyle(color: AppColors.cultured, fontSize: 25))
                                           ],
                                         ),
                                       ],
@@ -159,7 +206,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                                 stream: _streamComment,
                                 builder: (context, snapshotsComment){
                                   if(snapshotsComment.connectionState==ConnectionState.waiting){
-                                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50));
+                                    return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50));
                                   }else if(snapshotsComment.hasError){
                                     return notfound(Languages.of(context).noData);
                                   }else if(!snapshotsComment.hasData){
@@ -227,7 +274,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                         onPressed: ()=>cropImage(context, (p0) => setState(()=> _fileImage=p0!), ''),
                         icon: Icon(
                           Icons.image,
-                          color: AppColors.blue,
+                          color: AppColors.ultraRed,
                         ),
                       ),
                       Expanded(
@@ -298,8 +345,8 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                             }
                           },
                           icon: Icon(
-                            Icons.send,
-                            color: AppColors.blue,
+                            Icons.send_rounded,
+                            color: AppColors.ultraRed,
                           ),
                         ),
                       )
@@ -383,7 +430,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
               },
               child: NeoText(
                   Languages.of(context).feedback,
-                  textStyle: TextStyle(color: AppColors.blue, fontSize: 10)
+                  textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 10)
               ),
             ),
             SizedBox(width: 50,),
@@ -393,7 +440,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
               },
               child: NeoText(
                   Languages.of(context).delete,
-                  textStyle: TextStyle(color: AppColors.blue, fontSize: 10)
+                  textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 10)
               ),
             ):SizedBox(),
           ],
@@ -478,7 +525,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                 },
                 child: NeoText(
                     Languages.of(context).feedback,
-                    textStyle: TextStyle(color: AppColors.blue, fontSize: 10)
+                    textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 10)
                 ),
               ),
               SizedBox(width: 50,),
@@ -493,7 +540,7 @@ class _CommentNewsPageState extends State<CommentNewsPage> {
                 },
                 child: NeoText(
                     Languages.of(context).delete,
-                    textStyle: TextStyle(color: AppColors.blue, fontSize: 10)
+                    textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 10)
                 ),
               ):SizedBox(),
             ],

@@ -91,13 +91,13 @@ class _EditQuestionState extends State<EditQuestion> {
               children: [
                 Center(
                   child: NeoText(Languages.of(context).editQuestion,
-                      textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18,
+                      textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18,
                           fontWeight: FontWeight.bold), textAlign: TextAlign.center),
                 ),
                 Positioned(child:  IconButton(onPressed: (){
                   Navigator.pop(context);
                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>EditQuiz(widget.quizId)));
-                }, icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
+                }, icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                   left: 0,)
               ],
             )

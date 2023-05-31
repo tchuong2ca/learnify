@@ -8,11 +8,11 @@ class AppThemes{
       fillColor: Colors.white,
       contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       border: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.blue),
+        borderSide: BorderSide(color: AppColors.ultraRed),
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.lightBlue),
+        borderSide: BorderSide(color: AppColors.ultraRed),
         borderRadius: BorderRadius.all(Radius.circular(8)),
       ),
       hintText: hintText,

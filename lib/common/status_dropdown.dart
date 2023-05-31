@@ -26,7 +26,7 @@ class DropDownBoxStatus extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
             border: Border.all(
-                color: AppColors.blue
+                color: AppColors.ultraRed
             )
         ),
         child: DropdownButtonHideUnderline(

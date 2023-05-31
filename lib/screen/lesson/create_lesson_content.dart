@@ -88,9 +88,9 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(width: 8,),
-                IconButton(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back, color: AppColors.blue,)),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: const Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                 const SizedBox(width: 8,),
-                Expanded(child: NeoText(_lesson!.lessonName!=null?_lesson!.lessonName!:'', textStyle: const TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(_lesson!.lessonName!=null?_lesson!.lessonName!:'', textStyle: const TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 ElevatedButton(
                     onPressed: (){
                       if(_videoLink.isEmpty){
@@ -98,7 +98,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                       }else if(_fileContent.isEmpty){
                         CustomDialog(context: context, content: 'chưa có file nội dung');
                       }
-                      else{
+                      else{ 
                         if(CommonKey.EDIT!=_keyFlow){
                           Discuss? discuss = Discuss(name: _fullname, avatar: _avatar, timeStamp: getTimestamp(), content: Languages.of(context).youNeed, nameFeedback: '');
                           LessonDetail lessonDetail = LessonDetail(
@@ -147,7 +147,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                         ),
                         IconButton(
                           icon: Icon(Icons.arrow_circle_up_sharp),
-                          color: AppColors.blue,
+                          color: AppColors.ultraRed,
                           onPressed: () async{
                             FilePickerResult? result = await FilePicker.platform.pickFiles(
                               type: FileType.custom,

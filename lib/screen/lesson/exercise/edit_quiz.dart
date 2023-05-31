@@ -107,8 +107,8 @@ class _EditQuizState extends State<EditQuiz> {
                   children: [
                     Positioned(
                         left: 0,
-                        child: IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,))),
-                    Center(child: NeoText(Languages.of(context).editQuiz,  textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                        child: IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,))),
+                    Center(child: NeoText(Languages.of(context).editQuiz,  textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   Positioned(
                     right: 0,
                     top: 0,
@@ -124,7 +124,7 @@ class _EditQuizState extends State<EditQuiz> {
                               child: Icon(
                                 Icons.add,
                                 size: 26.0,
-                                color: AppColors.blue,
+                                color: AppColors.ultraRed,
                               ),
                             )
                         ),
@@ -217,7 +217,7 @@ class _QuizEditTileState extends State<QuizEditTile> {
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => EditQuestion(widget.quizId!, widget.questionModel!.questionId!)));
                 },
-                icon: Icon(Icons.edit_note_outlined, color: AppColors.lightBlue,),
+                icon: Icon(Icons.edit_note_outlined, color: AppColors.ultraRed,),
               )
             ],
           ),

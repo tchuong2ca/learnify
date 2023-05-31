@@ -32,7 +32,7 @@ class _ChatListPageState extends State<ChatListPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        backgroundColor: AppColors.blue,
+        backgroundColor: AppColors.ultraRed,
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -52,8 +52,8 @@ class _ChatListPageState extends State<ChatListPage> {
                 Stack(
                   fit: StackFit.expand,
                   children: [
-                    Center(child: NeoText('Tin nhắn', textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
-                    Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.blue,)),left: 0,)
+                    Center(child: NeoText('Tin nhắn', textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                    Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),left: 0,)
                   ],
                 ),
           ),
@@ -62,7 +62,7 @@ class _ChatListPageState extends State<ChatListPage> {
               stream: _streamChat,
               builder: (context, snapshot){
                 if(snapshot.connectionState==ConnectionState.waiting){
-                  return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.lightBlue, size: 50),);
+                  return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50),);
                 }else if(snapshot.hasError){
                   return notfound(Languages.of(context).noData);
                 }else if(!snapshot.hasData){

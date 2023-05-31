@@ -182,25 +182,25 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                              showDialog(
                                context: context,
                                builder: (context) => AlertDialog(
-                                 title: Text('Are you sure?'),
-                                 content: Text('Do you want to log out ?'),
+                                 title: Text('Bạn chắc chứ'),
+                                 content: Text('Bạn thật sự muốn đăng xuất ?'),
                                  actions: <Widget>[
                                    TextButton(
                                      onPressed: () => Navigator.of(context).pop(false),
-                                     child: Text('No'),
+                                     child: Text('Không'),
                                    ),
                                    TextButton(
                                      onPressed: () =>  signOut(context),
-                                     child: Text('Yes'),
+                                     child: Text('Đăng xuất'),
                                    ),
                                  ],
                                ),
                              );}, icon: Icon(Icons.logout)),
                               SizedBox(width: 8,),
-                              Expanded(child: NeoText(Languages.of(context).appName, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                              Expanded(child: NeoText(Languages.of(context).appName, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                               IconButton(
                                 onPressed: (){},
-                                icon: Icon(Icons.search_sharp, color: AppColors.blue,),
+                                icon: Icon(Icons.search_sharp, color: AppColors.ultraRed,),
                               )
                             ],
                           ),
@@ -330,9 +330,9 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                               !_presenter!.seeMore ? "Xem thêm" : "Thu gọn",
                                               textStyle: TextStyle(
                                                   fontSize: 14,
-                                                  color: AppColors.blue),
+                                                  color: AppColors.ultraRed),
                                             ),
-                                            Icon(!_presenter!.seeMore ? Icons.arrow_drop_down : Icons.arrow_drop_up,size:18,color: AppColors.blue,)
+                                            Icon(!_presenter!.seeMore ? Icons.arrow_drop_down : Icons.arrow_drop_up,size:18,color: AppColors.ultraRed,)
                                           ],
                                         ),
                                       )
@@ -357,7 +357,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
                         return Center(child: LoadingAnimationWidget.staggeredDotsWave(
-                          color: AppColors.lightBlue,
+                          color: AppColors.ultraRed,
                           size: 50,
                         ),);
                       }else if(snapshot.hasError){
@@ -406,7 +406,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     builder: (context, snapshot){
                       if(snapshot.connectionState==ConnectionState.waiting){
                         return Center(child: LoadingAnimationWidget.staggeredDotsWave(
-                          color: AppColors.lightBlue,
+                          color: AppColors.ultraRed,
                           size: 50,
                         ),);
                       }else if(snapshot.hasError){

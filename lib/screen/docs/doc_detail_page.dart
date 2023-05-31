@@ -49,9 +49,9 @@ class _DocDetailsPageState extends State<DocDetailsPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(width: 8,),
-                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,)),
+                IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(widget._document!.name!, textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(widget._document!.name!, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 SizedBox(width: 52,)
               ],
             ),
@@ -99,10 +99,10 @@ class _DocDetailsPageState extends State<DocDetailsPage> {
             children: [
               Icon(
                 Icons.document_scanner,
-                color: AppColors.blue,
+                color: AppColors.ultraRed,
               ),
               SizedBox(width: 4,),
-              Expanded(child: NeoText(doc.fileName!, textStyle: TextStyle(fontSize: 12, color: AppColors.blue, overflow: TextOverflow.ellipsis), maxline: 1)),
+              Expanded(child: NeoText(doc.fileName!, textStyle: TextStyle(fontSize: 12, color: AppColors.ultraRed, overflow: TextOverflow.ellipsis), maxline: 1)),
             ],
           ),
           Divider(),

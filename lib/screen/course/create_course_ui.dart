@@ -80,8 +80,8 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
         child: Stack(
           children: [
             Container(width: getWidthDevice(context),height: 52,alignment: Alignment.center,
-            child: NeoText('Tạo khóa học', textStyle: TextStyle(color: AppColors.lightBlue, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
-          Positioned(child: IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.blue,))
+            child: NeoText('Tạo khóa học', textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+          Positioned(child: IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,))
             ,left: 0,)
           ],
         ),
@@ -233,7 +233,7 @@ class CustomDropDownName extends StatelessWidget{
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
             border: Border.all(
-                color: AppColors.blue
+                color: AppColors.ultraRed
             )
         ),
         child: DropdownButtonHideUnderline(
@@ -291,7 +291,7 @@ class CustomDropDownId extends StatelessWidget{
             borderRadius: BorderRadius.circular(8),
             color: Colors.white,
             border: Border.all(
-                color: AppColors.blue
+                color: AppColors.ultraRed
             )
         ),
         child: DropdownButtonHideUnderline(

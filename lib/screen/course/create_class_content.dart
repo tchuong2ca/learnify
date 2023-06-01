@@ -48,10 +48,12 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
   void initState() {
     _className = _myClass!.nameClass!;
     _idClassDetail = CommonKey.CLASS_DETAIL+getCurrentTime();
+    _lessonList.add(Lesson());
     _presenter = CreateClassContentPresenter();
     if(CommonKey.EDIT==_keyFlow){
       _controllerIdLesson = TextEditingController(text: _myClassResult!.idClassDetail);
       _controllerDescribe = TextEditingController(text: _myClassResult!.describe);
+      _lessonList = _myClassResult!.lesson!;
       _imageLink = _myClassResult!.imageLink!;
       _idClassDetail=_myClassResult!.idClassDetail!;
       _className=_myClassResult!.nameClass!;
@@ -153,6 +155,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                     Center(
                       child: IconButton(icon: Icon(Icons.add),onPressed: (){
                       setState(() {
+                        _lessonList.add(Lesson());
                       });
                       },)
                     ),

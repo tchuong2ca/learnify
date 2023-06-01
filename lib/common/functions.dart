@@ -197,7 +197,6 @@ Future<void> signOut(BuildContext context) async {
   RestartPage.restartApp(context);
 }
 void listenStatus(BuildContext context, bool value){
-  Navigator.pop(context);
   if(value){
     Navigator.pop(context);
     Fluttertoast.showToast(msg: 'Okela');

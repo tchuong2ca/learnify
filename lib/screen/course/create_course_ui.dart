@@ -145,7 +145,7 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
                               if (states.contains(MaterialState.pressed)) {
                                 return Colors.blue;
                               }
-                              return Colors.green;
+                              return Colors.deepOrange;
                             }),),
                           onPressed: () {
                             if(_nameCourse.isEmpty){

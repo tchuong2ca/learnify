@@ -131,14 +131,14 @@ class _ClassListState extends State<ClassList> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              title: const Text('Do you really want to delete this class ?'),
+                                              title: const Text('Bạn muốn xóa lớp này'),
 
                                               actions: <Widget>[
                                                 TextButton(
                                                   style: TextButton.styleFrom(
                                                     textStyle: Theme.of(context).textTheme.labelLarge,
                                                   ),
-                                                  child: const Text('Nu'),
+                                                  child: const Text('Thôi'),
                                                   onPressed: () {
                                                     Navigator.of(context).pop();
                                                   },
@@ -147,7 +147,7 @@ class _ClassListState extends State<ClassList> {
                                                   style: TextButton.styleFrom(
                                                     textStyle: Theme.of(context).textTheme.labelLarge,
                                                   ),
-                                                  child: const Text('Yep'),
+                                                  child: const Text('Xóa'),
                                                   onPressed: () {
                                                     _presenter!.deleteClass(data['idClass']);
                                                     Navigator.pop(context);
@@ -195,7 +195,7 @@ class _ClassListState extends State<ClassList> {
                                       () {
                                 if(!register.contains(_username)){
                                   register.add(_username);
-                                  _presenter!.RegisterClass(data['idClass'], register, data['idCourse']);
+                                  _presenter!.classRegistration(data['idClass'], register, data['idCourse']);
                                 }
                               },register.contains(_username)?false:true);
                             }).toList(),

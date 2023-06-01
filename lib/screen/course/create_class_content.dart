@@ -8,13 +8,11 @@ import 'package:online_learning/screen/course/model/class_detail.dart';
 import 'package:online_learning/screen/course/model/course_model.dart';
 import 'package:online_learning/screen/course/model/my_class_model.dart';
 import 'package:online_learning/screen/course/presenter/create_class_content_presenter.dart';
-import 'package:online_learning/screen/course/status.dart';
 import 'package:online_learning/screen/lesson/model/lesson.dart';
 
 import '../../common/colors.dart';
 import '../../common/functions.dart';
 import '../../common/keys.dart';
-import '../../common/status_dropdown.dart';
 import '../../common/themes.dart';
 import '../../languages/languages.dart';
 import '../../res/images.dart';
@@ -41,8 +39,6 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
   String _imageLink = ''; String _className = ''; String _describe = '';
   List<Lesson> _lessonList = [];
   File? _fileImage;
-  final List<Status> _statusList = [];
-  Status? _selectStatus;
   CreateClassContentPresenter? _presenter;
   TextEditingController _controllerIdLesson = TextEditingController();
   TextEditingController _controllerDescribe = TextEditingController();
@@ -50,17 +46,12 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
 
   @override
   void initState() {
-    _statusList.add(Status(CommonKey.PENDING, 'Chưa bắt đầu'));
-    _statusList.add(Status(CommonKey.READY, 'Bắt đầu'));
-    _selectStatus = _statusList[0];
-    _lessonList.add(Lesson(status: CommonKey.PENDING));
     _className = _myClass!.nameClass!;
     _idClassDetail = CommonKey.CLASS_DETAIL+getCurrentTime();
     _presenter = CreateClassContentPresenter();
     if(CommonKey.EDIT==_keyFlow){
       _controllerIdLesson = TextEditingController(text: _myClassResult!.idClassDetail);
       _controllerDescribe = TextEditingController(text: _myClassResult!.describe);
-      _lessonList = _myClassResult!.lesson!;
       _imageLink = _myClassResult!.imageLink!;
       _idClassDetail=_myClassResult!.idClassDetail!;
       _className=_myClassResult!.nameClass!;
@@ -162,7 +153,6 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                     Center(
                       child: IconButton(icon: Icon(Icons.add),onPressed: (){
                       setState(() {
-                        _lessonList.add(Lesson(status: CommonKey.PENDING));
                       });
                       },)
                     ),
@@ -178,8 +168,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
   }
 
   Widget _itemLesson(Lesson lesson, int index){
-    Status selectStatus = _selectStatus!;
-    print('test $selectStatus -- ');
+
     if(CommonKey.EDIT!=_keyFlow){
       lesson.idClassDetail = _idClassDetail;
       lesson.lessonId = CommonKey.LESSON+getCurrentTime();
@@ -193,11 +182,11 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
       if(lesson.idClassDetail!=null){
         controllerId = TextEditingController(text: lesson.lessonId);
         controllerName = TextEditingController(text: lesson.lessonName);
-        for(Status t in _statusList){
-          if(lesson.status==t.getKey){
-            selectStatus=t;
-          }
-        }
+        // for(Status t in _statusList){
+        //   if(lesson.status==t.getKey){
+        //     selectStatus=t;
+        //   }
+        // }
       }
     }
     return Container(
@@ -232,21 +221,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
               }),
             ),
           ),
-          Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: DropDownBoxStatus(
-                value: _keyFlow==CommonKey.EDIT?selectStatus:_selectStatus,
-                itemsList: _statusList,
-                onChanged: (value){
-                  setState((){
-                    _selectStatus = value;
-                    selectStatus = value;
-                    lesson.status = selectStatus.getKey;
-                  });
-                  print(selectStatus);
-                },
-              )
-          ),
+
           Center(child: TextButton(child: Text(Languages.of(context).delete), onPressed: (){
             setState(()=>_lessonList.remove(lesson));
           }, ))

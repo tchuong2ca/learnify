@@ -48,7 +48,6 @@ class CreateClassPresenter{
             'idCourse': course.getIdCourse,
             'idTeacher': course.getIdTeacher,
             'teacherName': course.getNameTeacher,
-            'status': myClass.status,
             'price': myClass.price,
             'nameClass': myClass.nameClass,
             'describe': myClass.describe,
@@ -72,7 +71,7 @@ class CreateClassPresenter{
     return true;
   }
 
-  Future<bool> UpdateClass({File? file, CourseModel? course, MyClassModel? myClass, String? url}) async{
+  Future<bool> updateClass({File? file, CourseModel? course, MyClassModel? myClass, String? url}) async{
     if(file!=null){
       final metadata = SettableMetadata(contentType: "image/jpeg");
 
@@ -116,7 +115,6 @@ class CreateClassPresenter{
   void _updateClass(CourseModel course, MyClassModel myClass, String url){
     FirebaseFirestore.instance.collection('class').doc(myClass.idClass)
         .update({
-      'status': myClass.status,
       'price': myClass.price,
       'nameClass': myClass.nameClass,
       'describe': myClass.describe,
@@ -152,7 +150,7 @@ class CreateClassPresenter{
     return phone;
   }
 
-  void RegisterClass(String idClass, List<dynamic> userRegister, String idCourse){
+  void classRegistration(String idClass, List<dynamic> userRegister, String idCourse){
     FirebaseFirestore.instance.collection('class').doc(idClass).update({
       'subscribe': userRegister
     });

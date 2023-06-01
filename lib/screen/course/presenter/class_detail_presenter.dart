@@ -26,30 +26,18 @@ abstract class _ClassDetailAdminPresenter with Store{
     }
   }
 
-  Future<bool> DeleteClassDetail(String idClass)async{
+  Future<bool> deleteLesson(String idClass)async{
     await FirebaseFirestore.instance
         .collection('class_detail')
         .doc(idClass).delete().then((value) => true).catchError((onError)=>false);
     return true;
   }
 
-  Future<Map<String, dynamic>> getUserInfor() async{
+  Future<Map<String, dynamic>> getUserInfo() async{
     dynamic user = await SharedPreferencesData.getData(CommonKey.USER);
     Map<String, dynamic> userData = jsonDecode(user.toString());
     user = userData;
     return userData;
   }
 
-  void CreateRating( _course,  ClassDetail?_myClassResult, String content, Map<String, dynamic> data){
-    FirebaseFirestore.instance.collection('ratings').doc(_myClassResult!.idClass).set({
-      "idCourse": _course.getIdCourse,
-      "idClass": _myClassResult.idClass,
-      "comment":content,
-      "nameClass": _myClassResult.nameClass,
-      "username": data['phone'],
-      "fullname": data['fullname'],
-      "avatar":data['avatar'],
-      "role":data['role']
-    });
-  }
 }

@@ -81,7 +81,6 @@ abstract class Languages{
   String get idLessonEmpty;
   String get nameLessonEmpty;
   String get info;
-  String get rating;
   String get lessonList;
   String get content;
   String get exercise;
@@ -129,7 +128,6 @@ abstract class Languages{
   String get contentEmpty;
   String get member;
   String get fileEmpty;
-  String get submitRating;
   String get teacherInfo;
   String get specialize;
   String get level;

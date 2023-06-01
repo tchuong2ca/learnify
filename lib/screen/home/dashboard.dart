@@ -466,16 +466,16 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     return (await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-          title: Text('Are you sure?'),
-          content: Text('Do you want to exit the App'),
+          title: Text('Chắc chưa?'),
+          content: Text('Bạn muốn thoát ứng dụng?'),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: Text('No'),
+          child: Text('Thôi'),
         ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(true),
-          child: Text('Yes'),
+          child: Text('Thoát'),
         ),
       ],
     ),

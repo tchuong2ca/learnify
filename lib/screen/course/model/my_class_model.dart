@@ -3,7 +3,6 @@ class MyClassModel{
   String? idCourse;
   String? idTeacher;
   String? teacherName;
-  String? status;
   String? onStageMon;
   String? onStageTue;
   String? onStageWed;
@@ -25,7 +24,6 @@ class MyClassModel{
     this.idCourse,
     this.idTeacher,
     this.teacherName,
-    this.status,
     this.onStageMon,
     this.onStageTue,
     this.onStageWed,
@@ -55,7 +53,6 @@ class MyClassModel{
     map['onStageSat'] = onStageSat;
     map['onStageSun'] = onStageSun;
     map['startHours'] = startHours;
-    map['status'] = status;
     map['subscribe'] = subscribe;
     map['teacherName'] = teacherName;
     return map;
@@ -65,7 +62,6 @@ class MyClassModel{
     idClass = json['idClass'];
     idCourse = json['idCourse'];
     idTeacher = json['idTeacher'];
-    status = json['status'];
     teacherName = json['teacherName'];
     onStageMon = json['onStageMon'];
     onStageTue = json['onStageTue'];

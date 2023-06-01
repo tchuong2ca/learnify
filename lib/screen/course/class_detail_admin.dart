@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/res/images.dart';
@@ -44,11 +43,11 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
   void initState() {
     _presenter = ClassDetailAdminPresenter();
     _stream =  FirebaseFirestore.instance.collection('class_detail').where('idClass', isEqualTo: '${_myClass!.idClass!}').snapshots();
-    getAccountInfor();
+    getAccountInfo();
   }
 
-  Future<void> getAccountInfor()async{
-    _dataUser = await _presenter!.getUserInfor();
+  Future<void> getAccountInfo()async{
+    _dataUser = await _presenter!.getUserInfo();
     setState(()=>null);
   }
   @override
@@ -87,13 +86,13 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Do you really want to delete?'),
+                            title: const Text('bạn thật sự muốn xóa?'),
                             actions: <Widget>[
                               TextButton(
                                 style: TextButton.styleFrom(
                                   textStyle: Theme.of(context).textTheme.labelLarge,
                                 ),
-                                child: const Text('No'),
+                                child: const Text('Không'),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -102,11 +101,11 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                                 style: TextButton.styleFrom(
                                   textStyle: Theme.of(context).textTheme.labelLarge,
                                 ),
-                                child: const Text('Yep'),
+                                child: const Text('Xóa'),
                                 onPressed: () {
                                   if(_myClassResult!.idClassDetail!=null){
                                     showLoaderDialog(context);
-                                    _presenter!.DeleteClassDetail(_myClassResult!.idClassDetail!).then((value) {
+                                    _presenter!.deleteLesson(_myClassResult!.idClassDetail!).then((value) {
                                       listenStatus(context, value);
                                     });
                                   }
@@ -206,7 +205,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
             Icon(Icons.circle_outlined, color: AppColors.ultraRed,),
             SizedBox(width: 4,),
             Expanded(child: NeoText('${lesson.lessonName}', textStyle: TextStyle(fontSize: 14, color: AppColors.ultraRed))),
-            Icon(lesson.status=='READY'?Icons.start:Icons.access_time_filled, color: AppColors.ultraRed,),
+            Icon(Icons.not_started, color: AppColors.ultraRed,),
             SizedBox(width: 8,),
           ],
         ),
@@ -233,11 +232,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
           children: [
             IconButton(onPressed: ()=>null, icon: Icon(Icons.info, color: AppColors.ultraRed,)),
             Expanded(child: NeoText(Languages.of(context).info, textStyle: TextStyle(fontSize: 14, color: AppColors.ultraRed))),
-            TextButton(
-              onPressed: ()=>_showDialog(),
-              child: NeoText(Languages.of(context).rating, textStyle: TextStyle(fontSize: 14, color: AppColors.outrageousOrange)),
-            ),
-            SizedBox(width: 8,),
+
           ],
         ),
         Padding(
@@ -247,33 +242,6 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
         Divider(),
         SizedBox(height: 8,),
       ],
-    );
-  }
-
-  void _showDialog(){
-
-    showDialog(
-        context: context,
-        builder: (_)=>StatefulBuilder(builder: (_, setState)=>AlertDialog(
-          title: NeoText(_myClassResult!.describe!=null?_myClassResult!.describe!:Languages.of(context).noData, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 16)),
-          content: TextField(
-            onChanged: (value)=>setState(()=>_content=value),
-          ),
-          actions: [
-            TextButton(
-              onPressed: (){
-                if(_content.isEmpty){
-                  Fluttertoast.showToast(msg:Languages.of(context).contentEmpty);
-                }else{
-                  _presenter!.CreateRating(_course!, _myClassResult, _content, _dataUser!);
-                  Navigator.pop(context);
-                }
-              },
-              child: Text(Languages.of(context).submitRating),
-            ),
-
-          ],
-        ))
     );
   }
 }

@@ -5,7 +5,7 @@ import 'languages.dart';
 class LanguagesVn extends Languages{
   @override
   // TODO: implement appName
-  String get appName => 'Online Learning';
+  String get appName => 'Learnify';
   @override
   // TODO: implement login
   String get login => 'Đăng nhập';
@@ -297,9 +297,7 @@ class LanguagesVn extends Languages{
   // TODO: implement infor
   String get info => 'Thông tin';
 
-  @override
-  // TODO: implement rating
-  String get rating => 'Đánh giá';
+
 
   @override
   // TODO: implement lessonList
@@ -490,9 +488,7 @@ class LanguagesVn extends Languages{
   // TODO: implement fileEmpty
   String get fileEmpty => 'Chưa có tệp đính kèm';
 
-  @override
-  // TODO: implement submitRating
-  String get submitRating => 'Gửi đánh giá';
+
 
   @override
   // TODO: implement teacherInfo

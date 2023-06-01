@@ -152,19 +152,19 @@ class _TeacherPageState extends State<TeacherPage> {
                                           showDialog(
                                             context: context,
                                             builder: (context) => AlertDialog(
-                                              title: Text('Are you sure?'),
-                                              content: Text('Do you want to block this user?'),
+                                              title: Text('Chắc chưa?'),
+                                              content: Text('Khóa tài khoản này?'),
                                               actions: <Widget>[
                                                 TextButton(
                                                   onPressed: () => Navigator.of(context).pop(false),
-                                                  child: Text('No'),
+                                                  child: Text('Thôi'),
                                                 ),
                                                 TextButton(
                                                   onPressed: (){
                                                     _presenter!.lookAccount(data['phone']);
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Text('Yes'),
+                                                  child: Text('Khóa'),
                                                 ),
                                               ],
                                             ),

@@ -4,12 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_learning/screen/course/presenter/create_class_presenter.dart';
-import 'package:online_learning/screen/course/status.dart';
 import '../../common/colors.dart';
 import '../../common/days_dropdown.dart';
 import '../../common/functions.dart';
 import '../../common/keys.dart';
-import '../../common/status_dropdown.dart';
 import '../../common/themes.dart';
 import '../../common/widgets.dart';
 import '../../external/custom_time_picker/custom_picker.dart';
@@ -37,10 +35,8 @@ class _CreateClassUIState extends State<CreateClassUI> {
   _CreateClassUIState(this._course, this._keyFlow, this._data);
   File? _fileImage;
   String _idClass=''; String _idCourse=''; String _idTeacher='';
-  String _teacherName=''; String _status='';
+  String _teacherName='';
   String _nameClass = ''; String _describe = '';
-  final List<Status> _statusList = [];
-  Status? _selectStatus;
   CreateClassPresenter? _presenter;
   TextEditingController _controllerIdClass = TextEditingController();
   TextEditingController _controllerNameClass = TextEditingController();
@@ -71,10 +67,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
     _idCourse = _course!.getIdCourse!;
     _idTeacher = _course!.getIdTeacher!;
     _teacherName = _course!.getNameTeacher!;
-    _statusList.add(Status('', 'Trạng thái'));
-    _statusList.add(Status(CommonKey.PENDING, 'Chưa bắt đầu'));
-    _statusList.add(Status(CommonKey.READY, 'Bắt đầu'));
-    _selectStatus = _statusList[0];
+
     _dayList =List.from(_dayList3);
 
     _dayList2 =List.from(_dayList3);
@@ -90,12 +83,6 @@ class _CreateClassUIState extends State<CreateClassUI> {
       _nameClass = _data!['nameClass'];
       _describe = _data!['describe'];
       _imageLink = _data!['imageLink'];
-      for(Status s in _statusList){
-        if(s.getKey==_data!['status']){
-          _selectStatus = s;
-        }
-      }
-      _status=_selectStatus!.getKey;
       _day1 = _data!['onStageMon']==''?'MON':_data!['onStageMon'];
       _hour = _data!['startHours'];
       _timeController = TextEditingController(text: _hour);
@@ -158,13 +145,11 @@ class _CreateClassUIState extends State<CreateClassUI> {
                           Fluttertoast.showToast(msg: 'Chưa chọn ảnh');
                         }else if(_nameClass.isEmpty){
                           Fluttertoast.showToast(msg: 'Chưa có tên lớp học');
-                        }else if(_status.isEmpty){
-                          Fluttertoast.showToast(msg: 'Chưa có trạng thái của lớp');
                         }else if(_hour.isEmpty){
                           Fluttertoast.showToast(msg: 'Chưa chọn lịch học');
                         }else{
                           MyClassModel myClass = MyClassModel(idClass: replaceSpace(_idClass), idCourse: _idCourse, idTeacher: _idTeacher,
-                              teacherName: _teacherName, status: _status,
+                              teacherName: _teacherName,
                               onStageMon: _day1==CommonKey.MON?_day1:_day2==CommonKey.MON?_day2:'',
                               onStageTue: _day1==CommonKey.TUE?_day1:_day2==CommonKey.TUE?_day2:'',
                               onStageWed: _day1==CommonKey.WED?_day1:_day2==CommonKey.WED?_day2:'',
@@ -178,10 +163,10 @@ class _CreateClassUIState extends State<CreateClassUI> {
                           CommonKey.EDIT!=_keyFlow?_presenter!.createClass(_fileImage!, _course!, myClass).then((value) {
                             listenStatus(context, value);
                           })
-                              :_fileImage!=null?_presenter!.UpdateClass(file: _fileImage, course: _course, myClass: myClass).then((value) {
+                              :_fileImage!=null?_presenter!.updateClass(file: _fileImage, course: _course, myClass: myClass).then((value) {
                             listenStatus(context, value);
                           })
-                              :_presenter!.UpdateClass(course: _course, myClass: myClass, url: _imageLink).then((value) {
+                              :_presenter!.updateClass(course: _course, myClass: myClass, url: _imageLink).then((value) {
                             listenStatus(context, value);
                           });
                         }
@@ -211,19 +196,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                       ),
                     ),
 
-                    Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: DropDownBoxStatus(
-                          value: _selectStatus,
-                          itemsList: _statusList,
-                          onChanged: (value){
-                            setState((){
-                              _selectStatus = value;
-                              _status = _selectStatus!.getKey;
-                            });
-                          },
-                        )
-                    ),
+
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(

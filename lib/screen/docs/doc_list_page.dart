@@ -207,19 +207,19 @@ class _DocListPageState extends State<DocListPage> {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: Text('Are you sure?'),
-                        content: Text('Do you want to delete this document?'),
+                        title: Text('Chắc chứ?'),
+                        content: Text('Bạn muốn xóa tài liệu này?'),
                         actions: <Widget>[
                           TextButton(
                             onPressed: () => Navigator.of(context).pop(false),
-                            child: Text('No'),
+                            child: Text('Thôi'),
                           ),
                           TextButton(
                             onPressed: (){
                     _presenter!.DeleteDoc(document);
                     Navigator.pop(context);
                     },
-                            child: Text('Yes'),
+                            child: Text('Xóa'),
                           ),
                         ],
                       ),

@@ -185,11 +185,6 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
       if(lesson.idClassDetail!=null){
         controllerId = TextEditingController(text: lesson.lessonId);
         controllerName = TextEditingController(text: lesson.lessonName);
-        // for(Status t in _statusList){
-        //   if(lesson.status==t.getKey){
-        //     selectStatus=t;
-        //   }
-        // }
       }
     }
     return Container(

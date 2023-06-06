@@ -226,7 +226,7 @@ class _LessonPageState extends State<LessonPage> {
                                   labelColor: AppColors.ultraRed,
                                   tabs: [
                                     Tab(
-                                      text: Languages.of(context).content,
+                                      text: 'Bài giảng',
                                     ),
                                     Tab(
                                       text: Languages.of(context).exercise,),

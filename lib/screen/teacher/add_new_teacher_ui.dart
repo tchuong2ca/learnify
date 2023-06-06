@@ -183,7 +183,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                                   child:  ClipOval(
                                       child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):_avatar.isNotEmpty&&widget._data!=null
                                           ?Image.network(_avatar,width: 150, height: 150,fit: BoxFit.cover,)
-                                          :Image.asset(Images.background_tutorial, width: 150, height: 150, fit: BoxFit.cover,)
+                                          :Image.asset(Images.pick_photo, width: 150, height: 150, fit: BoxFit.cover,)
                                   ),
                                 )
                             ),

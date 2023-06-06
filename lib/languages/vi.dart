@@ -234,10 +234,6 @@ class LanguagesVn extends Languages{
   String get nameClass => 'Tên Môn';
 
   @override
-  // TODO: implement status
-  String get status => 'Trạng thái';
-
-  @override
   // TODO: implement pending
   String get pending => 'Chưa bắt đầu';
 
@@ -248,10 +244,6 @@ class LanguagesVn extends Languages{
   @override
   // TODO: implement idClassEmpty
   String get idClassEmpty => 'Chưa nhập mã lớp học';
-
-  @override
-  // TODO: implement statusNull
-  String get statusNull => 'Chưa chọn trạng thái';
 
   @override
   // TODO: implement subjectEmpty
@@ -466,7 +458,7 @@ class LanguagesVn extends Languages{
 
   @override
   // TODO: implement documentNews
-  String get documentNews => 'Thêm mới tài liệu';
+  String get createDoc => 'Thêm mới tài liệu';
 
   @override
   // TODO: implement nameDocument

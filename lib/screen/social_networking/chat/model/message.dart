@@ -5,7 +5,7 @@ class Message{
   String? linkImage;
   String? username;
   String? fullName;
-  String? usernameFriend;
+  String? friendUsername;
   String? friendName;
   Timestamp? timestamp;
   String? avatar;
@@ -15,7 +15,7 @@ class Message{
         this.linkImage,
         this.username,
         this.fullName,
-        this.usernameFriend,
+        this.friendUsername,
         this.friendName,
         this.timestamp,
         this.avatar});
@@ -26,8 +26,8 @@ class Message{
     avatar = json['avatar'];
     message = json['message'];
     timestamp = json['timestamp'];
-    usernameFriend = json['usernameFriend'];
-    friendName = json['fullnameFriend'];
+    friendUsername = json['friendUsername'];
+    friendName = json['friendFullname'];
     linkImage = json['linkImage'];
   }
 
@@ -38,8 +38,8 @@ class Message{
     map['avatar'] = avatar;
     map['message']=message;
     map['timestamp']=timestamp;
-    map['usernameFriend']=usernameFriend;
-    map['fullnameFriend']=friendName;
+    map['friendUsername']=friendUsername;
+    map['friendFullname']=friendName;
     map['linkImage']=linkImage;
     return map;
   }

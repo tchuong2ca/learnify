@@ -77,10 +77,14 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       precacheImage(asset, context);
     });
   }
-
+  @override
+  dispose() {
+    _animationController!.dispose(); // you need this
+    super.dispose();
+  }
   initializeTheme() {
     _day = LoginTheme(
-      title: 'Good Morning,',
+      title: '',
       backgroundGradient: [
         const Color(0xFF8C2480),
         const Color(0xFFCE587D),
@@ -98,7 +102,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     );
 
     _night = LoginTheme(
-      title: 'Good Night',
+      title: '',
       backgroundGradient: [
         const Color(0xFF0D1441),
         const Color(0xFF283584),
@@ -186,7 +190,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                           padding: EdgeInsets.only(
                             top: height * 0.01,
                           ),
-                          text: 'Enter your informations below',
+                          text: 'Vui lòng nhập đầy đủ các trường thông tin',
                         ),
                         _index==0?_loginForm(isKeyboardVisible):_signUpForm(isKeyboardVisible),
                         GestureDetector(
@@ -274,7 +278,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildText(
-          text: 'Email Address',
+          text: 'Email',
           padding: EdgeInsets.only(
               top: height * 0.04, bottom: height * 0.015),
           fontSize: width * 0.04,
@@ -293,7 +297,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(getWidthDevice(context) * 0.025),
                   ),
-                  hintText: 'Enter your email',
+                  hintText: 'Email',
 
                   hintStyle: TextStyle(
                     color: const Color(0xFFFFFFFF),
@@ -312,7 +316,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           ),
         ),
         _buildText(
-          text: 'Password',
+          text: 'Mật khẩu',
           padding: EdgeInsets.only(
             top: height * 0.03,
             bottom: height * 0.015,
@@ -333,7 +337,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(getWidthDevice(context) * 0.025),
                   ),
-                  hintText: 'Enter your password',
+                  hintText: 'Mật khẩu',
                   hintStyle: TextStyle(
                     color: const Color(0xFFFFFFFF),
                   ),
@@ -364,7 +368,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildText(
-          text: 'Full name',
+          text: 'Họ và tên',
           padding: EdgeInsets.only(
               top: isVisible?height*0.01:height * 0.02,
               bottom: height * 0.01),
@@ -385,7 +389,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(getWidthDevice(context) * 0.025),
                   ),
-                  hintText: 'Enter your full name',
+                  hintText: 'Họ và tên',
 
                   hintStyle: TextStyle(
                     color: const Color(0xFFFFFFFF),
@@ -408,7 +412,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           ),
         ),
         _buildText(
-          text: 'Phone',
+          text: 'Số điện thoại',
           padding: EdgeInsets.only(
               top: isVisible?height*0.01:height * 0.02,
               bottom: height * 0.01),
@@ -430,7 +434,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                     borderRadius: BorderRadius.circular(getWidthDevice(context) * 0.025),
                   ),
 
-                  hintText: 'Enter your phone number',
+                  hintText: 'Số điện thoại',
                   hintStyle: TextStyle(
                     color: const Color(0xFFFFFFFF),
                   ),
@@ -455,7 +459,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           ),
         ),
         _buildText(
-          text: 'Email Address',
+          text: 'Email',
           padding: EdgeInsets.only(
               top: isVisible?height*0.01:height * 0.02,
               bottom: height * 0.01),
@@ -476,7 +480,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(getWidthDevice(context) * 0.025),
                   ),
-                  hintText: 'Enter your email',
+                  hintText: 'Email',
                   hintStyle: TextStyle(
                     color: const Color(0xFFFFFFFF),
                   ),
@@ -501,7 +505,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           ),
         ),
         _buildText(
-          text: 'Password',
+          text: 'Mật khẩu',
           padding: EdgeInsets.only(
             top: isVisible?height*0.01:height * 0.02,
             bottom: height * 0.01,
@@ -523,7 +527,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(getWidthDevice(context) * 0.025),
                   ),
-                  hintText: 'Enter your password',
+                  hintText: 'Mật khẩu',
                   hintStyle: TextStyle(
                     color: const Color(0xFFFFFFFF),
                   ),

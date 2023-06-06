@@ -76,7 +76,7 @@ class _CreateDocPageState extends State<CreateDocPage> {
                 SizedBox(width: 8,),
                 IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText( Languages.of(context).documentNews, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText( Languages.of(context).createDoc, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 ElevatedButton(
                     onPressed: (){
                       if(_fileImage==null&&CommonKey.EDIT!=widget._keyFlow){
@@ -137,7 +137,7 @@ class _CreateDocPageState extends State<CreateDocPage> {
                   children: [
                     InkWell(
                       onTap: () => cropImage(context,(p0) => setState(()=>_fileImage=p0!), ''),
-                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):(_imageUrl.isNotEmpty&&CommonKey.EDIT==widget._keyFlow!)?loadPhoto.networkImage(_imageUrl, 150, 150):Image.asset(Images.tabBar, width: 150, height: 150,fit: BoxFit.fill,)),
+                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150, height: 150,):(_imageUrl.isNotEmpty&&CommonKey.EDIT==widget._keyFlow!)?loadPhoto.networkImage(_imageUrl, 150, 150):Image.asset(Images.pick_photo, width: 150, height: 150,fit: BoxFit.fill,)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),

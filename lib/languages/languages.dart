@@ -60,14 +60,12 @@ abstract class Languages{
   String get myClass;
   String get classAdd;
   String get idClass;
-  String get status;
   String get nameClass;
   String get describeClass;
   String get ready;
   String get pending;
   String get idClassEmpty;
   String get subjectEmpty;
-  String get statusNull;
   String get detailClass;
   String get editQuiz;
   String get editQuestion;
@@ -122,7 +120,7 @@ abstract class Languages{
   String get resultCategory;
   String get feedback;
   String get document;
-  String get documentNews;
+  String get createDoc;
   String get nameDocument;
   String get listChat;
   String get contentEmpty;

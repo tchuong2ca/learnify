@@ -178,11 +178,13 @@ Widget itemCourse(BuildContext context, String title, String content, String ima
     ),
   );
 }
-Widget itemCourseAdminHours(BuildContext context, String title, String content, String imageLink, String firstDay,String secondDay, Function(bool click) onClickEdit, Function(bool click) onClickDelete, Function(String id) onClick){
+Widget cardWithAdminRole(BuildContext context, String title, String content, String imageLink, String firstDay,String secondDay, String price, Function(bool click) onClickEdit, Function(bool click) onClickDelete, Function(String id) onClick){
+  String _salePrice = '';
+  _salePrice =price==''?'':(double.parse(price)-double.parse(price)/100*20).round().toString();
   return InkWell(
     onTap: () => onClick(''),
     child: Container(
-      height: 330,
+      height: 350,
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       width:getWidthDevice(context)/2-16,
       padding: EdgeInsets.all(4),
@@ -246,6 +248,22 @@ Widget itemCourseAdminHours(BuildContext context, String title, String content, 
               )
             ],
           ),
+      price==''?SizedBox():Text.rich(TextSpan(
+        text: 'Giá: ',
+        children: <TextSpan>[
+          new TextSpan(
+            text: '\ $price',
+            style: new TextStyle(
+              color: Colors.grey,
+              decoration: TextDecoration.lineThrough,
+            ),
+          ),
+          new TextSpan(
+              text: ' \ $_salePrice VNĐ',
+              style: TextStyle(fontSize: 12, color: AppColors.ultraRed)
+          ),
+        ],
+      )),
           Spacer(),
           Container(
             width: getWidthDevice(context),
@@ -288,11 +306,13 @@ Widget itemSeeMore(BuildContext context, String title, Function(String call) cal
     ],
   );
 }
-Widget itemCourseHours(BuildContext context, String title, String content, String imageLink, Function(String id) onClick, String firstDay,String secondDay, Function()onClickRegister, bool visiable){
+Widget card(BuildContext context, String title, String content, String imageLink, Function(String id) onClick, String firstDay,String secondDay,String price, Function()onClickRegister, bool visiable){
+  String _salePrice = '';
+  _salePrice =price==''?'':(double.parse(price)-double.parse(price)/100*20).round().toString();
   return InkWell(
     onTap: () => onClick(''),
     child: Container(
-      height: 330,
+      height: 350,
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       width: getWidthDevice(context)/2-16,
       padding: EdgeInsets.all(4),
@@ -355,7 +375,22 @@ Widget itemCourseHours(BuildContext context, String title, String content, Strin
               )
             ],
           ),
-
+      price==''?SizedBox():Text.rich(TextSpan(
+        text: 'Giá: ',
+        children: <TextSpan>[
+          new TextSpan(
+            text: '\ $price',
+            style: new TextStyle(
+              color: Colors.grey,
+              decoration: TextDecoration.lineThrough,
+            ),
+          ),
+          new TextSpan(
+              text: ' \ $_salePrice VNĐ',
+              style: TextStyle(fontSize: 12, color: AppColors.ultraRed)
+          ),
+        ],
+      )),
           Spacer(),
           Visibility(
             visible: visiable,

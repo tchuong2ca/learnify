@@ -48,7 +48,7 @@ class _TeacherPageState extends State<TeacherPage> {
             height: 52,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(Images.background_tutorial),
+                image: AssetImage(Images.tabBar),
                 fit: BoxFit.fill,
               ),
             ),
@@ -122,7 +122,7 @@ class _TeacherPageState extends State<TeacherPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  loadPhoto.networkImage(data['avatar'], getWidthDevice(context)/4, getWidthDevice(context)/2-32),
+                                  loadPhoto.networkImage(data['avatar'], (getWidthDevice(context)/2-32)/4*3, getWidthDevice(context)/2-32),
                                   SizedBox(height: 8,),
                                   NeoText('GV: ${data['fullname']}', textStyle: TextStyle(fontSize: 16, overflow: TextOverflow.ellipsis), maxline: 2, textAlign: TextAlign.center),
                                   SizedBox(height: 8,),

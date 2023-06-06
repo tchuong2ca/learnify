@@ -220,7 +220,7 @@ class loadPhoto{
           : Image.network(
           url,
           height: h,
-          fit: BoxFit.fill,
+          fit: BoxFit.cover,
           loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
             if (loadingProgress == null) {
               return child;

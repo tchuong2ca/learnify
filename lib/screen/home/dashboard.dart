@@ -60,7 +60,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   void initState(){
     super.initState();
     _presenter=DashboardPresenter();
-    _getAccountInfor();
+    _getAccountInfo();
     _courseStream = FirebaseFirestore.instance.collection('course').snapshots();
     _classStream = FirebaseFirestore.instance.collection('class').snapshots();
     Future.delayed(const Duration(seconds: 20), () { //asynchronous delay
@@ -372,8 +372,9 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                           Map<String, dynamic> data = e.data() as  Map<String, dynamic>;
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: itemClass(context, data['name'], data['teacherName'], data['imageLink'], (click) => {
-
+                            child: classNCourseCard(context, data['name'], data['teacherName'], data['imageLink'],
+                              '','','',
+                                    (click) => {
                               if(_role==null||_role!.isEmpty){
                                 CustomDialog(context: context, content: Languages.of(context).requireLogin)
                               }else{
@@ -416,14 +417,46 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                             autoplay: false,
                             layout: SwiperLayout.TINDER,
                             itemWidth: getWidthDevice(context),
-                            itemHeight: 340,
+                            itemHeight: 405,
                             children: snapshot.data!.docs.map((e) {
                               Map<String, dynamic> data = e.data() as  Map<String, dynamic>;
                               List<dynamic> listUser = data['subscribe'];
                               MyClassModel myClass = MyClassModel.fromJson(data);
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: itemClass(context, data['nameClass'], data['teacherName'], data['imageLink'], (click) => {
+                                child: classNCourseCard(context, data['nameClass'], data['teacherName'], data['imageLink'],
+                                    '${
+                                        CommonKey.MON==data['onStageMon']
+                                            ? Languages.of(context).monday
+                                            :CommonKey.TUE==data['onStageTue']
+                                            ? Languages.of(context).tuesday
+                                            :CommonKey.WED==data['onStageWed']
+                                            ? Languages.of(context).wednesday
+                                            :CommonKey.THU==data['onStageThu']
+                                            ? Languages.of(context).thursday
+                                            :CommonKey.FRI==data['onStageFri']
+                                            ? Languages.of(context).friday
+                                            :CommonKey.SAT==data['onStageSat']
+                                            ? Languages.of(context).saturday
+                                            :Languages.of(context).sunday
+                                    } - ${data['startHours']}',
+                                    '${
+                                        CommonKey.SUN==data['onStageSun']
+                                            ? Languages.of(context).sunday
+                                            :CommonKey.SAT==data['onStageSat']
+                                            ? Languages.of(context).saturday
+                                            :CommonKey.FRI==data['onStageFri']
+                                            ? Languages.of(context).friday
+                                            :CommonKey.THU==data['onStageThu']
+                                            ? Languages.of(context).thursday
+                                            :CommonKey.WED==data['onStageWed']
+                                            ? Languages.of(context).wednesday
+                                            :CommonKey.TUE==data['onStageTue']
+                                            ? Languages.of(context).tuesday
+                                            :Languages.of(context).monday
+                                    } - ${data['startHours']}',
+                                      data['price'],
+                                        (click) => {
 
                                   if(_role==null||_role!.isEmpty){
                                     CustomDialog(context: context, content: Languages.of(context).requireLogin)
@@ -546,7 +579,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   Future<void> getCourse() async{
     _classModel = await _presenter!.getClass(_username!);
   }
-  Future<void> _getAccountInfor() async{
+  Future<void> _getAccountInfo() async{
     _user = await _presenter!.getUserInfo();
     _phoneNumber=_user!['phone'];
     setState(()=>null);
@@ -558,11 +591,12 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
       }
     });
   }
-  Widget itemClass(BuildContext context, String title, String gv, String imageLink, Function(String click) onClick, bool visiable){
+  Widget classNCourseCard(BuildContext context, String title, String gv, String imageLink,String firstDay,String secondDay,String price, Function(String click) onClick, bool visiable){
+    String _salePrice = '';
+    _salePrice =price==''?'':(double.parse(price)-double.parse(price)/100*20).round().toString();
     return InkWell(
       onTap: () => onClick(CommonKey.INK_WELL),
       child: Container(
-
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
             color: AppColors.white,
@@ -592,6 +626,53 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                   color: AppColors.black,
                 ),
                 maxline: 2
+            ),
+            firstDay==''||secondDay==''?SizedBox():Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                NeoText( '${Languages.of(context).time}: ', textStyle: TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                  color: AppColors.black,
+                ),maxline: 1),
+                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    NeoText(
+                        '$firstDay',
+                        textStyle: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          color: AppColors.black,
+                        ),
+                        maxline: 1
+                    ),
+                    NeoText(
+                        '$secondDay',
+                        textStyle: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          color: AppColors.black,
+                        ),
+                        maxline: 1
+                    ),
+
+                  ],
+                )
+              ],
+            ),
+            price==''?SizedBox():Text.rich(TextSpan(
+              text: 'Giá: ',
+              children: <TextSpan>[
+                new TextSpan(
+                  text: '\ $price',
+                  style: new TextStyle(
+                    color: Colors.grey,
+                    decoration: TextDecoration.lineThrough,
+                  ),
+                ),
+                new TextSpan(
+                  text: ' \ $_salePrice VNĐ',
+                  style: TextStyle(fontSize: 18, color: AppColors.ultraRed)
+                ),
+              ],
+            ),
             ),
             Spacer(),
             Visibility(

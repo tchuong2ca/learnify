@@ -41,7 +41,7 @@ class _ClassListState extends State<ClassList> {
     }else{
       _stream = FirebaseFirestore.instance.collection('class').where('idCourse', isEqualTo: _course!.getIdCourse).snapshots();
     }
-    getUserInfor();
+    getUserInfo();
   }
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class _ClassListState extends State<ClassList> {
             Stack(
               fit: StackFit.expand,
               children: [
-                Center(child: NeoText('Lớp học của toi', textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Center(child: NeoText('Danh sách lớp học', textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 Positioned(child:  IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),left: 0,)
               ],
             ),
@@ -94,7 +94,7 @@ class _ClassListState extends State<ClassList> {
                             children:snapshot.data!.docs.map((e) {
                               Map<String, dynamic> data = e.data()! as Map<String, dynamic>;
                               List<dynamic> register = data['subscribe'];
-                              return (CommonKey.TEACHER==_role||CommonKey.ADMIN==_role)?itemCourseAdminHours(context, data['nameClass'], data['teacherName'],
+                              return (CommonKey.TEACHER==_role||CommonKey.ADMIN==_role)?cardWithAdminRole(context, data['nameClass'], data['teacherName'],
                                   data['imageLink'], '${
                                       CommonKey.MON==data['onStageMon']
                                           ? Languages.of(context).monday
@@ -125,7 +125,8 @@ class _ClassListState extends State<ClassList> {
                                           ? Languages.of(context).tuesday
                                           :Languages.of(context).monday
                                   } - ${data['startHours']}',
-                                      (onClickEdit) => Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateClassUI(_course, CommonKey.EDIT, data))),
+                                      data['price'],
+                                      (onClickEdit) => Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateClassUI(_course, CommonKey.EDIT, data, data['idCourse'],data['idTeacher'],data['teacherName']))),
                                       (onClickDelete){
                                         showDialog<void>(
                                           context: context,
@@ -159,10 +160,10 @@ class _ClassListState extends State<ClassList> {
                                         );
                                       },
                                       (click) => Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role))))
-                                  :itemCourseHours(context, data['nameClass'], data['teacherName'], data['imageLink'], (id) => {
+                                  :card(context, data['nameClass'], data['teacherName'], data['imageLink'], (id) => {
                                 register.contains(_username)
                                     ?Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role)))
-                                    :Fluttertoast.showToast(msg: 'require class')
+                                    :Fluttertoast.showToast(msg: 'Bạn phải đăng ký lớp học')
                               },'${CommonKey.MON==data['onStageMon']
                                       ? Languages.of(context).monday
                                       :CommonKey.TUE==data['onStageTue']
@@ -191,7 +192,7 @@ class _ClassListState extends State<ClassList> {
                                           :CommonKey.TUE==data['onStageTue']
                                           ? Languages.of(context).tuesday
                                           :Languages.of(context).monday
-                                  } - ${data['startHours']}',
+                                  } - ${data['startHours']}',data['price'],
                                       () {
                                 if(!register.contains(_username)){
                                   register.add(_username);
@@ -212,14 +213,14 @@ class _ClassListState extends State<ClassList> {
       floatingActionButton: Visibility(
         visible: CommonKey.ADMIN==_role&&_course!=null||CommonKey.TEACHER==_role&&_course!=null,
         child: FloatingActionButton(
-          onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateClassUI(_course,'',null))),
+          onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateClassUI(_course,'',null,'','',''))),
           child: Icon(Icons.add, color: AppColors.white,),
         ),
       ),
     );
   }
 
-  Future<void> getUserInfor() async{
+  Future<void> getUserInfo() async{
     _username = await _presenter!.getUserInfo();
     setState(()=>null);
     if(CommonKey.MEMBER==_role&&'DASHBOARD'==_keyFlow){

@@ -21,26 +21,33 @@ import 'model/my_class_model.dart';
 class CreateClassUI extends StatefulWidget {
   final CourseModel? _course;
   final String? _keyFlow;
+  final String? _courseId;
+  final String? _teacherId;
+  final String? _tName;
   final Map<String, dynamic>? _data;
-  CreateClassUI(this._course, this._keyFlow, this._data);
+  CreateClassUI(this._course, this._keyFlow, this._data, this._courseId, this._teacherId, this._tName);
 
   @override
-  State<CreateClassUI> createState() => _CreateClassUIState(_course, _keyFlow, _data);
+  State<CreateClassUI> createState() => _CreateClassUIState(_course, _keyFlow, _data,_courseId, _teacherId, _tName);
 }
 
 class _CreateClassUIState extends State<CreateClassUI> {
   final CourseModel? _course;
   final String? _keyFlow;
+  final String? _courseId;
+  final String? _teacherId;
+  final String? _tName;
   final Map<String, dynamic>? _data;
-  _CreateClassUIState(this._course, this._keyFlow, this._data);
+  _CreateClassUIState(this._course, this._keyFlow, this._data, this._courseId, this._teacherId, this._tName);
   File? _fileImage;
   String _idClass=''; String _idCourse=''; String _idTeacher='';
   String _teacherName='';
-  String _nameClass = ''; String _describe = '';
+  String _className = ''; String _describe = ''; String _price='';
   CreateClassPresenter? _presenter;
-  TextEditingController _controllerIdClass = TextEditingController();
-  TextEditingController _controllerNameClass = TextEditingController();
-  TextEditingController _controllerDescribeClass = TextEditingController();
+  TextEditingController _classIdController = TextEditingController();
+  TextEditingController _classNameController = TextEditingController();
+  TextEditingController _classDescribleController = TextEditingController();
+  TextEditingController _priceController =TextEditingController();
   String _imageLink = '';
   String _hour = '';
   String _day1 = 'MON';
@@ -64,24 +71,23 @@ class _CreateClassUIState extends State<CreateClassUI> {
   @override
   void initState() {
     _idClass=CommonKey.CLASS+getCurrentTime();
-    _idCourse = _course!.getIdCourse!;
-    _idTeacher = _course!.getIdTeacher!;
-    _teacherName = _course!.getNameTeacher!;
+    _idCourse = _course!=null?_course!.getIdCourse!:_courseId!;
+    _idTeacher = _course!=null?_course!.getIdTeacher!:_teacherId!;
+    _teacherName = _course!=null?_course!.getNameTeacher!:_tName!;
 
     _dayList =List.from(_dayList3);
 
     _dayList2 =List.from(_dayList3);
-
-    // _daySelector1 = _dayList[0];
-    // _daySelector2 = _dayList2[1];
     _presenter = CreateClassPresenter();
     if(CommonKey.EDIT==_keyFlow){
-      _controllerIdClass = TextEditingController(text: _data!['idClass']);
-      _controllerNameClass = TextEditingController(text: _data!['nameClass']);
-      _controllerDescribeClass = TextEditingController(text: _data!['describe']);
+      _classIdController = TextEditingController(text: _data!['idClass']);
+      _classNameController = TextEditingController(text: _data!['nameClass']);
+      _classDescribleController = TextEditingController(text: _data!['describe']);
+      _priceController = TextEditingController(text: _data!['price']);
       _idClass = _data!['idClass'];
-      _nameClass = _data!['nameClass'];
+      _className = _data!['nameClass'];
       _describe = _data!['describe'];
+      _price = _data!['price'];
       _imageLink = _data!['imageLink'];
       _day1 = _data!['onStageMon']==''?'MON':_data!['onStageMon'];
       _hour = _data!['startHours'];
@@ -137,13 +143,13 @@ class _CreateClassUIState extends State<CreateClassUI> {
                   SizedBox(width: 8,),
                   IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText('Tạo lớp học', textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText(CommonKey.EDIT==_keyFlow?'Sửa nội dung lớp học':'Tạo lớp học', textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
                       onPressed: () {
                         if(_fileImage==null&&CommonKey.EDIT!=_keyFlow
                         ){
                           Fluttertoast.showToast(msg: 'Chưa chọn ảnh');
-                        }else if(_nameClass.isEmpty){
+                        }else if(_className.isEmpty){
                           Fluttertoast.showToast(msg: 'Chưa có tên lớp học');
                         }else if(_hour.isEmpty){
                           Fluttertoast.showToast(msg: 'Chưa chọn lịch học');
@@ -158,7 +164,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                               onStageSat: _day1==CommonKey.SAT?_day1:_day2==CommonKey.SAT?_day2:'',
                               onStageSun: _day1==CommonKey.SUN?_day1:_day2==CommonKey.SUN?_day2:'',
                               startHours: _hour,
-                              price: '', nameClass: _nameClass, describe: _describe);
+                              price: _price, nameClass: _className, describe: _describe);
                           showLoaderDialog(context);
                           CommonKey.EDIT!=_keyFlow?_presenter!.createClass(_fileImage!, _course!, myClass).then((value) {
                             listenStatus(context, value);
@@ -191,8 +197,8 @@ class _CreateClassUIState extends State<CreateClassUI> {
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
                         decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).nameClass, hintText: Languages.of(context).nameClass),
-                        onChanged: (value)=>setState(()=> _nameClass=value),
-                        controller: _controllerNameClass,
+                        onChanged: (value)=>setState(()=> _className=value),
+                        controller: _classNameController,
                       ),
                     ),
 
@@ -203,7 +209,16 @@ class _CreateClassUIState extends State<CreateClassUI> {
                         decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).describeClass, hintText: Languages.of(context).describeClass),
                         onChanged: (value)=>setState(()=> _describe=value),
                         maxLines: 10,
-                        controller: _controllerDescribeClass,
+                        controller: _classDescribleController,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        decoration: AppThemes.textFieldInputDecoration(labelText: 'Giá:', hintText: 'Giá tiền'),
+                        onChanged: (value)=>setState(()=> _price=value),
+                        controller: _priceController,
                       ),
                     ),
                     Padding(

@@ -42,7 +42,7 @@ class ChatRoomPresenter{
         fullName: user['fullname'],
         linkImage: link,
         timestamp: getTimestamp(),
-        usernameFriend: userFriend['username'],
+        friendUsername: userFriend['username'],
         friendName: userFriend['fullname']
     );
     Map<String, dynamic> data = chat.toJson();

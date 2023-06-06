@@ -252,7 +252,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   });
                 },
                 icon: Icon(
-                  Icons.edit,
+                  !_enableEditing?Icons.edit:Icons.close,
                   color: AppColors.ultraRed,
                 ),
               ),
@@ -273,7 +273,6 @@ class _PersonalPageState extends State<PersonalPage> {
               ),
               border: const OutlineInputBorder(),
             ),
-            //CommonTheme.textFieldInputDecoration(labelText: Languages.of(context).fullName, hintText: Languages.of(context).fullName),
             controller: _nameController,
             maxLines: 1,
             onChanged: (value)=>setState((){

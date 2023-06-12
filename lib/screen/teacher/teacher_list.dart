@@ -151,26 +151,23 @@ class _TeacherPageState extends State<TeacherPage> {
                                       ),
                                       IconButton(
                                         onPressed: (){
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                              title: Text('Chắc chưa?'),
-                                              content: Text('Khóa tài khoản này?'),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  onPressed: () => Navigator.of(context).pop(false),
-                                                  child: Text('Thôi'),
-                                                ),
-                                                TextButton(
-                                                  onPressed: (){
-                                                    _presenter!.lock(data['phone']);
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text('Khóa'),
-                                                ),
-                                              ],
-                                            ),
-                                          );
+                                          AnimationDialog.generalDialog(context,  AlertDialog(
+                                            title: Text('Chắc chưa?'),
+                                            content: Text('Khóa tài khoản này?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () => Navigator.of(context).pop(false),
+                                                child: Text('Thôi'),
+                                              ),
+                                              TextButton(
+                                                onPressed: (){
+                                                  _presenter!.lock(data['phone']);
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('Khóa'),
+                                              ),
+                                            ],
+                                          ),);
 
                                         },
                                         icon: Icon(

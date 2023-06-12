@@ -593,13 +593,12 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         });
       }
       else{
-        Navigator.pop(context);
+        //Navigator.pop(context);
 
         CustomDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: 'Số điện thoại đã tồn tại');
         //Navigator.pop(context);
       }
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
 
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');

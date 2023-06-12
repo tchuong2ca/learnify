@@ -504,11 +504,11 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
 
   }
   Future<bool> _onWillPop() async {
-    return (await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-          title: Text('Chắc chưa?'),
-          content: Text('Bạn muốn thoát ứng dụng?'),
+
+    return (await
+    AnimationDialog.generalDialog(context, AlertDialog(
+      title: Text('Chắc chưa?'),
+      content: Text('Bạn muốn thoát ứng dụng?'),
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
@@ -519,8 +519,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
           child: Text('Thoát'),
         ),
       ],
-    ),
-    )) ??
+    ),)) ??
     false;
   }
   _buildTitleColumn(int _position) {

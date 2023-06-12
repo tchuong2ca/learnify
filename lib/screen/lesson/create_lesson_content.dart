@@ -154,19 +154,13 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                               allowedExtensions: ['pdf'],
                             );
                             if(result!=null){
-                              AlertDialog alert=AlertDialog(
+                              AnimationDialog.generalDialog(context, AlertDialog(
                                 content: Row(
                                   children: [
                                     const CircularProgressIndicator(),
                                     Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
                                   ],),
-                              );
-                              showDialog(barrierDismissible: false,
-                                context:context,
-                                builder:(BuildContext context){
-                                  return alert;
-                                },
-                              );
+                              ));
                               PlatformFile file = result.files.first;
                               String fileName = result.files.first.name;
                               _fileNameContent = fileName;

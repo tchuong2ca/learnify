@@ -39,34 +39,32 @@ Widget imageClipRRect({String? url,String? urlError,double? width, double? heigh
 }
 CustomDialog(
     {required BuildContext context, IconData? iconData, String? title, required String content}){
-  return showDialog(
-      context: context,
-      builder: (context){
-        return AlertDialog(
-          title: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              iconData!=null?Icon(
-                iconData,
-                color: AppColors.golden,
-                size: 80,
-              ):SizedBox(),
-              title==null||title.isEmpty?SizedBox():NeoText(title, overFlow: TextOverflow.ellipsis, maxline: 2, textAlign: TextAlign.center, textStyle: TextStyle(fontSize: 16, color: AppColors.black, fontWeight: FontWeight.bold)),
-            ],
-          ),
-          content: NeoText(content, overFlow: TextOverflow.ellipsis, maxline: 2, textAlign: TextAlign.center, textStyle: TextStyle(fontSize: 14, color: AppColors.black,)),
+  return
+    AnimationDialog.generalDialog(context,
+      AlertDialog(
+      title: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          iconData!=null? Icon(
+      Icons.error_outline,
+        color: Colors.red,
+        size: 50.0,
+      ):SizedBox(),
+          title==null||title.isEmpty?SizedBox():NeoText(title, overFlow: TextOverflow.ellipsis, maxline: 2, textAlign: TextAlign.center, textStyle: TextStyle(fontSize: 16, color: AppColors.black, fontWeight: FontWeight.bold)),
+        ],
+      ),
+      content: NeoText(content, overFlow: TextOverflow.ellipsis, maxline: 2, textAlign: TextAlign.center, textStyle: TextStyle(fontSize: 14, color: AppColors.black,)),
 
-          actions: [
-            MaterialButton(
-              onPressed: ()=>Navigator.pop(context),
-              child: NeoText(Languages.of(context).close),
-            )
-          ],
-        );
-      }
-  );
+      actions: [
+        MaterialButton(
+          onPressed: ()=>Navigator.pop(context),
+          child: NeoText(Languages.of(context).close),
+        )
+      ],
+    )
+      ,);
 }
 
 showLoaderDialog(BuildContext context){

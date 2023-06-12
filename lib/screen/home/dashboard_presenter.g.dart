@@ -25,38 +25,6 @@ mixin _$DashboardPresenter on _DashboardPresenter, Store {
     });
   }
 
-  late final _$stateBannerAtom =
-      Atom(name: '_DashboardPresenter.stateBanner', context: context);
-
-  @override
-  SingleState get stateBanner {
-    _$stateBannerAtom.reportRead();
-    return super.stateBanner;
-  }
-
-  @override
-  set stateBanner(SingleState value) {
-    _$stateBannerAtom.reportWrite(value, super.stateBanner, () {
-      super.stateBanner = value;
-    });
-  }
-
-  late final _$stateMenuAtom =
-      Atom(name: '_DashboardPresenter.stateMenu', context: context);
-
-  @override
-  SingleState get stateMenu {
-    _$stateMenuAtom.reportRead();
-    return super.stateMenu;
-  }
-
-  @override
-  set stateMenu(SingleState value) {
-    _$stateMenuAtom.reportWrite(value, super.stateMenu, () {
-      super.stateMenu = value;
-    });
-  }
-
   late final _$heightAtom =
       Atom(name: '_DashboardPresenter.height', context: context);
 
@@ -102,8 +70,6 @@ mixin _$DashboardPresenter on _DashboardPresenter, Store {
   String toString() {
     return '''
 seeMore: ${seeMore},
-stateBanner: ${stateBanner},
-stateMenu: ${stateMenu},
 height: ${height}
     ''';
   }

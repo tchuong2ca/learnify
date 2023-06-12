@@ -1,16 +1,16 @@
 class CourseModel{
-  String? _idCourse;
-  String? _idTeacher;
-  String? _nameTeacher;
-  String? _nameCourse;
+  String? _courseId;
+  String? _teacherId;
+  String? _teacherName;
+  String? _courseName;
 
-  CourseModel(this._idCourse, this._idTeacher, this._nameTeacher, this._nameCourse);
+  CourseModel(this._courseId, this._teacherId, this._teacherName, this._courseName);
 
-  String? get getNameTeacher => _nameTeacher;
+  String? get getTeacherName => _teacherName;
 
-  String? get getIdTeacher => _idTeacher;
+  String? get getTeacherId => _teacherId;
 
-  String? get getIdCourse => _idCourse;
+  String? get getCourseId => _courseId;
 
-  String? get getNameCourse => _nameCourse;
+  String? get getCourseName => _courseName;
 }

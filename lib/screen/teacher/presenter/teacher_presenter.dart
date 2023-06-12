@@ -11,7 +11,7 @@ abstract class _TeacherPresenter with Store{
   SingleState state = SingleState.LOADING;
 
   @action
-  void lookAccount(String id) {
+  void lock(String id) {
     FirebaseFirestore.instance.collection('users').doc(id).update({
       'isLocked': true
     }).whenComplete(() => state=SingleState.HAS_DATA);

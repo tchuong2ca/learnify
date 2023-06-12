@@ -175,7 +175,7 @@ class LanguagesVn extends Languages{
 
   @override
   // TODO: implement nameCourse
-  String get nameCourse => 'Tên khóa học';
+  String get courseName => 'Tên khóa học';
 
   @override
   // TODO: implement teacherName
@@ -183,7 +183,7 @@ class LanguagesVn extends Languages{
 
   @override
   // TODO: implement teacherAdd
-  String get teacherAdd => 'Thêm mới giáo viên';
+  String get addNewTeacher => 'Thêm mới giáo viên';
 
   @override
   // TODO: implement addFailure
@@ -312,14 +312,6 @@ class LanguagesVn extends Languages{
   String get exercise => 'Bài tập';
 
   @override
-  // TODO: implement fileAnswer
-  String get fileAnswer => 'File đáp án';
-
-  @override
-  // TODO: implement fileQuestion
-  String get fileQuestion => 'File câu hỏi';
-
-  @override
   // TODO: implement linkExercise
   String get linkExercise => 'Link youtube';
 
@@ -329,11 +321,11 @@ class LanguagesVn extends Languages{
 
   @override
   // TODO: implement youNeed
-  String get youNeed => 'Các bạn có câu thắc mắc gì về buổi học hôm nay không?';
+  String get askAQuestion => 'Các bạn muốn hỏi gì về bài học không';
 
   @override
   // TODO: implement classStudy
-  String get classStudy => 'Lớp học';
+  String get classroom => 'Lớp học';
 
   @override
   // TODO: implement course
@@ -393,7 +385,7 @@ class LanguagesVn extends Languages{
 
   @override
   // TODO: implement requireClass
-  String get requireClass => 'Bạn phải đăng ký lớp học';
+  String get registrationRequired => 'Bạn phải đăng ký lớp học';
 
   @override
   // TODO: implement denyAccess
@@ -431,11 +423,7 @@ class LanguagesVn extends Languages{
   @override
   // TODO: implement submit
   String get submit => 'Nộp bài';
-
-  @override
-  // TODO: implement indexQA
-  String get indexQA => 'Câu';
-
+  
   @override
   // TODO: implement anwserHomework
   String get reply => 'Trả lời';
@@ -459,18 +447,10 @@ class LanguagesVn extends Languages{
   @override
   // TODO: implement documentNews
   String get createDoc => 'Thêm mới tài liệu';
-
-  @override
-  // TODO: implement nameDocument
-  String get nameDocument => 'Tên tài liệu';
-
-  @override
-  // TODO: implement listChat
-  String get listChat => 'Đoạn chat';
-
+  
   @override
   // TODO: implement contentEmpty
-  String get contentEmpty => 'Vui lòng nhập nội dung';
+  String get inputContent => 'Vui lòng nhập nội dung';
 
   @override
   // TODO: implement member
@@ -479,9 +459,7 @@ class LanguagesVn extends Languages{
   @override
   // TODO: implement fileEmpty
   String get fileEmpty => 'Chưa có tệp đính kèm';
-
-
-
+  
   @override
   // TODO: implement teacherInfo
   String get teacherInfo => 'Đôi nét về giáo viên';
@@ -505,4 +483,16 @@ class LanguagesVn extends Languages{
   @override
   // TODO: implement addQuestion
   String get addQuestion => 'Thêm câu hỏi';
+
+  @override
+  // TODO: implement confirm
+  String get confirm => 'Xác nhận';
+
+  @override
+  // TODO: implement nameRequired
+  String get nameRequired => 'Chưa nhập tên';
+
+  @override
+  // TODO: implement photoRequired
+  String get photoRequired => 'Chưa có ảnh';
 }

@@ -23,12 +23,12 @@ class TeacherPage extends StatefulWidget {
 
 class _TeacherPageState extends State<TeacherPage> {
 
-  Stream<QuerySnapshot>? _streamTeacher;
+  Stream<QuerySnapshot>? _teacherStream;
   TeacherPresenter? _presenter;
 
   @override
   void initState() {
-    _streamTeacher = FirebaseFirestore.instance.collection('users').where('role', isEqualTo: CommonKey.TEACHER).where('isLocked', isEqualTo: false).snapshots();
+    _teacherStream = FirebaseFirestore.instance.collection('users').where('role', isEqualTo: CommonKey.TEACHER).where('isLocked', isEqualTo: false).snapshots();
     _presenter = TeacherPresenter();
   }
 
@@ -94,7 +94,7 @@ class _TeacherPageState extends State<TeacherPage> {
           Expanded(
             child: SingleChildScrollView(
               child: StreamBuilder<QuerySnapshot>(
-                stream: _streamTeacher!,
+                stream: _teacherStream!,
                 builder: (context, snapshot){
                   if(snapshot.connectionState==ConnectionState.waiting){
                     return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50),);
@@ -161,7 +161,7 @@ class _TeacherPageState extends State<TeacherPage> {
                                                 ),
                                                 TextButton(
                                                   onPressed: (){
-                                                    _presenter!.lookAccount(data['phone']);
+                                                    _presenter!.lock(data['phone']);
                                                     Navigator.pop(context);
                                                   },
                                                   child: Text('Khóa'),

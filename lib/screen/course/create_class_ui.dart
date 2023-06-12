@@ -71,9 +71,9 @@ class _CreateClassUIState extends State<CreateClassUI> {
   @override
   void initState() {
     _idClass=CommonKey.CLASS+getCurrentTime();
-    _idCourse = _course!=null?_course!.getIdCourse!:_courseId!;
-    _idTeacher = _course!=null?_course!.getIdTeacher!:_teacherId!;
-    _teacherName = _course!=null?_course!.getNameTeacher!:_tName!;
+    _idCourse = _course!=null?_course!.getCourseId!:_courseId!;
+    _idTeacher = _course!=null?_course!.getTeacherId!:_teacherId!;
+    _teacherName = _course!=null?_course!.getTeacherName!:_tName!;
 
     _dayList =List.from(_dayList3);
 
@@ -177,7 +177,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                           });
                         }
                       },
-                      child: NeoText('Tạo', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
+                      child: NeoText(CommonKey.EDIT==_keyFlow?Languages.of(context).confirm:'Tạo', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                   SizedBox(width: 8,)
                 ],
               ),

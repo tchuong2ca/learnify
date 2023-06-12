@@ -39,7 +39,7 @@ class _ClassListState extends State<ClassList> {
     if(_course==null){
       _stream = FirebaseFirestore.instance.collection('class').snapshots();
     }else{
-      _stream = FirebaseFirestore.instance.collection('class').where('idCourse', isEqualTo: _course!.getIdCourse).snapshots();
+      _stream = FirebaseFirestore.instance.collection('class').where('idCourse', isEqualTo: _course!.getCourseId).snapshots();
     }
     getUserInfo();
   }

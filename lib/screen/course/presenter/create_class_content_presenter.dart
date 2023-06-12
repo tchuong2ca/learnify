@@ -17,7 +17,7 @@ class CreateClassContentPresenter{
     final storageRef = FirebaseStorage.instance.ref();
 
 // Upload file and metadata to the path 'images/mountains.jpg'
-    String link = "${CommonKey.COURSE}/${course.getIdCourse}/${course.getNameCourse}/${myClass.idClass}/class_detail.jpg";
+    String link = "${CommonKey.COURSE}/${course.getCourseId}/${course.getCourseName}/${myClass.idClass}/class_detail.jpg";
     final uploadTask = storageRef
         .child(link)
         .putFile(fileImage, metadata);
@@ -50,7 +50,7 @@ class CreateClassContentPresenter{
               .set({
             'idClassDetail': myClassDetail.idClassDetail,
             'idClass': myClassDetail.idClass,
-            'teacherName': course.getNameTeacher,
+            'teacherName': course.getTeacherName,
             'nameClass': myClassDetail.nameClass,
             'describe': myClassDetail.describe,
             'imageLink': url,
@@ -72,7 +72,7 @@ class CreateClassContentPresenter{
       final storageRef = FirebaseStorage.instance.ref();
 
 // Upload file and metadata to the path 'images/mountains.jpg'
-      String link = "${CommonKey.COURSE}/${course!.getIdCourse}/${course.getNameCourse}/${myClass!.idClass}/class_detail.jpg";
+      String link = "${CommonKey.COURSE}/${course!.getCourseId}/${course.getCourseName}/${myClass!.idClass}/class_detail.jpg";
       final uploadTask = storageRef
           .child(link)
           .putFile(fileImage, metadata);

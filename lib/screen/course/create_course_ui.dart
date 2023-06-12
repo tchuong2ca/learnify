@@ -10,6 +10,7 @@ import '../../common/colors.dart';
 import '../../common/functions.dart';
 import '../../common/keys.dart';
 import '../../common/themes.dart';
+import '../../languages/languages.dart';
 import '../../res/images.dart';
 import '../personal/model/info.dart';
 
@@ -26,18 +27,18 @@ class CreateCourseUI extends StatefulWidget {
 class _CreateCourseUIState extends State<CreateCourseUI> {
   File? _fileImage;
   String _idCourse = '';
-  String _nameCourse = '';
+  String courseName = '';
   String _idTeacher = '';
   String _teacherName = '';
-  List<Info> _personListName = [];
-  List<Info> _personListId = [];
-  bool _loadComBox = false;
+  List<Info> _teacherNameList = [];
+  List<Info> _teacherIdList = [];
+  bool _comboBoxStatus = false;
   Info? _selectName;
   Info? _selectId;
   String? _keyFlow;
   String _imageLink = '';
-  TextEditingController _controllerId = TextEditingController();
-  TextEditingController _controllerName = TextEditingController();
+  TextEditingController _idController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
   Map<String, dynamic>? _data;
 
   _CreateCourseUIState(this._keyFlow, this._data);
@@ -49,9 +50,9 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
     _idCourse = CommonKey.COURSE+getCurrentTime();
     getData();
     if(CommonKey.EDIT==_keyFlow){
-      _controllerName = TextEditingController(text: _data!['name']);
-      _controllerId = TextEditingController(text: _data!['idCourse']);
-      _nameCourse = _data!['name'];
+      _nameController = TextEditingController(text: _data!['name']);
+      _idController = TextEditingController(text: _data!['idCourse']);
+      courseName = _data!['name'];
       _idCourse = _data!['idCourse'];
       _imageLink = _data!['imageLink'];
     }
@@ -100,16 +101,16 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
-                        decoration: AppThemes.textFieldInputDecoration(labelText: 'Tên khóa học', hintText: 'Tên khóa học'),
-                        onChanged: (value)=>setState(()=> _nameCourse=value),
-                        controller: _controllerName,
+                        decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).courseName, hintText: Languages.of(context).courseName),
+                        onChanged: (value)=>setState(()=> courseName=value),
+                        controller: _nameController,
                       ),
                     ),
-                    _loadComBox?Padding(
+                    _comboBoxStatus?Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: CustomDropDownName(
                         value: _selectName,
-                        itemsList: _personListName,
+                        itemsList: _teacherNameList,
                         onChanged: (value){
                           setState((){
                             _selectName=value;
@@ -120,11 +121,11 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
                         },
                       ),
                     ):SizedBox(),
-                    _loadComBox?Padding(
+                    _comboBoxStatus?Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: CustomDropDownId(
                         value: _selectId,
-                        itemsList: _personListId,
+                        itemsList: _teacherIdList,
                         onChanged: (value){
                           setState((){
                             _selectId=value;
@@ -148,23 +149,23 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
                               return Colors.deepOrange;
                             }),),
                           onPressed: () {
-                            if(_nameCourse.isEmpty){
-                              Fluttertoast.showToast(msg: 'Chưa điền tên');
+                            if(courseName.isEmpty){
+                              Fluttertoast.showToast(msg: Languages.of(context).nameRequired);
                             }else if(_fileImage==null && CommonKey.EDIT!=_keyFlow){
-                              Fluttertoast.showToast(msg: 'Chưa có ảnh');
+                              Fluttertoast.showToast(msg: Languages.of(context).photoRequired);
                             } else{
                               showLoaderDialog(context);
-                              CommonKey.EDIT!=_keyFlow?_createCoursePresenter!.createCourse(_fileImage!, replaceSpace(_idCourse), _nameCourse, _teacherName, _idTeacher).then((value) {
+                              CommonKey.EDIT!=_keyFlow?_createCoursePresenter!.createCourse(_fileImage!, replaceSpace(_idCourse), courseName, _teacherName, _idTeacher).then((value) {
                                 _onResult(value);
-                              }):_fileImage!=null?_createCoursePresenter!.updateCourse(fileImage: _fileImage, idCourse: replaceSpace(_idCourse), idTeacher: _idTeacher, nameCourse: _nameCourse, nameTeacher: _teacherName).then((value) {
+                              }):_fileImage!=null?_createCoursePresenter!.updateCourse(fileImage: _fileImage, idCourse: replaceSpace(_idCourse), idTeacher: _idTeacher, nameCourse: courseName, nameTeacher: _teacherName).then((value) {
                                 _onResult(value);
                               })
-                                  :_createCoursePresenter!.updateCourse(idCourse: replaceSpace(_idCourse), idTeacher: _idTeacher, nameCourse: _nameCourse, nameTeacher: _teacherName, imageLink: _imageLink).then((value) {
+                                  :_createCoursePresenter!.updateCourse(idCourse: replaceSpace(_idCourse), idTeacher: _idTeacher, nameCourse: courseName, nameTeacher: _teacherName, imageLink: _imageLink).then((value) {
                                 _onResult(value);
                               });
                             }
                           },
-                          child: NeoText('Xác nhận', textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.white))),
+                          child: NeoText(Languages.of(context).confirm, textStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.white))),
                     )
                   ],
                 ),
@@ -180,33 +181,33 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
     await FirebaseFirestore.instance.collection('users').where('role', isEqualTo: CommonKey.TEACHER).get().then((value) {
       value.docs.forEach((element) {
         Info person = Info.fromJson(element.data());
-        _personListName.add(person);
-        _personListId.add(person);
+        _teacherNameList.add(person);
+        _teacherIdList.add(person);
       });
-      _selectName = _personListName[0];
-      _selectId = _personListId[0];
+      _selectName = _teacherNameList[0];
+      _selectId = _teacherIdList[0];
       _teacherName = _selectName!.fullname!;
       _idTeacher = _selectId!.phone!;
       if(CommonKey.EDIT==_keyFlow){
-        for(Info p in _personListName){
+        for(Info p in _teacherNameList){
           if(p.fullname==_data!['teacherName']){
             _selectName = p;
           }
         }
-        for(Info p in _personListId){
+        for(Info p in _teacherIdList){
           if(p.fullname==_data!['teacherName']){
             _selectId = p;
           }
         }
       }
-      setState((){_loadComBox = true;});
+      setState((){_comboBoxStatus = true;});
     });
   }
   void _onResult(bool value){
     Navigator.pop(context);
     if(value){
       Navigator.pop(context);
-      Fluttertoast.showToast(msg: 'Thành công');
+      Fluttertoast.showToast(msg: Languages.of(context).onSuccess);
     }else{
       CustomDialog(context: context, iconData: Icons.warning_rounded, title: 'Aloo', content: 'Lỗi');
     }

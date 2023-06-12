@@ -29,11 +29,11 @@ mixin _$TeacherPresenter on _TeacherPresenter, Store {
       ActionController(name: '_TeacherPresenter', context: context);
 
   @override
-  void lookAccount(String id) {
+  void lock(String id) {
     final _$actionInfo = _$_TeacherPresenterActionController.startAction(
         name: '_TeacherPresenter.lookAccount');
     try {
-      return super.lookAccount(id);
+      return super.lock(id);
     } finally {
       _$_TeacherPresenterActionController.endAction(_$actionInfo);
     }

@@ -100,7 +100,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                       }
                       else{ 
                         if(CommonKey.EDIT!=_keyFlow){
-                          Discuss? discuss = Discuss(name: _fullname, avatar: _avatar, timeStamp: getTimestamp(), content: Languages.of(context).youNeed, nameFeedback: '');
+                          Discuss? discuss = Discuss(name: _fullname, avatar: _avatar, timeStamp: getTimestamp(), content: Languages.of(context).askAQuestion, nameFeedback: '');
                           LessonDetail lessonDetail = LessonDetail(
                               lessonDetailId: replaceSpace(_lesson!.lessonId!),
                               fileContent: _fileContent,

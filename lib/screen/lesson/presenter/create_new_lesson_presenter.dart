@@ -14,7 +14,7 @@ class CreateLessonContentPresenter{
   String _url = '';
   Future<String> uploadPdfFile(File file, ClassDetail? myClassDetail,
       CourseModel? course, MyClassModel? myClass, String fileName) async{
-    String path = '${CommonKey.COURSE}/${course!.getIdCourse}/${course.getNameCourse}/${myClass!.idClass}/$fileName';
+    String path = '${CommonKey.COURSE}/${course!.getCourseId}/${course.getCourseName}/${myClass!.idClass}/$fileName';
     final reference = FirebaseStorage.instance.ref().child('$path');
 
     final uploadTask = await reference.putData(file.readAsBytesSync()).then((p0) {

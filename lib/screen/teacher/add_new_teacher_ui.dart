@@ -94,7 +94,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                   SizedBox(width: 8,),
                   IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText( Languages.of(context).teacherAdd, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText( Languages.of(context).addNewTeacher, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
                       onPressed: (){
                         showLoaderDialog(context);
@@ -127,7 +127,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                           });
                         }
                       },
-                      child: NeoText('Xác nhận', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
+                      child: NeoText(Languages.of(context).confirm, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                   SizedBox(width: 8,)
                 ],
               ),

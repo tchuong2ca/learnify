@@ -35,7 +35,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
   ClassDetail? _myClassResult;
   _CreateClassContentUIState(this._myClass, this._course, this._keyFlow, this._myClassResult);
 
-  String _idClassDetail = ''; String _idClass = ''; String _teacherName = '';
+  String _detailClassId = ''; String _idClass = ''; String _teacherName = '';
   String _imageLink = ''; String _className = ''; String _describe = '';
   List<Lesson> _lessonList = [];
   File? _fileImage;
@@ -47,7 +47,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
   @override
   void initState() {
     _className = _myClass!.nameClass!;
-    _idClassDetail = CommonKey.CLASS_DETAIL+getCurrentTime();
+    _detailClassId = CommonKey.CLASS_DETAIL+getCurrentTime();
     _lessonList.add(Lesson());
     _presenter = CreateClassContentPresenter();
     if(CommonKey.EDIT==_keyFlow){
@@ -55,7 +55,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
       _controllerDescribe = TextEditingController(text: _myClassResult!.describe);
       _lessonList = _myClassResult!.lesson!;
       _imageLink = _myClassResult!.imageLink!;
-      _idClassDetail=_myClassResult!.idClassDetail!;
+      _detailClassId=_myClassResult!.idClassDetail!;
       _className=_myClassResult!.nameClass!;
       _indexLength = _myClassResult!.lesson!.length;
       _describe = _myClassResult!.describe!;
@@ -101,7 +101,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                            Fluttertoast.showToast(msg:Languages.of(context).imageNull);
                          }else{
                            showLoaderDialog(context);
-                           ClassDetail classDetail = ClassDetail(idClassDetail: replaceSpace(_idClassDetail), idClass: _myClass!.idClass,
+                           ClassDetail classDetail = ClassDetail(idClassDetail: replaceSpace(_detailClassId), idClass: _myClass!.idClass,
                                teacherName: _myClass!.teacherName, nameClass: _className,
                                describe: _describe, lesson: _lessonList);
                            CommonKey.EDIT!=_keyFlow?_presenter!.createClassDetail(_fileImage!, classDetail, _course!, _myClass!).then((value){
@@ -173,7 +173,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
   Widget _itemLesson(Lesson lesson, int index){
 
     if(CommonKey.EDIT!=_keyFlow){
-      lesson.idClassDetail = _idClassDetail;
+      lesson.idClassDetail = _detailClassId;
       lesson.lessonId = CommonKey.LESSON+getCurrentTime();
     }
     if(lesson.lessonId==null){

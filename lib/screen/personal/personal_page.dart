@@ -110,7 +110,7 @@ class _PersonalPageState extends State<PersonalPage> {
                           Navigator.pop(context);
                         }
                       },
-                      child: NeoText('Xác nhận', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
+                      child: NeoText(Languages.of(context).confirm, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                   SizedBox(width: 8,)
                 ],
               ),

@@ -31,7 +31,7 @@ class _PostPageState extends State<PostPage> {
   @override
   void initState() {
     _presenter = PostPresenter();
-    _getAccountInfor();
+    getInfo();
     if(CommonKey.EDIT==widget._keyFlow){
       _textController = TextEditingController(text: widget._data!['description']);
       _listLink = widget._data!['mediaUrl'];
@@ -253,7 +253,7 @@ class _PostPageState extends State<PostPage> {
     );
   }
 
-  Future<void> _getAccountInfor() async{
+  Future<void> getInfo() async{
     _person = await _presenter!.getAccountInfo();
     setState(()=>null);
   }

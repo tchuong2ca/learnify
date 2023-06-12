@@ -9,8 +9,6 @@ import '../../../../common/state.dart';
 import '../../../../storage/storage.dart';
 
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -37,7 +35,7 @@ abstract class _NewsPresenter with Store {
   File? mediaUrl;
 
   @action
-  Future<String> getImage(bool camera, BuildContext context) async {
+  Future<String> getPost(bool camera, BuildContext context) async {
     state = SingleState.LOADING;
     final ImagePicker _picker = ImagePicker();
     images = await _picker.pickMultiImage();
@@ -77,7 +75,7 @@ abstract class _NewsPresenter with Store {
   }
 
   @action
-  Future<void> getImageFromGallery(BuildContext context) async {
+  Future<void> choosePhotoFromGallery(BuildContext context) async {
     state = SingleState.LOADING;
     cropImage(context,
             (value) => {

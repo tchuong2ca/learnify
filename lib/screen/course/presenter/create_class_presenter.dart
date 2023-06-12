@@ -17,7 +17,7 @@ class CreateClassPresenter{
 
 // Upload file and metadata to the path 'images/mountains.jpg'
     final uploadTask = storageRef
-        .child("${CommonKey.COURSE}/${course.getIdCourse}/${course.getNameCourse}/${myClass.idClass}/class.jpg")
+        .child("${CommonKey.COURSE}/${course.getCourseId}/${course.getCourseName}/${myClass.idClass}/class.jpg")
         .putFile(fileImage, metadata);
 
 // Listen for state changes, errors, and completion of the upload.
@@ -39,15 +39,15 @@ class CreateClassPresenter{
           break;
         case TaskState.success:
         // Handle successful uploads on complete
-          String url = await getLinkAvatar(course.getIdCourse!, course.getNameCourse!, myClass.idClass!);
+          String url = await getLinkAvatar(course.getCourseId!, course.getCourseName!, myClass.idClass!);
           FirebaseFirestore.instance
               .collection('class')
               .doc(myClass.idClass)
               .set({
             'idClass': myClass.idClass,
-            'idCourse': course.getIdCourse,
-            'idTeacher': course.getIdTeacher,
-            'teacherName': course.getNameTeacher,
+            'idCourse': course.getCourseId,
+            'idTeacher': course.getTeacherId,
+            'teacherName': course.getTeacherName,
             'price': myClass.price,
             'nameClass': myClass.nameClass,
             'describe': myClass.describe,
@@ -80,7 +80,7 @@ class CreateClassPresenter{
 
 // Upload file and metadata to the path 'images/mountains.jpg'
       final uploadTask = storageRef
-          .child("${CommonKey.COURSE}/${course!.getIdCourse}/${course.getNameCourse}/${myClass!.idClass}/class.jpg")
+          .child("${CommonKey.COURSE}/${course!.getCourseId}/${course.getCourseName}/${myClass!.idClass}/class.jpg")
           .putFile(file, metadata);
 
 // Listen for state changes, errors, and completion of the upload.
@@ -102,7 +102,7 @@ class CreateClassPresenter{
             break;
           case TaskState.success:
           // Handle successful uploads on complete
-            String urlImage = await getLinkAvatar(course.getIdCourse!, course.getNameCourse!, myClass.idClass!);
+            String urlImage = await getLinkAvatar(course.getCourseId!, course.getCourseName!, myClass.idClass!);
             _updateClass(course, myClass, urlImage);
             break;
         }

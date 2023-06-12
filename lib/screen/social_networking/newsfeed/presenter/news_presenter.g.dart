@@ -76,17 +76,17 @@ mixin _$NewsPresenter on _NewsPresenter, Store {
       AsyncAction('_NewsPresenter.getImage', context: context);
 
   @override
-  Future<String> getImage(bool camera, BuildContext context) {
-    return _$getImageAsyncAction.run(() => super.getImage(camera, context));
+  Future<String> getPost(bool camera, BuildContext context) {
+    return _$getImageAsyncAction.run(() => super.getPost(camera, context));
   }
 
   late final _$getImageFromGalleryAsyncAction =
       AsyncAction('_NewsPresenter.getImageFromGallery', context: context);
 
   @override
-  Future<void> getImageFromGallery(BuildContext context) {
+  Future<void> choosePhotoFromGallery(BuildContext context) {
     return _$getImageFromGalleryAsyncAction
-        .run(() => super.getImageFromGallery(context));
+        .run(() => super.choosePhotoFromGallery(context));
   }
 
   @override

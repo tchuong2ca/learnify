@@ -17,10 +17,6 @@ abstract class _DashboardPresenter with Store {
   @observable
   bool seeMore = false;
   @observable
-  SingleState stateBanner = SingleState.LOADING;
-  @observable
-  SingleState stateMenu = SingleState.LOADING;
-  @observable
   bool height = false;
   @action
   void onSeeMoreClick(){

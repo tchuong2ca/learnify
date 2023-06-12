@@ -134,13 +134,9 @@ class SplashTutorialState extends State<SplashTutorialPage>{
       getData();
     });
     super.initState();
-    //_SaveData();
   }
 
-  // _SaveData() async{
-  //   await SharedPreferencesData.SaveData(StringsText.TUTORIAL_INTRO, StringsText.TUTORIAL_INTRO);
-  // }
-  bool? _checkLogin;
+  bool? _loginCheck;
   DateTime _now = DateTime.now();
   @override
   Widget build(BuildContext context) {
@@ -172,7 +168,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
         ),
         _buildStepIndicatorComment(),
         Spacer(),
-        _checkLogin==false?SizedBox(
+        _loginCheck==false?SizedBox(
           width: getWidthDevice(context)*0.7,
           child: MaterialButton(
             onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (_)=>Login(_now.hour < 18&&_now.hour>5?Mode.day:Mode.night, 0))),
@@ -187,7 +183,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
           ),
         ):SizedBox(),
         SizedBox(height: AppDimens.spaceHalf,),
-        _checkLogin==false?SizedBox(
+        _loginCheck==false?SizedBox(
           width: getWidthDevice(context)*0.7,
           child: MaterialButton(
             onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>Login(_now.hour < 18&&_now.hour>5?Mode.day:Mode.night,1))),
@@ -241,7 +237,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
     dynamic data = await SharedPreferencesData.getData(CommonKey.USER);
     if(username.toString().isNotEmpty){
       setState(() {
-        _checkLogin=true;
+        _loginCheck=true;
       });
       if(data!=null){
         Map<String, dynamic>json = jsonDecode(data.toString());
@@ -251,11 +247,11 @@ class SplashTutorialState extends State<SplashTutorialPage>{
     }
     else{
       setState(() {
-        _checkLogin=false;
+        _loginCheck=false;
       });
     }
-    print(_checkLogin);
-    if(_checkLogin==true){
+    print(_loginCheck);
+    if(_loginCheck==true){
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DashboardPage(role, phone)));
     }
   }

@@ -395,7 +395,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     },
                   ),
                   SizedBox(height: 16,),
-                  itemSeeMore(context, Languages.of(context).classStudy, (call) {
+                  itemSeeMore(context, Languages.of(context).classroom, (call) {
                     if(_role==null||_role!.isEmpty){
                       CustomDialog(context: context, content: Languages.of(context).requireLogin);
                     }else{
@@ -473,7 +473,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                     } else if(CommonKey.INK_WELL==click&&CommonKey.ADMIN==_role){
                                       _navigatorClass(data, myClass),
                                     } else{
-                                      Fluttertoast.showToast(msg: Languages.of(context).requireClass)
+                                      Fluttertoast.showToast(msg: Languages.of(context).registrationRequired)
                                     }
                                   }
 
@@ -586,7 +586,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   }
   void _navigatorClass(Map<String, dynamic> data, MyClassModel myClass){
     _presenter!.getCourse(data['idCourse']).then((value) {
-      if(value!=null&&value.getIdCourse!.isNotEmpty){
+      if(value!=null&&value.getCourseId!.isNotEmpty){
         Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(myClass, value, _role)));
       }
     });

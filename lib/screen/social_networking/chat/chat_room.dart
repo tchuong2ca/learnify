@@ -220,7 +220,7 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                       child: InkWell(
                           onTap: (){
-                           // Navigator.push(context, MaterialPageRoute(builder: (_)=>ViewImageList(listImage, 0)));
+                           //  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ViewImageList(listImage, 0)));
                           },
                           child: loadPhoto.networkImage(data['linkImage'], getHeightDevice(context)*0.3, getWidthDevice(context)*0.6)),
                     ),

@@ -12,7 +12,8 @@ import '../../common/keys.dart';
 import '../../common/widgets.dart';
 import '../../languages/languages.dart';
 import '../../res/images.dart';
-
+import 'package:online_learning/screen/animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 class CourseList extends StatefulWidget {
   String? _role;
   String? _keyFlow;
@@ -87,10 +88,34 @@ class _CourseListState extends State<CourseList> {
                         children: snapshot.data!.docs.map((e) {
                           Map<String, dynamic> data = e.data()! as Map<String, dynamic>;
                           return (CommonKey.ADMIN==_role||CommonKey.TEACHER==_role)?itemCourseAdmin(context, data['name'], data['teacherName'], data['imageLink'],
-                                  (onClickEdit) => Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateCourseUI(CommonKey.EDIT, data))),
-                                  (onClickDelete) => _presenter!.deleteCourse(data['idCourse']),
-                                  (click) => Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,''))))
-                              :itemCourse(context, data['name'], data['teacherName'], data['imageLink'], (id) => Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,''))));
+                                  (onClickEdit) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateCourseUI(CommonKey.EDIT, data))),
+                                  (onClickDelete) => AnimationDialog.generalDialog(context, AlertDialog(
+                                    title: const Text('Bạn muốn xóa khóa học này?'),
+
+                                    actions: <Widget>[
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          textStyle: Theme.of(context).textTheme.labelLarge,
+                                        ),
+                                        child: const Text('Thôi'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          textStyle: Theme.of(context).textTheme.labelLarge,
+                                        ),
+                                        child: const Text('Xóa'),
+                                        onPressed: () {
+                                          _presenter!.deleteCourse(data['idCourse']);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  )),
+                                  (click) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,''))))
+                              :itemCourse(context, data['name'], data['teacherName'], data['imageLink'], (id) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,''))));
                         }).toList(),
                       );
                     },
@@ -104,7 +129,7 @@ class _CourseListState extends State<CourseList> {
       floatingActionButton: Visibility(
         visible: (CommonKey.ADMIN==_role||CommonKey.TEACHER==_role),
         child: FloatingActionButton(
-          onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateCourseUI('',null))),
+          onPressed: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateCourseUI('',null))),
           child: Icon(Icons.add,),
         ),
       ),

@@ -6,7 +6,8 @@ import 'package:online_learning/common/functions.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/social_networking/comment/presenter/comment_presenter.dart';
 import 'package:online_learning/screen/social_networking/newsfeed/view_photo.dart';
-
+import 'package:online_learning/screen/animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:online_learning/screen/social_networking/comment/model/comment_model.dart';
 import '../../../common/colors.dart';
@@ -111,7 +112,7 @@ class _CommentPageState extends State<CommentPage> {
                               listImage.length==1
                                   ? InkWell(
                                   onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(data['mediaUrl'], 0)));
+                                     Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: MediaPageView(data['mediaUrl'], 0)));
                                   },
                                   child:
                                   listImage[0].toString().contains('mp4')?
@@ -120,7 +121,7 @@ class _CommentPageState extends State<CommentPage> {
                                       listImage[0] != null ? listImage[0] : ''))
                                   :listImage.length==2?InkWell(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data)));
+                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: NewsDetailPage(data)));
                                 },
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -136,7 +137,7 @@ class _CommentPageState extends State<CommentPage> {
                                 ),
                               ): listImage.length==3?InkWell(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data)));
+                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: NewsDetailPage(data)));
                                 },
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -162,7 +163,7 @@ class _CommentPageState extends State<CommentPage> {
                                 ),
                               ):InkWell(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data)));
+                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: NewsDetailPage(data)));
                                 },
                                 child: Column(
                                   children: [
@@ -396,7 +397,7 @@ class _CommentPageState extends State<CommentPage> {
             ?Padding(
           padding: const EdgeInsets.only(left: 50, top: 8),
           child: InkWell(
-              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(image, 0))),
+              onTap: ()=>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: MediaPageView(image, 0))),
               child: loadPhoto.networkImage(comment.imageLink, getWidthDevice(context)*0.5, getWidthDevice(context)*0.5)),
         )
             :SizedBox(),
@@ -499,7 +500,7 @@ class _CommentPageState extends State<CommentPage> {
               ?Padding(
             padding: const EdgeInsets.only(left: 50, top: 8),
             child: InkWell(
-                onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(image, 0))),
+                onTap: ()=>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: MediaPageView(image, 0))),
                 child: loadPhoto.networkImage(comment.imageLink, getWidthDevice(context)*0.5, getWidthDevice(context)*0.5)),
           )
               :SizedBox(),

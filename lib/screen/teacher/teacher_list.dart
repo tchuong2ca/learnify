@@ -12,6 +12,8 @@ import '../../res/images.dart';
 import 'add_new_teacher_ui.dart';
 
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:online_learning/screen/animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 class TeacherPage extends StatefulWidget {
   String? _role;
 
@@ -63,7 +65,7 @@ class _TeacherPageState extends State<TeacherPage> {
                 Expanded(child: NeoText( Languages.of(context).teacher, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 ElevatedButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>AddNewTeacherUI(null, widget._role)));
+                       Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade,widget: AddNewTeacherUI(null, widget._role)));
                     },
                     child: NeoText('Thêm giáo viên', textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                 SizedBox(width: 8,)
@@ -109,7 +111,7 @@ class _TeacherPageState extends State<TeacherPage> {
                         Map<String, dynamic> data = e.data() as Map<String, dynamic>;
                         return InkWell(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (_)=>TeacherDetailUI(data)));
+                             Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade,widget: TeacherDetailUI(data)));
                           },
                           child: Card(
                             margin: EdgeInsets.all(8),
@@ -139,7 +141,7 @@ class _TeacherPageState extends State<TeacherPage> {
                                     children: [
                                       IconButton(
                                         onPressed: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (_)=>AddNewTeacherUI(data, widget._role)));
+                                     Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: AddNewTeacherUI(data, widget._role)));
                                   },
 
                                         icon: Icon(

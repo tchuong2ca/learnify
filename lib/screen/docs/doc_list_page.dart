@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/docs/presenter/doc_presenter.dart';
-
+import 'package:online_learning/screen/animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../common/colors.dart';
 import '../../common/functions.dart';
@@ -103,7 +104,7 @@ class _DocListPageState extends State<DocListPage> {
         visible: CommonKey.TEACHER==widget._dataUser!['role']||CommonKey.ADMIN==widget._dataUser!['role']?true:false,
         child: FloatingActionButton(
           onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateDocPage('', null)));
+             Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateDocPage('', null)));
           },
           child: Icon(
             Icons.add,
@@ -117,7 +118,7 @@ class _DocListPageState extends State<DocListPage> {
   Widget _itemDocument(DocContent document){
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_)=>DocDetailsPage(document)));
+         Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: DocDetailsPage(document)));
       },
       child: Container(
         height: 220,
@@ -154,7 +155,7 @@ class _DocListPageState extends State<DocListPage> {
   Widget _itemDocumentAdmin(DocContent document){
     return InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_)=>DocDetailsPage(document)));
+         Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: DocDetailsPage(document)));
       },
       child: Container(
         height: 270,
@@ -194,7 +195,7 @@ class _DocListPageState extends State<DocListPage> {
                     color: AppColors.ultraRed,
                   ),
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateDocPage(CommonKey.EDIT, document)));
+                     Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateDocPage(CommonKey.EDIT, document)));
                   },
                 ),
                 SizedBox(width: 8,),
@@ -204,26 +205,31 @@ class _DocListPageState extends State<DocListPage> {
                     color: AppColors.ultraRed,
                   ),
                   onPressed: (){
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text('Chắc chứ?'),
-                        content: Text('Bạn muốn xóa tài liệu này?'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(false),
-                            child: Text('Thôi'),
+                    AnimationDialog.generalDialog(context, AlertDialog(
+                      title: const Text('Bạn muốn xóa tài liệu này?'),
+
+                      actions: <Widget>[
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: Theme.of(context).textTheme.labelLarge,
                           ),
-                          TextButton(
-                            onPressed: (){
-                    _presenter!.DeleteDoc(document);
-                    Navigator.pop(context);
-                    },
-                            child: Text('Xóa'),
+                          child: const Text('Thôi'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            textStyle: Theme.of(context).textTheme.labelLarge,
                           ),
-                        ],
-                      ),
-                    );
+                          child: const Text('Xóa'),
+                          onPressed: () {
+                            _presenter!.deleteDoc(document);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ));
                   },
                 ),
               ],

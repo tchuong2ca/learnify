@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:online_learning/common/functions.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/social_networking/chat/chat_room.dart';
-
+import 'package:online_learning/screen/animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 import '../../../common/colors.dart';
 import '../../../languages/languages.dart';
 import '../../../res/images.dart';
@@ -90,7 +91,7 @@ class _ChatListPageState extends State<ChatListPage> {
 
   Widget _itemChatList(Map<String, dynamic> data){
     return InkWell(
-      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatRoomPage(widget._userData!, data))),
+      onTap: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ChatRoomPage(widget._userData!, data))),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,

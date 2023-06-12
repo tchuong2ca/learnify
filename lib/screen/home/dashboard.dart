@@ -14,7 +14,8 @@ import 'package:online_learning/screen/docs/doc_list_page.dart';
 import 'package:online_learning/screen/home/dashboard_presenter.dart';
 import 'package:online_learning/screen/personal/personal_page.dart';
 import 'package:online_learning/screen/schedule/schedule.dart';
-
+import 'package:online_learning/screen/animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 import '../../common/colors.dart';
 import '../../common/functions.dart';
 import '../../common/keys.dart';
@@ -179,23 +180,30 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                             children: [
                               SizedBox(width: 8,),
                            IconButton(onPressed: (){
-                             showDialog(
-                               context: context,
-                               builder: (context) => AlertDialog(
-                                 title: Text('Bạn chắc chứ'),
-                                 content: Text('Bạn thật sự muốn đăng xuất ?'),
-                                 actions: <Widget>[
-                                   TextButton(
-                                     onPressed: () => Navigator.of(context).pop(false),
-                                     child: Text('Không'),
+                             AnimationDialog.generalDialog(context, AlertDialog(
+                               title: const Text('Bạn muốn đăng xuất?'),
+
+                               actions: <Widget>[
+                                 TextButton(
+                                   style: TextButton.styleFrom(
+                                     textStyle: Theme.of(context).textTheme.labelLarge,
                                    ),
-                                   TextButton(
-                                     onPressed: () =>  signOut(context),
-                                     child: Text('Đăng xuất'),
+                                   child: const Text('Thôi'),
+                                   onPressed: () {
+                                     Navigator.of(context).pop();
+                                   },
+                                 ),
+                                 TextButton(
+                                   style: TextButton.styleFrom(
+                                     textStyle: Theme.of(context).textTheme.labelLarge,
                                    ),
-                                 ],
-                               ),
-                             );}, icon: Icon(Icons.logout)),
+                                   child: const Text('Đăng xuất'),
+                                   onPressed: () {
+                                     signOut(context);
+                                   },
+                                 ),
+                               ],
+                             ));}, icon: Icon(Icons.logout)),
                               SizedBox(width: 8,),
                               Expanded(child: NeoText(Languages.of(context).appName, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                               IconButton(
@@ -256,26 +264,26 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                           InkWell(
                                             child:    _tabChild(_role=='ADMIN'||_role=='TEACHER'?Images.edit_tools:Images.webinar, _role=='ADMIN'||_role=='TEACHER'?'Tạo khóa/lớp học':'Lớp học của tôi'),
                                             onTap: (){
-                                              Navigator.push(context, MaterialPageRoute(builder: (_)=>_role=='ADMIN'||_role=='TEACHER'?CourseList(_role,'',_username):ClassList(_classModel, _role, "DASHBOARD")));
+                                               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: _role=='ADMIN'||_role=='TEACHER'?CourseList(_role,'',_username):ClassList(_classModel, _role, "DASHBOARD")));
                                             },
                                           ),
 
                                           InkWell(
                                             child:  _tabChild(Images.schedule, _role==CommonKey.TEACHER||_role==CommonKey.ADMIN?'Lịch dạy':'Lịch học'),
                                             onTap: (){
-                                              Navigator.push(context, MaterialPageRoute(builder: (_)=> Schedule(_role)));
+                                               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget:  Schedule(_role)));
                                             },
                                           ),
                                           InkWell(
                                             child: _tabChild(Images.social_media, 'Mạng xã hội'),
                                             onTap: (){
-                                              Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsPage()));
+                                               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: NewsPage()));
                                             },
                                           ),
                                           InkWell(
                                             child:   _tabChild(Images.profile, 'Cá nhân'),
                                             onTap: (){
-                                              Navigator.push(context, MaterialPageRoute(builder: (_)=>PersonalPage(_role!)));
+                                               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: PersonalPage(_role!)));
                                             },
                                           ),
                                         ],
@@ -296,14 +304,14 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                               InkWell(
                                                 child:    _tabChild(Images.teacher, 'Danh sách giáo viên'),
                                                 onTap: (){
-                                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>TeacherPage(_role)));
+                                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: TeacherPage(_role)));
                                                 },
                                               ),
 
                                               InkWell(
                                                 child:  _tabChild(Images.folder, 'Tài liệu'),
                                                 onTap: (){
-                                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>DocListPage(_user)));
+                                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: DocListPage(_user)));
                                                 },
                                               ),
                                               InkWell(
@@ -349,7 +357,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     if(_role==null||_role!.isEmpty){
                       CustomDialog(context: context, content: Languages.of(context).requireLogin);
                     }else{
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>CourseList(_role, CommonKey.HOME_PAGE, _phoneNumber)));
+                       Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CourseList(_role, CommonKey.HOME_PAGE, _phoneNumber)));
                     }
                   }),
                   StreamBuilder<QuerySnapshot>(
@@ -379,9 +387,9 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                 CustomDialog(context: context, content: Languages.of(context).requireLogin)
                               }else{
                                 if(CommonKey.ADMIN==_role||(CommonKey.TEACHER==_role&&_phoneNumber==data['idTeacher'])){
-                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,''))),
+                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,''))),
                                 }else if(CommonKey.MEMBER==_role){
-                                  Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,CommonKey.MEMBER))),
+                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,CommonKey.MEMBER))),
                                 } else{
                                   Fluttertoast.showToast(msg: Languages.of(context).accessDenied)
                                 }
@@ -399,7 +407,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     if(_role==null||_role!.isEmpty){
                       CustomDialog(context: context, content: Languages.of(context).requireLogin);
                     }else{
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassList(null, _role, '')));
+                       Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(null, _role, '')));
                     }
                   }),
                   StreamBuilder<QuerySnapshot>(
@@ -587,7 +595,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   void _navigatorClass(Map<String, dynamic> data, MyClassModel myClass){
     _presenter!.getCourse(data['idCourse']).then((value) {
       if(value!=null&&value.getCourseId!.isNotEmpty){
-        Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(myClass, value, _role)));
+         Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(myClass, value, _role)));
       }
     });
   }

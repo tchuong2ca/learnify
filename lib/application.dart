@@ -9,7 +9,8 @@ import 'package:online_learning/storage/storage.dart';
 import 'package:online_learning/screen/authentication/enums/mode.dart';
 import 'package:online_learning/screen/authentication/routes/login.dart';
 import 'package:online_learning/screen/home/dashboard.dart';
-
+import 'package:online_learning/screen/animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 import 'common/colors.dart';
 import 'common/dimens.dart';
 import 'common/functions.dart';
@@ -171,7 +172,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
         _loginCheck==false?SizedBox(
           width: getWidthDevice(context)*0.7,
           child: MaterialButton(
-            onPressed: () =>Navigator.push(context, MaterialPageRoute(builder: (_)=>Login(_now.hour < 18&&_now.hour>5?Mode.day:Mode.night, 0))),
+            onPressed: () => Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: Login(_now.hour < 18&&_now.hour>5?Mode.day:Mode.night, 0))),
             child: NeoText(
                 Languages.of(context).login,
                 textStyle: TextStyle(fontSize: 16, color: AppColors.ultraRed)
@@ -186,7 +187,7 @@ class SplashTutorialState extends State<SplashTutorialPage>{
         _loginCheck==false?SizedBox(
           width: getWidthDevice(context)*0.7,
           child: MaterialButton(
-            onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>Login(_now.hour < 18&&_now.hour>5?Mode.day:Mode.night,1))),
+            onPressed: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: Login(_now.hour < 18&&_now.hour>5?Mode.day:Mode.night,1))),
             child: NeoText(
                 Languages.of(context).signUp,
                 textStyle: TextStyle(fontSize: 16, color: AppColors.white)),

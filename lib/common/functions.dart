@@ -204,6 +204,29 @@ void listenStatus(BuildContext context, bool value){
     Fluttertoast.showToast(msg: 'Lỗi');
   }
 }
+class AnimationDialog{
+  static generalDialog(BuildContext context,  Widget? _dialog) {
+
+    showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: _dialog,
+            ),
+          );
+        },
+        transitionDuration: Duration(milliseconds: 400),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {
+          return Text('PAGE BUILDER');
+        });
+  }
+}
 class loadPhoto{
   static Widget networkImage(String? url, double? h, double w) {
     return Container(

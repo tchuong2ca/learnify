@@ -8,8 +8,10 @@ import '../../../common/colors.dart';
 import '../../../common/functions.dart';
 import '../../../common/keys.dart';
 import '../../../common/menu_enum.dart';
+import '../../../external/switch_page_animation/enum.dart';
 import '../../../languages/languages.dart';
 import '../../../res/images.dart';
+import '../../animation_page.dart';
 import '../../personal/personal_page.dart';
 import '../chat/chat_list.dart';
 import '../chat/chat_room.dart';
@@ -72,7 +74,7 @@ class _NewsPage extends State<NewsPage>{
                 SizedBox(width: 8,),
                 Expanded(child: NeoText(Languages.of(context).qa, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 IconButton(
-                  onPressed:()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatListPage(_userData))),
+                  onPressed:()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ChatListPage(_userData))),
                   icon: Icon(Icons.message, color: AppColors.ultraRed,),
                 )
               ],
@@ -140,11 +142,11 @@ class _NewsPage extends State<NewsPage>{
                   InkWell(child:   ClipOval(
                     child: loadPhoto.networkImage(data['avatar']!=null?data['avatar']:'', 50, 50),
                   ),onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=>PersonalPage(data['role']!)));
+                     Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: PersonalPage(data['role']!)));
                   },),
                   SizedBox(width: 8.0,),
                   InkWell(onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (_)=>PostPage('',null)));
+                     Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: PostPage('',null)));
                   },
                     child: Container(
                       alignment: Alignment.centerLeft,
@@ -245,7 +247,7 @@ class _NewsPage extends State<NewsPage>{
                   color: AppColors.ultraRed,
                 ),
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatRoomPage(_userData, data)));
+                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ChatRoomPage(_userData, data)));
                 },
               )
             ],
@@ -257,7 +259,7 @@ class _NewsPage extends State<NewsPage>{
           listImage.length==1
               ? InkWell(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(data['mediaUrl'], 0)));
+                 Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: MediaPageView(data['mediaUrl'], 0)));
               },
               child:
               listImage[0].toString().contains('mp4')?
@@ -266,7 +268,7 @@ class _NewsPage extends State<NewsPage>{
                   listImage[0] != null ? listImage[0] : ''))
               :listImage.length==2?InkWell(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data)));
+               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: NewsDetailPage(data)));
             },
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -282,7 +284,7 @@ class _NewsPage extends State<NewsPage>{
             ),
           ): listImage.length==3?InkWell(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data)));
+               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: NewsDetailPage(data)));
             },
             child: Row(
               mainAxisSize: MainAxisSize.max,
@@ -308,7 +310,7 @@ class _NewsPage extends State<NewsPage>{
             ),
           ):InkWell(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>NewsDetailPage(data)));
+               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: NewsDetailPage(data)));
             },
             child: Column(
               children: [
@@ -379,8 +381,8 @@ class _NewsPage extends State<NewsPage>{
                   flex: 1,
                   child: TextButton.icon(
                     onPressed: () {
-                      Navigator.push(context,
-                         MaterialPageRoute(builder: (_)=>CommentPage(data, _userData)))
+                    Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade,
+                        widget: CommentPage(data, _userData)))
                           .then((value) {
                         if (value != null && value is bool && value) {}
                       });

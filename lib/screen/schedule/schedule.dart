@@ -8,7 +8,8 @@ import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/course/model/course_model.dart';
 import 'package:online_learning/screen/course/model/my_class_model.dart';
 import 'package:online_learning/screen/schedule/presenter/schedule_presenter.dart';
-
+import 'package:online_learning/screen/animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../common/functions.dart';
 import '../../common/keys.dart';
@@ -230,12 +231,12 @@ class _ScheduleState extends State<Schedule> {
         if(CommonKey.MEMBER==_role){
           _presenter!.getCourse(_role!, myClass.idTeacher!).then((value){
             CourseModel course = _presenter!.getCourseModel(myClass.idCourse!);
-            Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(
+             Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(
                 MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, nameClass: myClass.nameClass)
                 , course, _role)));
           });
         }else{
-          Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, nameClass: myClass.nameClass), _presenter!.getCourseModel(myClass.idCourse!), _role)));
+           Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, nameClass: myClass.nameClass), _presenter!.getCourseModel(myClass.idCourse!), _role)));
         }
       },
       child: Row(

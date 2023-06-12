@@ -7,12 +7,13 @@ import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/res/images.dart';
 import 'package:online_learning/screen/course/model/my_class_model.dart';
 import 'package:online_learning/screen/course/presenter/class_detail_presenter.dart';
-
 import '../../common/colors.dart';
 import '../../common/functions.dart';
 import '../../common/keys.dart';
 import '../../common/state.dart';
+import '../../external/switch_page_animation/enum.dart';
 import '../../languages/languages.dart';
+import '../animation_page.dart';
 import '../lesson/lesson_page.dart';
 import '../lesson/model/lesson.dart';
 import 'create_class_content.dart';
@@ -82,40 +83,36 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                 Expanded(child: NeoText(Languages.of(context).detailClass, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 CommonKey.MEMBER==_role?SizedBox():ElevatedButton(
                     onPressed: (){
-                      showDialog<void>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('bạn thật sự muốn xóa?'),
-                            actions: <Widget>[
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  textStyle: Theme.of(context).textTheme.labelLarge,
-                                ),
-                                child: const Text('Không'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  textStyle: Theme.of(context).textTheme.labelLarge,
-                                ),
-                                child: const Text('Xóa'),
-                                onPressed: () {
-                                  if(_myClassResult!.idClassDetail!=null){
-                                    showLoaderDialog(context);
-                                    _presenter!.deleteLesson(_myClassResult!.idClassDetail!).then((value) {
-                                      listenStatus(context, value);
-                                    });
-                                  }
-                                  Navigator.pop(context);
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      AnimationDialog.generalDialog(context, AlertDialog(
+                        title: const Text('Bạn thật sự muốn xóa ?'),
+
+                        actions: <Widget>[
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              textStyle: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            child: const Text('Thôi'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              textStyle: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            child: const Text('Xóa'),
+                            onPressed: () {
+                              if(_myClassResult!.idClassDetail!=null){
+                                showLoaderDialog(context);
+                                _presenter!.deleteLesson(_myClassResult!.idClassDetail!).then((value) {
+                                  listenStatus(context, value);
+                                });
+                              }
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ));
                     },
                     child: NeoText(Languages.of(context).delete, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                 SizedBox(width: 8,)
@@ -172,7 +169,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
       floatingActionButton: Visibility(
         visible: CommonKey.TEACHER==_role||CommonKey.ADMIN==_role,
         child: FloatingActionButton(
-            onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateClassContentUI(_myClass, _course, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'',_presenter!.state==SingleState.HAS_DATA?_myClassResult:null))),
+            onPressed: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateClassContentUI(_myClass, _course, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'',_presenter!.state==SingleState.HAS_DATA?_myClassResult:null))),
             child: Observer(
               builder: (_){
                 if(_presenter!.state==SingleState.LOADING){
@@ -191,7 +188,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
 
   Widget _lessonItems(Lesson lesson){
     return InkWell(
-      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>LessonPage(lesson, CommonKey.ADMIN, _myClassResult, _myClass, _course, _role))),
+      onTap: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: LessonPage(lesson, CommonKey.ADMIN, _myClassResult, _myClass, _course, _role))),
       child: Container(
         width: getWidthDevice(context),
         color: AppColors.white,

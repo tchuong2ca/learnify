@@ -4,7 +4,8 @@ import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:online_learning/screen/docs/model/doc_content.dart';
 import 'package:online_learning/screen/docs/model/doc_info.dart';
 import 'package:online_learning/screen/docs/view_PDF.dart';
-
+import 'package:online_learning/screen/animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 import '../../common/colors.dart';
 import '../../common/functions.dart';
 import '../../common/widgets.dart';
@@ -86,7 +87,7 @@ class _DocDetailsPageState extends State<DocDetailsPage> {
 
   Widget _itemDoc(DocInfo doc){
     return InkWell(
-      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>PDFViewerFromUrl(url: doc.fileUrl!, name: doc.fileName!))),
+      onTap: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: PDFViewerFromUrl(url: doc.fileUrl!, name: doc.fileName!))),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,

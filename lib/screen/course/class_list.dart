@@ -5,7 +5,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:online_learning/screen/course/model/course_model.dart';
 import 'package:online_learning/screen/course/model/my_class_model.dart';
 import 'package:online_learning/screen/course/presenter/create_class_presenter.dart';
-
+import 'package:online_learning/screen/animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 import '../../common/colors.dart';
 import '../../common/functions.dart';
 import '../../common/keys.dart';
@@ -126,43 +127,38 @@ class _ClassListState extends State<ClassList> {
                                           :Languages.of(context).monday
                                   } - ${data['startHours']}',
                                       data['price'],
-                                      (onClickEdit) => Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateClassUI(_course, CommonKey.EDIT, data, data['idCourse'],data['idTeacher'],data['teacherName']))),
+                                      (onClickEdit) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateClassUI(_course, CommonKey.EDIT, data, data['idCourse'],data['idTeacher'],data['teacherName']))),
                                       (onClickDelete){
-                                        showDialog<void>(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text('Bạn muốn xóa lớp này'),
+                                        AnimationDialog.generalDialog(context, AlertDialog(
+                                          title: const Text('Bạn muốn xóa lớp này'),
 
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  style: TextButton.styleFrom(
-                                                    textStyle: Theme.of(context).textTheme.labelLarge,
-                                                  ),
-                                                  child: const Text('Thôi'),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                                TextButton(
-                                                  style: TextButton.styleFrom(
-                                                    textStyle: Theme.of(context).textTheme.labelLarge,
-                                                  ),
-                                                  child: const Text('Xóa'),
-                                                  onPressed: () {
-                                                    _presenter!.deleteClass(data['idClass']);
-                                                    Navigator.pop(context);
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
+                                          actions: <Widget>[
+                                            TextButton(
+                                              style: TextButton.styleFrom(
+                                                textStyle: Theme.of(context).textTheme.labelLarge,
+                                              ),
+                                              child: const Text('Thôi'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              style: TextButton.styleFrom(
+                                                textStyle: Theme.of(context).textTheme.labelLarge,
+                                              ),
+                                              child: const Text('Xóa'),
+                                              onPressed: () {
+                                                _presenter!.deleteClass(data['idClass']);
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          ],
+                                        ));
                                       },
-                                      (click) => Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role))))
+                                      (click) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role))))
                                   :card(context, data['nameClass'], data['teacherName'], data['imageLink'], (id) => {
                                 register.contains(_username)
-                                    ?Navigator.push(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role)))
+                                    ? Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role)))
                                     :Fluttertoast.showToast(msg: 'Bạn phải đăng ký lớp học')
                               },'${CommonKey.MON==data['onStageMon']
                                       ? Languages.of(context).monday
@@ -213,7 +209,7 @@ class _ClassListState extends State<ClassList> {
       floatingActionButton: Visibility(
         visible: CommonKey.ADMIN==_role&&_course!=null||CommonKey.TEACHER==_role&&_course!=null,
         child: FloatingActionButton(
-          onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>CreateClassUI(_course,'',null,'','',''))),
+          onPressed: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateClassUI(_course,'',null,'','',''))),
           child: Icon(Icons.add, color: AppColors.white,),
         ),
       ),

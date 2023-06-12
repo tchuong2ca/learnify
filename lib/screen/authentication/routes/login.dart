@@ -21,6 +21,8 @@ import '../enums/mode.dart';
 import '../models/login_theme.dart';
 import '../utils/cached_images.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import '../../animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 class Login extends StatefulWidget {
   Mode? _mode;
   int? _index;
@@ -587,11 +589,12 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
         }).then((value) {
           Navigator.pop(context);
         Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (_)=>Login(_now.hour < 18&&_now.hour>5?Mode.day:Mode.night,0)));
+           Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: Login(_now.hour < 18&&_now.hour>5?Mode.day:Mode.night,0)));
         });
       }
       else{
         Navigator.pop(context);
+
         CustomDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: 'Số điện thoại đã tồn tại');
         //Navigator.pop(context);
       }

@@ -49,7 +49,7 @@ class CreateDocPresenter{
     return userData;
   }
 
-  void DeleteDoc(DocContent document){
+  void deleteDoc(DocContent document){
     FirebaseFirestore.instance.collection('documents').doc(document.id).delete();
   }
 

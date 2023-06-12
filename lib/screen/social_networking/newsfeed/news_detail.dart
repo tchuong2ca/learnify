@@ -1,12 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:online_learning/common/colors.dart';
 import 'package:online_learning/common/functions.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/social_networking/newsfeed/view_photo.dart';
-
+import '../../animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 import '../../../res/images.dart';
+
 
 class NewsDetailPage extends StatelessWidget {
   Map<String, dynamic>? data;
@@ -61,7 +61,7 @@ class NewsDetailPage extends StatelessWidget {
                   ),
                   Wrap(
                     children: List.generate(listImage.length, (index) => InkWell(
-                        onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(data!['mediaUrl'], index))),
+                        onTap: ()=>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: MediaPageView(data!['mediaUrl'], index))),
                         child: Column(
                           children: [
                             listImage[index].toString().contains('mp4')?

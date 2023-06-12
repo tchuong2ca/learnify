@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/screen/lesson/discuss/presenter/discuss_presenter.dart';
 import 'package:online_learning/screen/social_networking/newsfeed/view_photo.dart';
-
+import 'package:online_learning/screen/animation_page.dart';
+import '../../../external/switch_page_animation/enum.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../../common/colors.dart';
 import '../../../common/functions.dart';
@@ -204,7 +205,7 @@ class _DiscussPageState extends State<DiscussPage> {
             ?Padding(
           padding: const EdgeInsets.only(left: 50, top: 8),
           child: InkWell(
-              onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (_)=>MediaPageView(image, 0))),
+              onTap: ()=>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: MediaPageView(image, 0))),
               child: loadPhoto.networkImage(discuss.imageLink, getWidthDevice(context)*0.5, getWidthDevice(context)*0.5)),
         )
             :SizedBox(),

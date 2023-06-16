@@ -1,18 +1,20 @@
 import 'discuss.dart';
 
-class LessonDetail {
-  LessonDetail({
+class LessonContent {
+  LessonContent({
     this.lessonDetailId,
     this.lessonName,
     this.fileContent,
     this.videoLink,
-    this.discuss});
+    this.discuss,
+    this.isLive});
 
-  LessonDetail.fromJson(dynamic json) {
+  LessonContent.fromJson(dynamic json) {
     lessonDetailId = json['idLessonDetail'];
     lessonName = json['nameLesson'];
     fileContent = json['fileContent'];
     videoLink = json['videoLink'];
+    isLive = json['isLive'];
 
     if (json['discuss'] != null) {
       discuss = [];
@@ -26,6 +28,7 @@ class LessonDetail {
   String? fileContent;
   String? videoLink;
   List<Discuss>? discuss;
+  bool? isLive;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -33,6 +36,7 @@ class LessonDetail {
     map['nameLesson'] = lessonName;
     map['fileContent'] = fileContent;
     map['videoLink'] = videoLink;
+    map['isLive'] = isLive;
     if (discuss != null) {
       map['discuss'] = discuss!.map((v) => v.toJson()).toList();
     }

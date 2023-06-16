@@ -62,7 +62,7 @@ class CreateClassContentPresenter{
     return true;
   }
 
-  Future<bool> updateClassContent(
+  Future<bool> updateClassDetail(
       {File? fileImage, ClassDetail? myClassDetail,
         CourseModel? course, MyClassModel? myClass, String? linkImage}) async{
     if(fileImage!=null){

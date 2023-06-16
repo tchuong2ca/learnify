@@ -18,7 +18,7 @@ import '../model/discuss.dart';
 import '../model/lesson_detail.dart';
 class DiscussPage extends StatefulWidget {
 
-  LessonDetail? _lesson;
+  LessonContent? _lesson;
 
   DiscussPage(this._lesson);
 
@@ -27,7 +27,7 @@ class DiscussPage extends StatefulWidget {
 }
 
 class _DiscussPageState extends State<DiscussPage> {
-  LessonDetail? _lesson;
+  LessonContent? _lesson;
 
   _DiscussPageState(this._lesson);
 
@@ -35,7 +35,7 @@ class _DiscussPageState extends State<DiscussPage> {
   File? _fileImage;
   Map<String, dynamic>? _dataUser;
   DiscussPresenter? _presenter;
-  LessonDetail? _detail;
+  LessonContent? _detail;
   String _message = '';
   TextEditingController _controllerMess = TextEditingController();
   bool _isFeedback = false;
@@ -66,7 +66,7 @@ class _DiscussPageState extends State<DiscussPage> {
               return notfound(Languages.of(context).noData);
             }else{
               dynamic data = snapshot.data!.data();
-              _detail = LessonDetail.fromJson(data);
+              _detail = LessonContent.fromJson(data);
               return Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,

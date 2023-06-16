@@ -107,10 +107,10 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                            CommonKey.EDIT!=_keyFlow?_presenter!.createClassDetail(_fileImage!, classDetail, _course!, _myClass!).then((value){
                              listenStatus(context, value);
                            })
-                               :_fileImage!=null?_presenter!.updateClassContent(fileImage: _fileImage, myClass: _myClass, myClassDetail: classDetail, course: _course).then((value) {
+                               :_fileImage!=null?_presenter!.updateClassDetail(fileImage: _fileImage, myClass: _myClass, myClassDetail: classDetail, course: _course).then((value) {
                              listenStatus(context, value);
                            })
-                               :_presenter!.updateClassContent(myClass: _myClass, myClassDetail: classDetail, course: _course, linkImage: _imageLink).then((value) {
+                               :_presenter!.updateClassDetail(myClass: _myClass, myClassDetail: classDetail, course: _course, linkImage: _imageLink).then((value) {
                              listenStatus(context, value);
                            });
                          }

@@ -28,10 +28,10 @@ class CreateLessonContentPresenter{
     return _url;
   }
 
-  Future<bool> createLessonDetail(LessonDetail lessonDetail) async{
-    Map<String, dynamic> data = lessonDetail.toJson();
+  Future<bool> createLessonContent(LessonContent lessonContent) async{
+    Map<String, dynamic> data = lessonContent.toJson();
 
-    await FirebaseFirestore.instance.collection('lesson_detail').doc(lessonDetail.lessonDetailId)
+    await FirebaseFirestore.instance.collection('lesson_detail').doc(lessonContent.lessonDetailId)
         .set(data).catchError((onError)=> false);
     return true;
   }
@@ -40,12 +40,21 @@ class CreateLessonContentPresenter{
       print(e.toString());
     });
   }
-  Future<bool> updateLessonDetail(LessonDetail lessonDetail) async{
+  Future<bool> updateLessonDetail(LessonContent lessonDetail) async{
     List<Map<String, dynamic>> discuss =[];
     await FirebaseFirestore.instance.collection('lesson_detail').doc(replaceSpace(lessonDetail.lessonDetailId!)).update({
       'fileContent': lessonDetail.fileContent,
       'videoLink': lessonDetail.videoLink,
+      'isLive':lessonDetail.isLive
     }).then((value) => true).catchError((onError)=>false);
     return true;
+
+  }
+  void updateLessonStatus(String classDetailId, String index, bool status){
+    // var isLive = 'isLive';
+    // FirebaseFirestore.instance
+    //     .collection('class_detail')
+    //     .doc(classDetailId)
+    //     .update({'lesson.$index.$isLive': status}).onError((error, stackTrace) => false);
   }
 }

@@ -515,7 +515,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
           child: Text('Thôi'),
         ),
         TextButton(
-          onPressed: () => Navigator.of(context).pop(true),
+          onPressed: () => {
+            Navigator.of(context).pop(true),
+            Navigator.of(context).pop(true)
+          },
           child: Text('Thoát'),
         ),
       ],

@@ -252,7 +252,7 @@ class LanguageEn extends Languages{
 
   @override
   // TODO: implement classDetail
-  String get detailClass => 'Chi tiết lớp học';
+  String get classDetails => 'Chi tiết lớp học';
 
   @override
   // TODO: implement classDetailNew

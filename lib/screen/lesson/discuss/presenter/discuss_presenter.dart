@@ -19,7 +19,7 @@ class DiscussPresenter{
     return userData;
   }
 
-  Future sendMessage({required LessonDetail lessonDetail, required Discuss discuss, File? imageFile}) async{
+  Future sendMessage({required LessonContent lessonDetail, required Discuss discuss, File? imageFile}) async{
     lessonDetail.discuss!.add(discuss);
     if(imageFile!=null){
       final metadata = SettableMetadata(contentType: "image/jpeg");
@@ -36,7 +36,7 @@ class DiscussPresenter{
     }
   }
 
-  void post(LessonDetail lessonDetail){
+  void post(LessonContent lessonDetail){
     List<Map<String, dynamic>> dataDiscuss =[];
     lessonDetail.discuss!.forEach((element) => dataDiscuss.add(element.toJson()));
     print(dataDiscuss);

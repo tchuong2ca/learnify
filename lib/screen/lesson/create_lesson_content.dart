@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toggle_tab/flutter_toggle_tab.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_learning/screen/course/model/class_detail.dart';
 import 'package:online_learning/screen/course/model/course_model.dart';
@@ -26,12 +27,12 @@ class CreateLessonPage extends StatefulWidget {
   CourseModel? _course;
   MyClassModel? _myClass;
   String? _keyFlow;
-  LessonDetail? _lessonDetail;
-
-  CreateLessonPage(this._lesson, this._keyFlow, this._course, this._myClass, this._myClassDetail, this._lessonDetail);
+  LessonContent? _lessonDetail;
+  String? _classDetailId;
+  CreateLessonPage(this._lesson, this._keyFlow, this._course, this._myClass, this._myClassDetail, this._lessonDetail, this._classDetailId);
 
   @override
-  State<CreateLessonPage> createState() => _CreateLessonPageState(_lesson, _keyFlow, _course, _myClass, _myClassDetail, _lessonDetail);
+  State<CreateLessonPage> createState() => _CreateLessonPageState(_lesson, _keyFlow, _course, _myClass, _myClassDetail, _lessonDetail,_classDetailId);
 }
 
 class _CreateLessonPageState extends State<CreateLessonPage> {
@@ -40,8 +41,9 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
   ClassDetail? _myClassDetail;
   CourseModel? _course;
   MyClassModel? _myClass;
-  LessonDetail? _lessonDetail;
-  _CreateLessonPageState(this._lesson, this._keyFlow, this._course, this._myClass, this._myClassDetail, this._lessonDetail);
+  LessonContent? _lessonDetail;
+  String? _classDetailId;
+  _CreateLessonPageState(this._lesson, this._keyFlow, this._course, this._myClass, this._myClassDetail, this._lessonDetail, this._classDetailId);
 
   CreateLessonContentPresenter? _presenter;
   String _fileNameContent = '';
@@ -49,6 +51,9 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
   String _videoLink = '';
   String _fullname = '';
   String _avatar = '';
+  bool _isLive =false;
+  int _tabTextIndexSelected=0;
+  List<String> _listTextTabToggle = ["Buổi học thường", "Buổi học live"];
   TextEditingController _controllerUrlLink = TextEditingController();
 
   @override
@@ -96,12 +101,12 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                       if(_videoLink.isEmpty){
                         CustomDialog(context: context, content: 'chưa có link');
                       }else if(_fileContent.isEmpty){
-                        CustomDialog(context: context, content: 'chưa có file nội dung');
+                        CustomDialog(context: context, content: 'chưa có file bài giảng');
                       }
                       else{ 
                         if(CommonKey.EDIT!=_keyFlow){
                           Discuss? discuss = Discuss(name: _fullname, avatar: _avatar, timeStamp: getTimestamp(), content: Languages.of(context).askAQuestion, nameFeedback: '');
-                          LessonDetail lessonDetail = LessonDetail(
+                          LessonContent lessonContent = LessonContent(
                               lessonDetailId: replaceSpace(_lesson!.lessonId!),
                               fileContent: _fileContent,
                               lessonName: _lesson!.lessonName!,
@@ -109,14 +114,17 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
 
                               discuss: [discuss]);
                           showLoaderDialog(context);
-                          _presenter!.createLessonDetail(lessonDetail).then((value){
+                          _presenter!.createLessonContent(lessonContent).then((value){
+                           // _presenter!.updateLessonStatus(_classDetailId!, '0' ,_isLive);
                             listenStatus(context, value);
                           });
+
                         }else{
-                          LessonDetail lessonDetail = LessonDetail(lessonDetailId: replaceSpace(_lesson!.lessonId!), fileContent: _fileContent,
-                              lessonName: _lesson!.lessonName!, videoLink: _videoLink,);
+                          LessonContent lessonContent = LessonContent(lessonDetailId: replaceSpace(_lesson!.lessonId!), fileContent: _fileContent,
+                              lessonName: _lesson!.lessonName!, videoLink: _videoLink,isLive: _isLive);
                           showLoaderDialog(context);
-                          _presenter!.updateLessonDetail(lessonDetail).then((value){
+                          _presenter!.updateLessonDetail(lessonContent).then((value){
+                           // _presenter!.updateLessonStatus(_classDetailId!, '0' ,_isLive);
                             listenStatus(context, value);
                           });
                         }
@@ -180,9 +188,38 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                     ),
                   ),
                   Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Center(
+                        child: FlutterToggleTab(
+
+                          width: 85,
+                          height: 50,
+                          selectedIndex: _tabTextIndexSelected,
+                          selectedBackgroundColors: _tabTextIndexSelected==0?[AppColors.lightBlue]:[AppColors.ultraRed],
+                          selectedTextStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700),
+                          unSelectedTextStyle: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                          labels: _listTextTabToggle,
+                          icons:[Icons.tv, Icons.live_tv],
+                          selectedLabelIndex: (index) {
+                            setState(() {
+                              _tabTextIndexSelected = index;
+                              index==0?_isLive=false:_isLive=true;
+                            });
+                          },
+                          isScroll: false,
+                        ),
+                      )
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: TextFormField(
-                      decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).linkExercise, hintText: Languages.of(context).linkExercise),
+                      decoration: AppThemes.textFieldInputDecoration(labelText: _tabTextIndexSelected==0?'Link youtube tĩnh':'Link youtube live', hintText: _tabTextIndexSelected==0?'Link youtube tĩnh':'Link youtube live'),
                       onChanged: (value)=>setState(()=> _videoLink=value),
                       controller: _controllerUrlLink,
                     ),

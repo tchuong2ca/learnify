@@ -11,13 +11,13 @@ class LessonPagePresenter = _LessonPagePresenter with _$LessonPagePresenter;
 abstract class _LessonPagePresenter with Store{
   @observable
   SingleState state = SingleState.LOADING;
-  LessonDetail? detail;
+  LessonContent? detail;
   @action
   Future getLessonDetail(Lesson lesson) async{
     state = SingleState.LOADING;
     await FirebaseFirestore.instance.collection('lesson_detail').doc(replaceSpace(lesson.lessonId!)).get().then((value) {
       if(value.exists){
-        detail = LessonDetail.fromJson(value.data());
+        detail = LessonContent.fromJson(value.data());
         if(detail!=null){
           state = SingleState.HAS_DATA;
         }else{

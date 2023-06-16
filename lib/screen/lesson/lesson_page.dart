@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flexible_toast/flutter_flexible_toast.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/external/splitview/splitview.dart';
@@ -27,10 +28,11 @@ class LessonPage extends StatefulWidget {
   CourseModel? _course;
   MyClassModel? _myClass;
   String? _role;
-  LessonPage(this._lesson, this._type, this._myClassDetail, this._myClass, this._course, this._role);
+  String? _classDetailId;
+  LessonPage(this._lesson, this._type, this._myClassDetail, this._myClass, this._course, this._role, this._classDetailId);
 
   @override
-  State<LessonPage> createState() => _LessonPageState(_lesson, _type, _myClassDetail, _myClass, _course, _role);
+  State<LessonPage> createState() => _LessonPageState(_lesson, _type, _myClassDetail, _myClass, _course, _role, _classDetailId);
 }
 
 
@@ -41,7 +43,8 @@ class _LessonPageState extends State<LessonPage> {
   CourseModel? _course;
   MyClassModel? _myClass;
   String? _role;
-  _LessonPageState(this._lesson, this._type, this._myClassDetail, this._myClass, this._course, this._role);
+  String? _classDetailId;
+  _LessonPageState(this._lesson, this._type, this._myClassDetail, this._myClass, this._course, this._role, this._classDetailId);
 
   late YoutubePlayerController _controller;
   late PlayerState _playerState;
@@ -59,13 +62,13 @@ class _LessonPageState extends State<LessonPage> {
   void _loadInitYoutube(){
     _controller = YoutubePlayerController(
         initialVideoId: '${getYoutubeId(_presenter!.detail!.videoLink!)}',
-        flags: const YoutubePlayerFlags(
+        flags:  YoutubePlayerFlags(
           mute: false,
           autoPlay: false,
-          disableDragSeek: false,
-          loop: false,
-          isLive: false,
-          forceHD: false,
+          disableDragSeek: _presenter!.detail!.isLive==true?true:false,
+          loop: _presenter!.detail!.isLive==false?true:true,
+          isLive: _presenter!.detail!.isLive==true?true:false,
+          forceHD: true,
           enableCaption: true,
         )
     )..addListener(() {_listen(); });
@@ -99,6 +102,8 @@ class _LessonPageState extends State<LessonPage> {
 
   @override
   Widget build(BuildContext context) {
+
+
     return Container(
       color: AppColors.white,
       child: Observer(
@@ -110,6 +115,7 @@ class _LessonPageState extends State<LessonPage> {
             );
 
           }else if(_presenter!.state==SingleState.NO_DATA){
+
             return Scaffold(
               appBar: AppBar(toolbarHeight: 0,),
               body: Column(
@@ -165,7 +171,7 @@ class _LessonPageState extends State<LessonPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => CreateLessonPage(_lesson!, '', _course!, _myClass!, _myClassDetail!, null))),
+                            builder: (_) => CreateLessonPage(_lesson!, '', _course!, _myClass!, _myClassDetail!, null, _classDetailId))),
                     _controller.pause(),
                   },
                   child: Icon(
@@ -176,6 +182,18 @@ class _LessonPageState extends State<LessonPage> {
               ),
             );
           }else{
+            FlutterFlexibleToast.showToast(
+                message:  _presenter!.detail!.isLive==true?"Đây là buổi học trực tuyến":"Đây là buổi học bình thường",
+                toastLength: Toast.LENGTH_LONG,
+                toastGravity: ToastGravity.TOP,
+                icon: ICON.INFO,
+                radius: 100,
+                elevation: 0,
+                imageSize: 25,
+                textColor: Colors.white,
+                backgroundColor: _presenter!.detail!.isLive==true?AppColors.ultraRed:AppColors.transparent,
+                timeInSeconds: _presenter!.detail!.isLive==true?3:0
+            );
             if(_isLoadFirst){
               _loadInitYoutube();
               _isLoadFirst=false;
@@ -185,8 +203,6 @@ class _LessonPageState extends State<LessonPage> {
               },
               player: YoutubePlayer(
                 controller: _controller,
-                showVideoProgressIndicator: true,
-                progressIndicatorColor: Colors.blueAccent,
                 onReady: (){
                   _isPlayerReady = true;
                 },
@@ -213,6 +229,7 @@ class _LessonPageState extends State<LessonPage> {
                               children: [
                                 TabBar(
                                   onTap: (int index) {
+
                                   setState(() {
                                    if(index==1){
                                      _isQuizTab = true;
@@ -299,7 +316,7 @@ class _LessonPageState extends State<LessonPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => CreateLessonPage(_lesson!, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'', _course!, _myClass!, _myClassDetail!, _presenter!.state==SingleState.HAS_DATA?_presenter!.detail:null))),
+                                      builder: (_) => CreateLessonPage(_lesson!, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'', _course!=null?_course!:null, _myClass!, _myClassDetail!, _presenter!.state==SingleState.HAS_DATA?_presenter!.detail:null, _classDetailId))),
                               _controller.pause(),
                             },
                             child: Observer(

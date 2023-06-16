@@ -80,7 +80,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                 SizedBox(width: 8,),
                 IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                 SizedBox(width: 8,),
-                Expanded(child: NeoText(Languages.of(context).detailClass, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                Expanded(child: NeoText(Languages.of(context).classDetails, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                 CommonKey.MEMBER==_role?SizedBox():ElevatedButton(
                     onPressed: (){
                       AnimationDialog.generalDialog(context, AlertDialog(
@@ -153,7 +153,8 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                               child: NeoText(Languages.of(context).lessonList, textStyle: TextStyle(fontSize: 18, color: AppColors.black)),
                             ),
                             Wrap(
-                              children: List.generate(_myClassResult!.lesson!.length, (index) => _lessonItems(_myClassResult!.lesson![index])),
+                              children: List.generate(_myClassResult!.lesson!.length, (index) => _lessonItems(_myClassResult!.lesson![index], _myClassResult!.idClassDetail!=null?_myClassResult!.idClassDetail!
+                                  :"")),
                             )
                           ],
                         ):SizedBox();
@@ -186,9 +187,9 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
     );
   }
 
-  Widget _lessonItems(Lesson lesson){
+  Widget _lessonItems(Lesson lesson, String classDetailId){
     return InkWell(
-      onTap: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: LessonPage(lesson, CommonKey.ADMIN, _myClassResult, _myClass, _course, _role))),
+      onTap: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: LessonPage(lesson, CommonKey.ADMIN, _myClassResult, _myClass, _course, _role, classDetailId))),
       child: Container(
         width: getWidthDevice(context),
         color: AppColors.white,

@@ -66,7 +66,7 @@ abstract class Languages{
   String get pending;
   String get idClassEmpty;
   String get subjectEmpty;
-  String get detailClass;
+  String get classDetails;
   String get editQuiz;
   String get editQuestion;
   String get addQuestion;

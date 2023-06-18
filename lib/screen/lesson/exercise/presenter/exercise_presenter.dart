@@ -4,10 +4,10 @@ import '../../model/lesson_detail.dart';
 
 class ExercisePresenter{
   getQuestionData(String quizId) async{
-    return await FirebaseFirestore.instance.collection("lesson_detail").doc(quizId).collection("QNA").get();
+    return await FirebaseFirestore.instance.collection("lesson_list").doc(quizId).collection("QNA").get();
   }
   void update(LessonContent lessonDetail){
     Map<String, dynamic> data = lessonDetail.toJson();
-    FirebaseFirestore.instance.collection('lesson_detail').doc(lessonDetail.lessonDetailId).set(data);
+    FirebaseFirestore.instance.collection('lesson_list').doc(lessonDetail.lessonDetailId).set(data);
   }
 }

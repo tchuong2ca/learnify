@@ -32,18 +32,18 @@ class CreateLessonContentPresenter{
   Future<bool> createLessonContent(LessonContent lessonContent) async{
     Map<String, dynamic> data = lessonContent.toJson();
 
-    await FirebaseFirestore.instance.collection('lesson_detail').doc(lessonContent.lessonDetailId)
+    await FirebaseFirestore.instance.collection('lesson_list').doc(lessonContent.lessonDetailId)
         .set(data).catchError((onError)=> false);
     return true;
   }
   Future<void> addQuestionData(Map<String, dynamic>  questionData, String quizId, String questionId) async{
-    await FirebaseFirestore.instance.collection("lesson_detail").doc(quizId).collection("QNA").doc(questionId).set(questionData).catchError((e){
+    await FirebaseFirestore.instance.collection("lesson_list").doc(quizId).collection("QNA").doc(questionId).set(questionData).catchError((e){
       print(e.toString());
     });
   }
   Future<bool> updateLessonDetail(LessonContent lessonDetail) async{
     List<Map<String, dynamic>> discuss =[];
-    await FirebaseFirestore.instance.collection('lesson_detail').doc(replaceSpace(lessonDetail.lessonDetailId!)).update({
+    await FirebaseFirestore.instance.collection('lesson_list').doc(replaceSpace(lessonDetail.lessonDetailId!)).update({
       'fileContent': lessonDetail.fileContent,
       'videoLink': lessonDetail.videoLink,
       'isLive':lessonDetail.isLive
@@ -60,7 +60,7 @@ class CreateLessonContentPresenter{
         .doc(classDetailId)
         .update({
 
-      'lesson': lesson
+      'lessons': lesson
     }).onError((error, stackTrace) => false);
   }
 }

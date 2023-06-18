@@ -2,46 +2,46 @@ import 'package:online_learning/screen/lesson/model/lesson.dart';
 
 class ClassDetail {
   ClassDetail({
-    this.idClassDetail,
-    this.idClass,
+    this.classDetailId,
+    this.classId,
     this.teacherName,
     this.imageLink,
-    this.nameClass,
+    this.className,
     this.describe,
-    this.lesson,});
+    this.lessons,});
 
   ClassDetail.fromJson(dynamic json) {
-    idClassDetail = json['idClassDetail'];
-    idClass = json['idClass'];
+    classDetailId = json['classDetailId'];
+    classId = json['classId'];
     teacherName = json['teacherName'];
     imageLink = json['imageLink'];
-    nameClass = json['nameClass'];
+    className = json['className'];
     describe = json['describe'];
-    if (json['lesson'] != null) {
-      lesson = [];
-      json['lesson'].forEach((v) {
-        lesson!.add(Lesson.fromJson(v));
+    if (json['lessons'] != null) {
+      lessons = [];
+      json['lessons'].forEach((v) {
+        lessons!.add(Lesson.fromJson(v));
       });
     }
   }
-  String? idClassDetail;
-  String? idClass;
+  String? classDetailId;
+  String? classId;
   String? teacherName;
   String? imageLink;
-  String? nameClass;
+  String? className;
   String? describe;
-  List<Lesson>? lesson;
+  List<Lesson>? lessons;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['idClassDetail'] = idClassDetail;
-    map['idClass'] = idClass;
+    map['classDetailId'] = classDetailId;
+    map['classId'] = classId;
     map['teacherName'] = teacherName;
     map['imageLink'] = imageLink;
-    map['nameClass'] = nameClass;
+    map['className'] = className;
     map['describe'] = describe;
-    if (lesson != null) {
-      map['lesson'] = lesson!.map((v) => v.toJson()).toList();
+    if (lessons != null) {
+      map['lessons'] = lessons!.map((v) => v.toJson()).toList();
     }
     return map;
   }

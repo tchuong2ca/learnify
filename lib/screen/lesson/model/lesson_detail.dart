@@ -10,8 +10,8 @@ class LessonContent {
     this.isLive});
 
   LessonContent.fromJson(dynamic json) {
-    lessonDetailId = json['idLessonDetail'];
-    lessonName = json['nameLesson'];
+    lessonDetailId = json['lessonDetailId'];
+    lessonName = json['lessonName'];
     fileContent = json['fileContent'];
     videoLink = json['videoLink'];
     isLive = json['isLive'];
@@ -32,8 +32,8 @@ class LessonContent {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['idLessonDetail'] = lessonDetailId;
-    map['nameLesson'] = lessonName;
+    map['lessonDetailId'] = lessonDetailId;
+    map['lessonName'] = lessonName;
     map['fileContent'] = fileContent;
     map['videoLink'] = videoLink;
     map['isLive'] = isLive;

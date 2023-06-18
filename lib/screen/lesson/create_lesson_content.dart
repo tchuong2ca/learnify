@@ -46,7 +46,6 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
   MyClassModel? _myClass;
   LessonContent? _lessonDetail;
   String? _classDetailId;
-  //List<Lesson>? _lessonList;
   int? _index;
   _CreateLessonPageState(this._lesson, this._keyFlow, this._course, this._myClass, this._myClassDetail, this._lessonDetail, this._classDetailId, this._index);
 
@@ -112,7 +111,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                       }
                       else{ 
                         if(CommonKey.EDIT!=_keyFlow){
-                          Discuss? discuss = Discuss(name: _fullname, avatar: _avatar, timeStamp: getTimestamp(), content: Languages.of(context).askAQuestion, nameFeedback: '');
+                          Discuss? discuss = Discuss(name: _fullname, avatar: _avatar, timeStamp: getTimestamp(), content: Languages.of(context).askAQuestion, feedbackName: '');
                           LessonContent lessonContent = LessonContent(
                               lessonDetailId: replaceSpace(_lesson!.lessonId!),
                               fileContent: _fileContent,

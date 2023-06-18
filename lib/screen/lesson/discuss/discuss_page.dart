@@ -39,10 +39,10 @@ class _DiscussPageState extends State<DiscussPage> {
   String _message = '';
   TextEditingController _controllerMess = TextEditingController();
   bool _isFeedback = false;
-  String _nameFeedback = '';
+  String _feedbackName = '';
   @override
   void initState() {
-    _stream = FirebaseFirestore.instance.collection('lesson_detail').doc(_lesson!.lessonDetailId!).snapshots();
+    _stream = FirebaseFirestore.instance.collection('lesson_list').doc(_lesson!.lessonDetailId!).snapshots();
     _presenter = DiscussPresenter();
     getAccountInfor();
   }
@@ -132,10 +132,10 @@ class _DiscussPageState extends State<DiscussPage> {
                                   if(_message.isNotEmpty){
                                     Discuss discuss = Discuss(
                                         avatar: _dataUser!['avatar']!=null?_dataUser!['avatar']:'',
-                                        content: replaceKey(_message, _nameFeedback),
+                                        content: replaceKey(_message, _feedbackName),
                                         timeStamp:getTimestamp(),
                                         name: _dataUser!['fullname']!=null?_dataUser!['fullname']:'',
-                                        nameFeedback: _nameFeedback
+                                        feedbackName: _feedbackName
                                     );
                                     _fileImage!=null
                                         ?_presenter!.sendMessage(lessonDetail: _detail!, discuss: discuss,imageFile: _fileImage)
@@ -144,7 +144,7 @@ class _DiscussPageState extends State<DiscussPage> {
                                     _fileImage = null;
                                     _controllerMess = TextEditingController(text: _message);
                                     _isFeedback = false;
-                                    _nameFeedback = '';
+                                    _feedbackName = '';
                                     hideKeyboard();
                                     setState(()=>null);
                                   }
@@ -194,7 +194,7 @@ class _DiscussPageState extends State<DiscussPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  (discuss.nameFeedback==null||discuss.nameFeedback!.isEmpty)?SizedBox():NeoText(discuss.nameFeedback!, textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.black)),
+                  (discuss.feedbackName==null||discuss.feedbackName!.isEmpty)?SizedBox():NeoText(discuss.feedbackName!, textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.black)),
                   NeoText(discuss.content!, textStyle: TextStyle(fontSize: index==0?16:14, color: AppColors.black, fontWeight: index==0?FontWeight.bold:FontWeight.normal))
                 ],
               ),

@@ -55,13 +55,13 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
     _lessonList.add(Lesson());
     _presenter = CreateClassContentPresenter();
     if(CommonKey.EDIT==_keyFlow){
-      _lessonIdController = TextEditingController(text: _myClassResult!.idClassDetail);
+      _lessonIdController = TextEditingController(text: _myClassResult!.classDetailId);
       _describeController = TextEditingController(text: _myClassResult!.describe);
-      _lessonList = _myClassResult!.lesson!;
+      _lessonList = _myClassResult!.lessons!;
       _imageLink = _myClassResult!.imageLink!;
-      _detailClassId=_myClassResult!.idClassDetail!;
-      _className=_myClassResult!.nameClass!;
-      _indexLength = _myClassResult!.lesson!.length;
+      _detailClassId=_myClassResult!.classDetailId!;
+      _className=_myClassResult!.className!;
+      _indexLength = _myClassResult!.lessons!.length;
       _describe = _myClassResult!.describe!;
     }
   }
@@ -111,9 +111,9 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                            Fluttertoast.showToast(msg:Languages.of(context).imageNull);
                          }else{
                            showLoaderDialog(context);
-                           ClassDetail classDetail = ClassDetail(idClassDetail: replaceSpace(_detailClassId), idClass: _myClass!.idClass,
-                               teacherName: _myClass!.teacherName, nameClass: _className,
-                               describe: _describe, lesson: _lessonList);
+                           ClassDetail classDetail = ClassDetail(classDetailId: replaceSpace(_detailClassId), classId: _myClass!.idClass,
+                               teacherName: _myClass!.teacherName, className: _className,
+                               describe: _describe, lessons: _lessonList);
                            CommonKey.EDIT!=_keyFlow?_presenter!.createClassDetail(_fileImage!, classDetail, _course!, _myClass!).then((value){
                              listenStatus(context, value);
                            })
@@ -184,18 +184,18 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
   Widget _itemLesson(Lesson lesson, int index){
 
     if(CommonKey.EDIT!=_keyFlow){
-      lesson.idClassDetail = _detailClassId;
+      lesson.classDetailId = _detailClassId;
       lesson.lessonId = CommonKey.LESSON+getCurrentTime();
     }
     if(lesson.lessonId==null){
-      lesson.idClassDetail = _detailClassId;
+      lesson.classDetailId = _detailClassId;
       lesson.lessonId = CommonKey.LESSON+getCurrentTime();
     }
-    lesson.idClassDetail = _detailClassId;
+    lesson.classDetailId = _detailClassId;
     TextEditingController idController = TextEditingController();
     TextEditingController nameController = TextEditingController();
     if(CommonKey.EDIT==_keyFlow){
-      if(lesson.idClassDetail!=null){
+      if(lesson.classDetailId!=null){
         idController = TextEditingController(text: lesson.lessonId);
         nameController = TextEditingController(text: lesson.lessonName);
       }

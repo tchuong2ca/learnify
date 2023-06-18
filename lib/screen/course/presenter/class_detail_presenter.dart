@@ -26,11 +26,17 @@ abstract class _ClassDetailAdminPresenter with Store{
     }
   }
 
-  Future<bool> deleteLesson(String idClass)async{
+  Future<bool> deleteClassDetail(String classId)async{
     await FirebaseFirestore.instance
         .collection('class_detail')
-        .doc(idClass).delete().then((value) => true).catchError((onError)=>false);
+        .doc(classId).delete().then((value) => true).catchError((onError)=>false);
     return true;
+  }
+  Future<bool> deleteLesson(String lessonId) async{
+    await FirebaseFirestore.instance.collection('lesson_list').doc(lessonId).delete()
+        .then((value) => true).catchError((onError)=>false);
+    return true;
+
   }
 
   Future<Map<String, dynamic>> getUserInfo() async{

@@ -40,7 +40,7 @@ class DiscussPresenter{
     List<Map<String, dynamic>> dataDiscuss =[];
     lessonDetail.discuss!.forEach((element) => dataDiscuss.add(element.toJson()));
     print(dataDiscuss);
-    FirebaseFirestore.instance.collection('lesson_detail').doc(lessonDetail.lessonDetailId).update({
+    FirebaseFirestore.instance.collection('lesson_list').doc(lessonDetail.lessonDetailId).update({
       'discuss': dataDiscuss
     });
   }

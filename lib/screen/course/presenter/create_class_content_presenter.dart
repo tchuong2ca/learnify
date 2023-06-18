@@ -43,18 +43,18 @@ class CreateClassContentPresenter{
         // Handle successful uploads on complete
           String url = await getLinkStorage(link);
           List<Map<String, dynamic>> lesson =[];
-          myClassDetail.lesson!.forEach((element) {lesson.add(element.toJson());});
+          myClassDetail.lessons!.forEach((element) {lesson.add(element.toJson());});
           FirebaseFirestore.instance
               .collection('class_detail')
-              .doc(myClassDetail.idClassDetail)
+              .doc(myClassDetail.classDetailId)
               .set({
-            'idClassDetail': myClassDetail.idClassDetail,
-            'idClass': myClassDetail.idClass,
+            'classDetailId': myClassDetail.classDetailId,
+            'classId': myClassDetail.classId,
             'teacherName': course.getTeacherName,
-            'nameClass': myClassDetail.nameClass,
+            'className': myClassDetail.className,
             'describe': myClassDetail.describe,
             'imageLink': url,
-            'lesson': lesson
+            'lessons': lesson
           }).onError((error, stackTrace) => false);
           break;
       }
@@ -98,14 +98,14 @@ class CreateClassContentPresenter{
           // Handle successful uploads on complete
             String url = await getLinkStorage(link);
             List<Map<String, dynamic>> lesson =[];
-            myClassDetail!.lesson!.forEach((element) {lesson.add(element.toJson());});
+            myClassDetail!.lessons!.forEach((element) {lesson.add(element.toJson());});
             _updateClassDetail(myClassDetail, course, myClass, url, lesson);
             break;
         }
       });
     }else{
       List<Map<String, dynamic>> lesson =[];
-      myClassDetail!.lesson!.forEach((element) {lesson.add(element.toJson());});
+      myClassDetail!.lessons!.forEach((element) {lesson.add(element.toJson());});
       _updateClassDetail(myClassDetail, course!, myClass!, linkImage!, lesson);
     }
     return true;
@@ -114,11 +114,11 @@ class CreateClassContentPresenter{
   void _updateClassDetail(ClassDetail myClassDetail, CourseModel course, MyClassModel myClass, String linkImage, List<Map<String, dynamic>> lesson){
     FirebaseFirestore.instance
         .collection('class_detail')
-        .doc(myClassDetail.idClassDetail)
+        .doc(myClassDetail.classDetailId)
         .update({
       'describe': myClassDetail.describe,
       'imageLink': linkImage,
-      'lesson': lesson
+      'lessons': lesson
     }).onError((error, stackTrace) => false);
   }
 }

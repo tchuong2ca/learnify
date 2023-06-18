@@ -15,7 +15,7 @@ abstract class _LessonPagePresenter with Store{
   @action
   Future getLessonDetail(Lesson lesson) async{
     state = SingleState.LOADING;
-    await FirebaseFirestore.instance.collection('lesson_detail').doc(replaceSpace(lesson.lessonId!)).get().then((value) {
+    await FirebaseFirestore.instance.collection('lesson_list').doc(replaceSpace(lesson.lessonId!)).get().then((value) {
       if(value.exists){
         detail = LessonContent.fromJson(value.data());
         if(detail!=null){

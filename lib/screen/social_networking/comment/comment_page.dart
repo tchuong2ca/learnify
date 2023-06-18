@@ -33,7 +33,7 @@ class _CommentPageState extends State<CommentPage> {
   String _message = '';
   TextEditingController _controllerMess = TextEditingController();
   File? _fileImage;
-  String _nameFeedback = '';
+  String _feedbackName = '';
   bool _isFeedback = false;
   CommentPresenter? _presenter;
   String _level = '1';
@@ -294,7 +294,7 @@ class _CommentPageState extends State<CommentPage> {
                               Comment? comment = await _level!='1'
                                   ?_comment
                                   :Comment(
-                                  feedbackName: _nameFeedback,
+                                  feedbackName: _feedbackName,
                                   name: widget._dataUser!['fullname'],
                                   content: _message,
                                   idUser: widget._dataUser!['phone'],
@@ -310,9 +310,9 @@ class _CommentPageState extends State<CommentPage> {
                               _level=='2'?_comment!.listComment!.add(
                                   Comment(
                                       id: getCurrentTime(),
-                                      feedbackName: _nameFeedback,
+                                      feedbackName: _feedbackName,
                                       name: widget._dataUser!['fullname'],
-                                      content: replaceKey(_message, _nameFeedback),
+                                      content: replaceKey(_message, _feedbackName),
                                       idUser: widget._dataUser!['phone'],
                                       avatar: widget._dataUser!['avatar'],
                                       timeStamp: getTimestamp(),
@@ -323,9 +323,9 @@ class _CommentPageState extends State<CommentPage> {
                                   )
                               ):_level=='3'?_comment!.listComment![_indexLevel].listComment!.add( Comment(
                                 id: getCurrentTime(),
-                                feedbackName: _nameFeedback,
+                                feedbackName: _feedbackName,
                                 name: widget._dataUser!['fullname'],
-                                content: replaceKey(_message, _nameFeedback),
+                                content: replaceKey(_message, _feedbackName),
                                 idUser: widget._dataUser!['phone'],
                                 avatar: widget._dataUser!['avatar'],
                                 timeStamp: getTimestamp(),
@@ -339,7 +339,7 @@ class _CommentPageState extends State<CommentPage> {
                               _fileImage = null;
                               _controllerMess = TextEditingController(text: _message);
                               _isFeedback = false;
-                              _nameFeedback = '';
+                              _feedbackName = '';
                               _comment=null;
                               hideKeyboard();
                               setState(()=>null);
@@ -412,8 +412,8 @@ class _CommentPageState extends State<CommentPage> {
               onTap: (){
                 setState((){
                   _isFeedback = true;
-                  _nameFeedback = '${comment.name}';
-                  _controllerMess = TextEditingController(text: _nameFeedback);
+                  _feedbackName = '${comment.name}';
+                  _controllerMess = TextEditingController(text: _feedbackName);
                   _level='2';
                   _comment = Comment(
                       feedbackName: comment.feedbackName,
@@ -515,11 +515,11 @@ class _CommentPageState extends State<CommentPage> {
                 onTap: (){
                   setState((){
                     _isFeedback = true;
-                    _nameFeedback = '${comment.name}';
+                    _feedbackName = '${comment.name}';
                     if(comment.level=='2'){
                       _indexLevel = index;
                     }
-                    _controllerMess = TextEditingController(text: _nameFeedback);
+                    _controllerMess = TextEditingController(text: _feedbackName);
                     _level='3';
                     _comment = commentParent;
                   });

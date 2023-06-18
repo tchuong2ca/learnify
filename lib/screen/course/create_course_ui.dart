@@ -157,10 +157,10 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
                               showLoaderDialog(context);
                               CommonKey.EDIT!=_keyFlow?_createCoursePresenter!.createCourse(_fileImage!, replaceSpace(_idCourse), courseName, _teacherName, _idTeacher).then((value) {
                                 _onResult(value);
-                              }):_fileImage!=null?_createCoursePresenter!.updateCourse(fileImage: _fileImage, idCourse: replaceSpace(_idCourse), idTeacher: _idTeacher, nameCourse: courseName, nameTeacher: _teacherName).then((value) {
+                              }):_fileImage!=null?_createCoursePresenter!.updateCourse(fileImage: _fileImage, courseId: replaceSpace(_idCourse), teacherId: _idTeacher, courseName: courseName, teacherName: _teacherName).then((value) {
                                 _onResult(value);
                               })
-                                  :_createCoursePresenter!.updateCourse(idCourse: replaceSpace(_idCourse), idTeacher: _idTeacher, nameCourse: courseName, nameTeacher: _teacherName, imageLink: _imageLink).then((value) {
+                                  :_createCoursePresenter!.updateCourse(courseId: replaceSpace(_idCourse), teacherId: _idTeacher, courseName: courseName, teacherName: _teacherName, imageLink: _imageLink).then((value) {
                                 _onResult(value);
                               });
                             }

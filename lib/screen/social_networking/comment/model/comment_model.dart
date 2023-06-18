@@ -21,7 +21,7 @@ class Comment {
     imageLink = json['imageLink'];
     timeStamp = json['timeStamp'];
     idUser = json['idUser'];
-    feedbackName = json['nameFeedback'];
+    feedbackName = json['feedbackName'];
     level = json['level'];
     if (json['listComment'] != null) {
       listComment = [];
@@ -50,7 +50,7 @@ class Comment {
     map['content'] = content;
     map['imageLink'] = imageLink;
     map['timeStamp'] = timeStamp;
-    map['nameFeedback'] = feedbackName;
+    map['feedbackName'] = feedbackName;
     map['level'] = level;
     map['idUser'] = idUser;
     if (listComment != null) {

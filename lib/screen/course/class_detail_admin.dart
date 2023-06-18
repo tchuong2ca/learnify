@@ -44,7 +44,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
   @override
   void initState() {
     _presenter = ClassDetailAdminPresenter();
-    _stream =  FirebaseFirestore.instance.collection('class_detail').where('idClass', isEqualTo: '${_myClass!.idClass!}').snapshots();
+    _stream =  FirebaseFirestore.instance.collection('class_detail').where('classId', isEqualTo: '${_myClass!.idClass!}').snapshots();
     getAccountInfo();
   }
 
@@ -103,9 +103,17 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                             ),
                             child: const Text('Xóa'),
                             onPressed: () {
-                              if(_myClassResult!.idClassDetail!=null){
+                              List<String> _listLessonId=[];
+                              if(_myClassResult!.lessons!=null){
+                                for(var items in _myClassResult!.lessons!)
+                                {
+                                  _presenter!.deleteLesson(items.lessonId!);
+                                }
+                              }
+                              if(_myClassResult!.classDetailId!=null){
                                 showLoaderDialog(context);
-                                _presenter!.deleteLesson(_myClassResult!.idClassDetail!).then((value) {
+                                _presenter!.deleteClassDetail(_myClassResult!.classDetailId!).then((value) {
+
                                   listenStatus(context, value);
                                 });
                               }
@@ -139,7 +147,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                         for (var element in snapshot.data!.docs) {
                           _myClassResult = ClassDetail.fromJson(element.data());
                         }
-                        lessonList=_myClassResult!=null?_myClassResult!.lesson!:[];
+                        lessonList=_myClassResult!=null?_myClassResult!.lessons!:[];
                         if(_myClassResult!=null){
                           _presenter!.loadData(true);
 
@@ -156,7 +164,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                               child: NeoText(Languages.of(context).lessonList, textStyle: TextStyle(fontSize: 18, color: AppColors.black)),
                             ),
                             Wrap(
-                              children: List.generate(_myClassResult!.lesson!.length, (index) => _lessonItems(_myClassResult!.lesson![index], _myClassResult!.idClassDetail!=null?_myClassResult!.idClassDetail!
+                              children: List.generate(_myClassResult!.lessons!.length, (index) => _lessonItems(_myClassResult!.lessons![index], _myClassResult!.classDetailId!=null?_myClassResult!.classDetailId!
                                   :"", index)),
                             )
                           ],
@@ -177,7 +185,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
         visible: CommonKey.TEACHER==_role||CommonKey.ADMIN==_role,
         child: FloatingActionButton(
             onPressed: (){
-              print( _presenter!.state==SingleState.HAS_DATA?_myClassResult!.lesson:'alo');
+              print( _presenter!.state==SingleState.HAS_DATA?_myClassResult!.lessons:'alo');
               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade,
                   widget: CreateClassContentUI(_myClass, _course, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'',
                       _presenter!.state==SingleState.HAS_DATA?_myClassResult:null)));
@@ -189,7 +197,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                 }else if(_presenter!.state==SingleState.NO_DATA){
                   return Icon(Icons.add, color: AppColors.white,);
                 }else{
-                  print(_myClassResult!.lesson);
+                  print(_myClassResult!.lessons);
                   return Icon(Icons.edit, color: AppColors.white,);
                 }
               },
@@ -215,11 +223,11 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
             Icon(Icons.circle_outlined, color: AppColors.ultraRed,),
             SizedBox(width: 4,),
             Expanded(child: NeoText('${lesson.lessonName}', textStyle: TextStyle(fontSize: 14, color: AppColors.ultraRed))),
-            lesson.isLive=='true'?Image.asset(
+            lesson.isLive==null||lesson.isLive=='false'?Icon(Icons.not_started, color: AppColors.ultraRed,):Image.asset(
               Images.streaming,
               height: 25.0,
               width: 50.0,
-            ):Icon(Icons.not_started, color: AppColors.ultraRed,),
+            ),
             SizedBox(width: 8,),
           ],
         ),
@@ -237,7 +245,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
         SizedBox(height: 8,),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: NeoText(_myClassResult!.nameClass!, textStyle: TextStyle(color: AppColors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+          child: NeoText(_myClassResult!.className!, textStyle: TextStyle(color: AppColors.black, fontSize: 18, fontWeight: FontWeight.bold)),
         ),
         Row(
           mainAxisSize: MainAxisSize.max,

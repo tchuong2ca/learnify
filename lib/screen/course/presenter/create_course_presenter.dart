@@ -54,14 +54,14 @@ class CreateCoursePresenter{
     return true;
   }
 
-  Future<bool> updateCourse({File? fileImage, String? idCourse, String? nameCourse, String? nameTeacher, String? idTeacher, String? imageLink}) async{
+  Future<bool> updateCourse({File? fileImage, String? courseId, String? courseName, String? teacherName, String? teacherId, String? imageLink}) async{
     if(fileImage!=null){
       final metadata = SettableMetadata(contentType: "image/jpeg");
 // Create a reference to the Firebase Storage bucket
       final storageRef = FirebaseStorage.instance.ref();
 // Upload file and metadata to the path 'images/mountains.jpg'
       final uploadTask = storageRef
-          .child("${CommonKey.COURSE}/$idCourse/$nameCourse/image.jpg")
+          .child("${CommonKey.COURSE}/$courseId/$courseName/image.jpg")
           .putFile(fileImage, metadata);
 // Listen for state changes, errors, and completion of the upload.
       uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async{
@@ -82,13 +82,13 @@ class CreateCoursePresenter{
             break;
           case TaskState.success:
           // Handle successful uploads on complete
-            String url = await getLinkAvatar(idCourse!, nameCourse!);
-            update(idCourse, nameCourse, nameTeacher, idTeacher, url);
+            String url = await getLinkAvatar(courseId!, courseName!);
+            update(courseId, courseName, teacherName, teacherId, url);
             break;
         }
       });
     }else{
-      update(idCourse, nameCourse, nameTeacher, idTeacher, imageLink!);
+      update(courseId, courseName, teacherName, teacherId, imageLink!);
     }
     return true;
   }

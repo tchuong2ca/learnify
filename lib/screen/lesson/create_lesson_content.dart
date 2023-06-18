@@ -16,6 +16,7 @@ import '../../common/themes.dart';
 import '../../common/widgets.dart';
 import '../../languages/languages.dart';
 import '../../res/images.dart';
+import '../../storage/lessonList.dart';
 import '../../storage/storage.dart';
 import 'model/discuss.dart';
 import 'model/lesson.dart';
@@ -29,10 +30,12 @@ class CreateLessonPage extends StatefulWidget {
   String? _keyFlow;
   LessonContent? _lessonDetail;
   String? _classDetailId;
-  CreateLessonPage(this._lesson, this._keyFlow, this._course, this._myClass, this._myClassDetail, this._lessonDetail, this._classDetailId);
+  //List<Lesson>? _lessonList;
+  int? _index;
+  CreateLessonPage(this._lesson, this._keyFlow, this._course, this._myClass, this._myClassDetail, this._lessonDetail, this._classDetailId, this._index);
 
   @override
-  State<CreateLessonPage> createState() => _CreateLessonPageState(_lesson, _keyFlow, _course, _myClass, _myClassDetail, _lessonDetail,_classDetailId);
+  State<CreateLessonPage> createState() => _CreateLessonPageState(_lesson, _keyFlow, _course, _myClass, _myClassDetail, _lessonDetail,_classDetailId, _index);
 }
 
 class _CreateLessonPageState extends State<CreateLessonPage> {
@@ -43,7 +46,9 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
   MyClassModel? _myClass;
   LessonContent? _lessonDetail;
   String? _classDetailId;
-  _CreateLessonPageState(this._lesson, this._keyFlow, this._course, this._myClass, this._myClassDetail, this._lessonDetail, this._classDetailId);
+  //List<Lesson>? _lessonList;
+  int? _index;
+  _CreateLessonPageState(this._lesson, this._keyFlow, this._course, this._myClass, this._myClassDetail, this._lessonDetail, this._classDetailId, this._index);
 
   CreateLessonContentPresenter? _presenter;
   String _fileNameContent = '';
@@ -55,7 +60,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
   int _tabTextIndexSelected=0;
   List<String> _listTextTabToggle = ["Buổi học thường", "Buổi học live"];
   TextEditingController _controllerUrlLink = TextEditingController();
-
+  List<Lesson> _lessonList =[];
   @override
   void initState() {
     _presenter = CreateLessonContentPresenter();
@@ -63,6 +68,8 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
     if(CommonKey.EDIT==_keyFlow){
       getDataEdit();
     }
+    _lessonList = lessonList;
+    _lessonList!=null?_lessonList[_index!].isLive='false':null;
   }
 
   @override
@@ -111,11 +118,11 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                               fileContent: _fileContent,
                               lessonName: _lesson!.lessonName!,
                               videoLink: _videoLink,
-
+                              isLive: _isLive,
                               discuss: [discuss]);
                           showLoaderDialog(context);
                           _presenter!.createLessonContent(lessonContent).then((value){
-                           // _presenter!.updateLessonStatus(_classDetailId!, '0' ,_isLive);
+                            _presenter!.updateLessonStatus(_classDetailId!,  _lessonList!=null? _lessonList!:null);
                             listenStatus(context, value);
                           });
 
@@ -124,7 +131,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                               lessonName: _lesson!.lessonName!, videoLink: _videoLink,isLive: _isLive);
                           showLoaderDialog(context);
                           _presenter!.updateLessonDetail(lessonContent).then((value){
-                           // _presenter!.updateLessonStatus(_classDetailId!, '0' ,_isLive);
+                           _presenter!.updateLessonStatus(_classDetailId!, _lessonList!=null?_lessonList!:null);
                             listenStatus(context, value);
                           });
                         }
@@ -210,6 +217,12 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                             setState(() {
                               _tabTextIndexSelected = index;
                               index==0?_isLive=false:_isLive=true;
+                              if(index==0){
+                                _lessonList!=null?_lessonList![_index!].isLive='false':null;
+                              }
+                              else{
+                                _lessonList!=null?_lessonList![_index!].isLive='true':null;
+                              }
                             });
                           },
                           isScroll: false,

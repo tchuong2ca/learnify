@@ -8,6 +8,7 @@ import 'package:online_learning/screen/course/model/my_class_model.dart';
 
 import '../../../common/functions.dart';
 import '../../../common/keys.dart';
+import '../model/lesson.dart';
 import '../model/lesson_detail.dart';
 
 class CreateLessonContentPresenter{
@@ -50,11 +51,16 @@ class CreateLessonContentPresenter{
     return true;
 
   }
-  void updateLessonStatus(String classDetailId, String index, bool status){
-    // var isLive = 'isLive';
-    // FirebaseFirestore.instance
-    //     .collection('class_detail')
-    //     .doc(classDetailId)
-    //     .update({'lesson.$index.$isLive': status}).onError((error, stackTrace) => false);
+  void updateLessonStatus(String classDetailId,List<Lesson>? lessonList){
+    List<Map<String, dynamic>> lesson =[];
+    lessonList!.forEach((element) {lesson.add(element.toJson());});
+
+    FirebaseFirestore.instance
+        .collection('class_detail')
+        .doc(classDetailId)
+        .update({
+
+      'lesson': lesson
+    }).onError((error, stackTrace) => false);
   }
 }

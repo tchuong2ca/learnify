@@ -7,6 +7,7 @@ import 'package:online_learning/common/widgets.dart';
 import 'package:online_learning/res/images.dart';
 import 'package:online_learning/screen/course/model/my_class_model.dart';
 import 'package:online_learning/screen/course/presenter/class_detail_presenter.dart';
+import 'package:online_learning/storage/lessonList.dart';
 import '../../common/colors.dart';
 import '../../common/functions.dart';
 import '../../common/keys.dart';
@@ -24,7 +25,7 @@ class ClassDetailAdminPage extends StatefulWidget {
   MyClassModel? _myClass;
   CourseModel? _course;
   String? _role;
-  ClassDetailAdminPage(this._myClass, this._course, this._role);
+  ClassDetailAdminPage(this._myClass, this._course, this._role,);
 
   @override
   State<ClassDetailAdminPage> createState() => _ClassDetailAdminPageState(_myClass, _course, _role);
@@ -134,12 +135,14 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                         return notfound(Languages.of(context).noData);
                       }else if(!snapshot.hasData){
                         return notfound(Languages.of(context).noData);
-                      }else{
-                        snapshot.data!.docs.forEach((element) {
+                      }else if(snapshot.hasData){
+                        for (var element in snapshot.data!.docs) {
                           _myClassResult = ClassDetail.fromJson(element.data());
-                        });
+                        }
+                        lessonList=_myClassResult!=null?_myClassResult!.lesson!:[];
                         if(_myClassResult!=null){
                           _presenter!.loadData(true);
+
                         }
 
                         return _myClassResult!=null?Column(
@@ -154,10 +157,13 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                             ),
                             Wrap(
                               children: List.generate(_myClassResult!.lesson!.length, (index) => _lessonItems(_myClassResult!.lesson![index], _myClassResult!.idClassDetail!=null?_myClassResult!.idClassDetail!
-                                  :"")),
+                                  :"", index)),
                             )
                           ],
                         ):SizedBox();
+                      }
+                      else{
+                        return notfound(Languages.of(context).noData);
                       }
                     },
                   ),
@@ -170,7 +176,12 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
       floatingActionButton: Visibility(
         visible: CommonKey.TEACHER==_role||CommonKey.ADMIN==_role,
         child: FloatingActionButton(
-            onPressed: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateClassContentUI(_myClass, _course, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'',_presenter!.state==SingleState.HAS_DATA?_myClassResult:null))),
+            onPressed: (){
+              print( _presenter!.state==SingleState.HAS_DATA?_myClassResult!.lesson:'alo');
+              Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade,
+                  widget: CreateClassContentUI(_myClass, _course, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'',
+                      _presenter!.state==SingleState.HAS_DATA?_myClassResult:null)));
+            },
             child: Observer(
               builder: (_){
                 if(_presenter!.state==SingleState.LOADING){
@@ -178,6 +189,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                 }else if(_presenter!.state==SingleState.NO_DATA){
                   return Icon(Icons.add, color: AppColors.white,);
                 }else{
+                  print(_myClassResult!.lesson);
                   return Icon(Icons.edit, color: AppColors.white,);
                 }
               },
@@ -187,9 +199,9 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
     );
   }
 
-  Widget _lessonItems(Lesson lesson, String classDetailId){
+  Widget _lessonItems(Lesson lesson, String classDetailId, int index){
     return InkWell(
-      onTap: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: LessonPage(lesson, CommonKey.ADMIN, _myClassResult, _myClass, _course, _role, classDetailId))),
+      onTap: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: LessonPage(lesson, CommonKey.ADMIN, _myClassResult, _myClass, _course, _role, classDetailId, index))),
       child: Container(
         width: getWidthDevice(context),
         color: AppColors.white,
@@ -203,7 +215,11 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
             Icon(Icons.circle_outlined, color: AppColors.ultraRed,),
             SizedBox(width: 4,),
             Expanded(child: NeoText('${lesson.lessonName}', textStyle: TextStyle(fontSize: 14, color: AppColors.ultraRed))),
-            Icon(Icons.not_started, color: AppColors.ultraRed,),
+            lesson.isLive=='true'?Image.asset(
+              Images.streaming,
+              height: 25.0,
+              width: 50.0,
+            ):Icon(Icons.not_started, color: AppColors.ultraRed,),
             SizedBox(width: 8,),
           ],
         ),

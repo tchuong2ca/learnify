@@ -155,10 +155,10 @@ class _ClassListState extends State<ClassList> {
                                           ],
                                         ));
                                       },
-                                      (click) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role))))
+                                      (click) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role, ))))
                                   :card(context, data['nameClass'], data['teacherName'], data['imageLink'], (id) => {
                                 register.contains(_username)
-                                    ? Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role)))
+                                    ? Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role, )))
                                     :Fluttertoast.showToast(msg: 'Bạn phải đăng ký lớp học')
                               },'${CommonKey.MON==data['onStageMon']
                                       ? Languages.of(context).monday

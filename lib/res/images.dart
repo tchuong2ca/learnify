@@ -38,4 +38,5 @@ class Images {
   static const share = assetPath + 'share.png';
   static const photo_notfound = assetPath + 'photo_notfound.jpeg';
   static const logo_nobackground = assetPath + 'logo_nobackground.png';
+  static const streaming = assetPath +'streaming.gif';
 }

@@ -1,9 +1,11 @@
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_learning/common/widgets.dart';
+import 'package:online_learning/screen/course/class_detail_admin.dart';
 import 'package:online_learning/screen/course/model/class_detail.dart';
 import 'package:online_learning/screen/course/model/course_model.dart';
 import 'package:online_learning/screen/course/model/my_class_model.dart';
@@ -16,6 +18,8 @@ import '../../common/keys.dart';
 import '../../common/themes.dart';
 import '../../languages/languages.dart';
 import '../../res/images.dart';
+import '../../storage/lessonList.dart';
+import '../../storage/storage.dart';
 
 class CreateClassContentUI extends StatefulWidget {
   MyClassModel? _myClass;
@@ -40,8 +44,8 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
   List<Lesson> _lessonList = [];
   File? _fileImage;
   CreateClassContentPresenter? _presenter;
-  TextEditingController _controllerIdLesson = TextEditingController();
-  TextEditingController _controllerDescribe = TextEditingController();
+  TextEditingController _lessonIdController = TextEditingController();
+  TextEditingController _describeController = TextEditingController();
   int _indexLength = 0;
 
   @override
@@ -51,8 +55,8 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
     _lessonList.add(Lesson());
     _presenter = CreateClassContentPresenter();
     if(CommonKey.EDIT==_keyFlow){
-      _controllerIdLesson = TextEditingController(text: _myClassResult!.idClassDetail);
-      _controllerDescribe = TextEditingController(text: _myClassResult!.describe);
+      _lessonIdController = TextEditingController(text: _myClassResult!.idClassDetail);
+      _describeController = TextEditingController(text: _myClassResult!.describe);
       _lessonList = _myClassResult!.lesson!;
       _imageLink = _myClassResult!.imageLink!;
       _detailClassId=_myClassResult!.idClassDetail!;
@@ -91,7 +95,13 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(width: 8,),
-                  IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
+                  IconButton(onPressed: (){
+                    print(_lessonList);
+                    lessonList = _lessonList;
+                    Navigator.pop(context);
+                    //Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>ClassDetailAdminPage(_myClass, _course,'ADMIN', _lessonList)));
+
+                  }, icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                   SizedBox(width: 8,),
                   Expanded(child: NeoText(Languages.of(context).createClassContent, textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
@@ -113,6 +123,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                                :_presenter!.updateClassDetail(myClass: _myClass, myClassDetail: classDetail, course: _course, linkImage: _imageLink).then((value) {
                              listenStatus(context, value);
                            });
+                           lessonList = _lessonList;
                          }
                        }
                        else{
@@ -142,7 +153,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                         decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).describeClass, hintText: Languages.of(context).describeClass),
                         onChanged: (value)=>setState(()=> _describe=value),
                         maxLines: 10,
-                        controller: _controllerDescribe,
+                        controller: _describeController,
                       ),
                     ),
                     ListView.builder(
@@ -155,7 +166,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                     Center(
                       child: IconButton(icon: Icon(Icons.add),onPressed: (){
                       setState(() {
-                        _lessonList.add(Lesson());
+                        _lessonList.add(Lesson(isLive: 'false'));
                       });
                       },)
                     ),
@@ -177,14 +188,16 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
       lesson.lessonId = CommonKey.LESSON+getCurrentTime();
     }
     if(lesson.lessonId==null){
+      lesson.idClassDetail = _detailClassId;
       lesson.lessonId = CommonKey.LESSON+getCurrentTime();
     }
-    TextEditingController controllerId = TextEditingController();
-    TextEditingController controllerName = TextEditingController();
+    lesson.idClassDetail = _detailClassId;
+    TextEditingController idController = TextEditingController();
+    TextEditingController nameController = TextEditingController();
     if(CommonKey.EDIT==_keyFlow){
       if(lesson.idClassDetail!=null){
-        controllerId = TextEditingController(text: lesson.lessonId);
-        controllerName = TextEditingController(text: lesson.lessonName);
+        idController = TextEditingController(text: lesson.lessonId);
+        nameController = TextEditingController(text: lesson.lessonName);
       }
     }
     return Container(

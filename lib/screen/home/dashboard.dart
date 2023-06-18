@@ -597,7 +597,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   void _navigatorClass(Map<String, dynamic> data, MyClassModel myClass){
     _presenter!.getCourse(data['idCourse']).then((value) {
       if(value!=null&&value.getCourseId!.isNotEmpty){
-         Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(myClass, value, _role)));
+         Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(myClass, value, _role, )));
       }
     });
   }

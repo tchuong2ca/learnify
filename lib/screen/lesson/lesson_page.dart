@@ -29,10 +29,11 @@ class LessonPage extends StatefulWidget {
   MyClassModel? _myClass;
   String? _role;
   String? _classDetailId;
-  LessonPage(this._lesson, this._type, this._myClassDetail, this._myClass, this._course, this._role, this._classDetailId);
+  int? _index;
+  LessonPage(this._lesson, this._type, this._myClassDetail, this._myClass, this._course, this._role, this._classDetailId, this._index);
 
   @override
-  State<LessonPage> createState() => _LessonPageState(_lesson, _type, _myClassDetail, _myClass, _course, _role, _classDetailId);
+  State<LessonPage> createState() => _LessonPageState(_lesson, _type, _myClassDetail, _myClass, _course, _role, _classDetailId, _index);
 }
 
 
@@ -44,9 +45,10 @@ class _LessonPageState extends State<LessonPage> {
   MyClassModel? _myClass;
   String? _role;
   String? _classDetailId;
-  _LessonPageState(this._lesson, this._type, this._myClassDetail, this._myClass, this._course, this._role, this._classDetailId);
+  int? _index;
+  _LessonPageState(this._lesson, this._type, this._myClassDetail, this._myClass, this._course, this._role, this._classDetailId, this._index);
 
-  late YoutubePlayerController _controller;
+   YoutubePlayerController? _controller;
   late PlayerState _playerState;
   bool _isPlayerReady = false;
   LessonPagePresenter? _presenter;
@@ -75,7 +77,7 @@ class _LessonPageState extends State<LessonPage> {
   }
 
   void _listen(){
-    if(_isPlayerReady && mounted && !_controller.value.isFullScreen){
+    if(_isPlayerReady && mounted && !_controller!.value.isFullScreen){
       // setState((){
       //   _playerState = _controller.value.playerState;
       // });
@@ -94,9 +96,9 @@ class _LessonPageState extends State<LessonPage> {
   @override
   void dispose() {
     super.dispose();
-    if(_controller!=null){
-      _controller.dispose();
-    }
+   if(_controller!=null){
+     _controller!.dispose();
+   }
 
   }
 
@@ -171,8 +173,8 @@ class _LessonPageState extends State<LessonPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => CreateLessonPage(_lesson!, '', _course!, _myClass!, _myClassDetail!, null, _classDetailId))),
-                    _controller.pause(),
+                            builder: (_) => CreateLessonPage(_lesson!, '', _course!, _myClass!, _myClassDetail!, null, _classDetailId, _index))),
+                   _controller!=null? _controller!.pause():null,
                   },
                   child: Icon(
                     Icons.add,
@@ -202,7 +204,7 @@ class _LessonPageState extends State<LessonPage> {
               onExitFullScreen: (){
               },
               player: YoutubePlayer(
-                controller: _controller,
+                controller: _controller!,
                 onReady: (){
                   _isPlayerReady = true;
                 },
@@ -316,8 +318,8 @@ class _LessonPageState extends State<LessonPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => CreateLessonPage(_lesson!, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'', _course!=null?_course!:null, _myClass!, _myClassDetail!, _presenter!.state==SingleState.HAS_DATA?_presenter!.detail:null, _classDetailId))),
-                              _controller.pause(),
+                                      builder: (_) => CreateLessonPage(_lesson!, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'', _course!=null?_course!:null, _myClass!, _myClassDetail!, _presenter!.state==SingleState.HAS_DATA?_presenter!.detail:null, _classDetailId, _index))),
+                              _controller!.pause(),
                             },
                             child: Observer(
                               builder: (_){

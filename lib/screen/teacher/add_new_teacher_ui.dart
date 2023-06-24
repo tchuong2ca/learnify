@@ -104,7 +104,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                             if(value){
                               Navigator.pop(context);
                             }else{
-                              CustomDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: Languages.of(context).addFailure);
+                              customDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: Languages.of(context).addFailure);
                             }
                           }):_presenter!.createAccount(name: _fullname,phone:  _phone,email:  _email,exp:  _exp,specialize:  _specialize,intro:  _intro).then((value) {
                             Navigator.pop(context);
@@ -112,7 +112,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                               Navigator.pop(context);
                               Fluttertoast.showToast(msg: Languages.of(context).onSuccess);
                             }else{
-                              CustomDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: Languages.of(context).addFailure);
+                              customDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: Languages.of(context).addFailure);
                             }
                           });
                         }else{
@@ -122,7 +122,7 @@ class _AddNewTeacherUIState extends State<AddNewTeacherUI> {
                               Navigator.pop(context);
                               Fluttertoast.showToast(msg: Languages.of(context).onSuccess);
                             }else{
-                              CustomDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: Languages.of(context).onFailure);
+                              customDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: Languages.of(context).onFailure);
                             }
                           });
                         }

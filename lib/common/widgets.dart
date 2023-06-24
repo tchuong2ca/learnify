@@ -37,7 +37,7 @@ Widget imageClipRRect({String? url,String? urlError,double? width, double? heigh
       },),
   );
 }
-CustomDialog(
+customDialog(
     {required BuildContext context, IconData? iconData, String? title, required String content}){
   return
     AnimationDialog.generalDialog(context,

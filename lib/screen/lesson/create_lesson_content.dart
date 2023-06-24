@@ -105,9 +105,9 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                 ElevatedButton(
                     onPressed: (){
                       if(_videoLink.isEmpty){
-                        CustomDialog(context: context, content: 'chưa có link');
+                        customDialog(context: context, content: 'chưa có link');
                       }else if(_fileContent.isEmpty){
-                        CustomDialog(context: context, content: 'chưa có file bài giảng');
+                        customDialog(context: context, content: 'chưa có file bài giảng');
                       }
                       else{ 
                         if(CommonKey.EDIT!=_keyFlow){

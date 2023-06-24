@@ -595,7 +595,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       else{
         //Navigator.pop(context);
 
-        CustomDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: 'Số điện thoại đã tồn tại');
+        customDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: 'Số điện thoại đã tồn tại');
         //Navigator.pop(context);
       }
     } on FirebaseAuthException catch (e) {
@@ -605,7 +605,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
-        CustomDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: Languages.of(context).existEmail);
+        customDialog(context: context, iconData: Icons.warning_rounded, title: Languages.of(context).alert, content: Languages.of(context).existEmail);
       }else{
 
       }
@@ -646,13 +646,13 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
       }
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
+      //Navigator.pop(context);
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
-        CustomDialog(context: context, content: Languages.of(context).wrongEmail);
+        customDialog(context: context, content: Languages.of(context).wrongEmail);
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
-        CustomDialog(context: context, content: Languages.of(context).wrongPass);
+        customDialog(context: context, content: Languages.of(context).wrongPass);
       }
 
     }

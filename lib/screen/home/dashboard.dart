@@ -355,7 +355,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                   SizedBox(height: 15,),
                   itemSeeMore(context, Languages.of(context).course,(call) {
                     if(_role==null||_role!.isEmpty){
-                      CustomDialog(context: context, content: Languages.of(context).requireLogin);
+                      customDialog(context: context, content: Languages.of(context).requireLogin);
                     }else{
                        Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CourseList(_role, CommonKey.HOME_PAGE, _phoneNumber)));
                     }
@@ -384,7 +384,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                               '','','',
                                     (click) => {
                               if(_role==null||_role!.isEmpty){
-                                CustomDialog(context: context, content: Languages.of(context).requireLogin)
+                                customDialog(context: context, content: Languages.of(context).requireLogin)
                               }else{
                                 if(CommonKey.ADMIN==_role||(CommonKey.TEACHER==_role&&_phoneNumber==data['idTeacher'])){
                                    Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,''))),
@@ -405,7 +405,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                   SizedBox(height: 16,),
                   itemSeeMore(context, Languages.of(context).classroom, (call) {
                     if(_role==null||_role!.isEmpty){
-                      CustomDialog(context: context, content: Languages.of(context).requireLogin);
+                      customDialog(context: context, content: Languages.of(context).requireLogin);
                     }else{
                        Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(null, _role, '')));
                     }
@@ -467,7 +467,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                         (click) => {
 
                                   if(_role==null||_role!.isEmpty){
-                                    CustomDialog(context: context, content: Languages.of(context).requireLogin)
+                                    customDialog(context: context, content: Languages.of(context).requireLogin)
                                   }else{
                                     if(CommonKey.INK_WELL!=click&&!listUser.contains(_phoneNumber)){
                                       listUser.add(_phoneNumber!),

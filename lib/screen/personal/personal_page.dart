@@ -105,7 +105,7 @@ class _PersonalPageState extends State<PersonalPage> {
                             }
                           });
                           Navigator.pop(context);
-                          Navigator.pop(context);
+                          //Navigator.pop(context);
                         }else{
                           Navigator.pop(context);
                         }

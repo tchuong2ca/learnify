@@ -209,7 +209,7 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
       Navigator.pop(context);
       Fluttertoast.showToast(msg: Languages.of(context).onSuccess);
     }else{
-      CustomDialog(context: context, iconData: Icons.warning_rounded, title: 'Aloo', content: 'Lỗi');
+      customDialog(context: context, iconData: Icons.warning_rounded, title: 'Aloo', content: 'Lỗi');
     }
   }
 }

@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_learning/screen/course/model/class_detail.dart';
 import 'package:online_learning/screen/course/model/course_model.dart';
 import 'package:online_learning/screen/course/model/my_class_model.dart';
+import 'package:online_learning/screen/lesson/lesson_page.dart';
 import 'package:online_learning/screen/lesson/presenter/create_new_lesson_presenter.dart';
 import '../../common/colors.dart';
 import '../../common/functions.dart';
@@ -24,30 +25,27 @@ import 'model/lesson_detail.dart';
 
 class CreateLessonPage extends StatefulWidget {
   Lesson? _lesson;
-  ClassDetail? _myClassDetail;
   CourseModel? _course;
   MyClassModel? _myClass;
   String? _keyFlow;
   LessonContent? _lessonDetail;
   String? _classDetailId;
-  //List<Lesson>? _lessonList;
   int? _index;
-  CreateLessonPage(this._lesson, this._keyFlow, this._course, this._myClass, this._myClassDetail, this._lessonDetail, this._classDetailId, this._index);
+  CreateLessonPage(this._lesson, this._keyFlow, this._course, this._myClass,  this._lessonDetail, this._classDetailId, this._index);
 
   @override
-  State<CreateLessonPage> createState() => _CreateLessonPageState(_lesson, _keyFlow, _course, _myClass, _myClassDetail, _lessonDetail,_classDetailId, _index);
+  State<CreateLessonPage> createState() => _CreateLessonPageState(_lesson, _keyFlow, _course, _myClass, _lessonDetail,_classDetailId, _index);
 }
 
 class _CreateLessonPageState extends State<CreateLessonPage> {
   Lesson? _lesson;
   String? _keyFlow;
-  ClassDetail? _myClassDetail;
   CourseModel? _course;
   MyClassModel? _myClass;
   LessonContent? _lessonDetail;
   String? _classDetailId;
   int? _index;
-  _CreateLessonPageState(this._lesson, this._keyFlow, this._course, this._myClass, this._myClassDetail, this._lessonDetail, this._classDetailId, this._index);
+  _CreateLessonPageState(this._lesson, this._keyFlow, this._course, this._myClass, this._lessonDetail, this._classDetailId, this._index);
 
   CreateLessonContentPresenter? _presenter;
   String _fileNameContent = '';
@@ -122,7 +120,13 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                           showLoaderDialog(context);
                           _presenter!.createLessonContent(lessonContent).then((value){
                             _presenter!.updateLessonStatus(_classDetailId!,  _lessonList!=null? _lessonList!:null);
-                            listenStatus(context, value);
+                            if(value){
+                              Navigator.pop(context);
+                              //Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>LessonPage()))
+                              Fluttertoast.showToast(msg: 'Okela');
+                            }else{
+                              Fluttertoast.showToast(msg: 'Lỗi');
+                            }
                           });
 
                         }else{
@@ -136,7 +140,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                         }
                       }
                     },
-                    child: NeoText(Languages.of(context).createNew, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
+                    child: NeoText(CommonKey.EDIT!=_keyFlow?Languages.of(context).createNew:Languages.of(context).confirm, textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.white))),
                 const SizedBox(width: 8,)
               ],
             ),
@@ -179,7 +183,7 @@ class _CreateLessonPageState extends State<CreateLessonPage> {
                               String fileName = result.files.first.name;
                               _fileNameContent = fileName;
                               final File fileForFirebase = File(file.path!);
-                              _fileContent = await _presenter!.uploadPdfFile(fileForFirebase, _myClassDetail, _course, _myClass, fileName).then((value) {
+                              _fileContent = await _presenter!.uploadPdfFile(fileForFirebase, _course, _myClass, fileName).then((value) {
                                 Navigator.pop(context);
                                 if(value.isEmpty){
                                   Fluttertoast.showToast(msg:Languages.of(context).onFailure);

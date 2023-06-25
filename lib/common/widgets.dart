@@ -72,7 +72,7 @@ showLoaderDialog(BuildContext context){
    child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50)
  );
 }
-Widget itemCourseAdmin(BuildContext context, String title, String content, String imageLink,Function(bool click) onClickEdit, Function(bool click) onClickDelete, Function(String id) onClick){
+Widget itemCourseAdmin(BuildContext context, String title, String content, String imageLink,Function(bool click) onClickEdit, Function(bool click) onClickDelete, Function(String id) onClick, bool owned){
   return InkWell(
     onTap: () => onClick(''),
     child: Container(
@@ -109,8 +109,8 @@ Widget itemCourseAdmin(BuildContext context, String title, String content, Strin
               ),
               maxline: 2
           ),
-          Spacer(),
-          Container(
+          owned==true?Spacer():SizedBox(),
+          owned==true?Container(
             width: getWidthDevice(context),
             margin: EdgeInsets.only(left: 8, right: 8),
             child: Row(
@@ -128,7 +128,7 @@ Widget itemCourseAdmin(BuildContext context, String title, String content, Strin
                 )
               ],
             ),
-          )
+          ):SizedBox()
         ],
       ),
     ),
@@ -176,13 +176,13 @@ Widget itemCourse(BuildContext context, String title, String content, String ima
     ),
   );
 }
-Widget cardWithAdminRole(BuildContext context, String title, String content, String imageLink, String firstDay,String secondDay, String price, Function(bool click) onClickEdit, Function(bool click) onClickDelete, Function(String id) onClick){
+Widget cardWithAdminRole(BuildContext context, String title, String content, String imageLink, String firstDay,String secondDay, String price, Function(bool click) onClickEdit, Function(bool click) onClickDelete, Function(String id) onClick, bool? owned){
   String _salePrice = '';
   _salePrice =price==''?'':(double.parse(price)-double.parse(price)/100*20).round().toString();
   return InkWell(
     onTap: () => onClick(''),
     child: Container(
-      height: 350,
+      height: owned==true?350:300,
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       width:getWidthDevice(context)/2-16,
       padding: EdgeInsets.all(4),
@@ -215,7 +215,7 @@ Widget cardWithAdminRole(BuildContext context, String title, String content, Str
               ),
               maxline: 2
           ),
-          Spacer(),
+          owned==true?Spacer():SizedBox(),
           SizedBox(height: 8,),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,8 +262,8 @@ Widget cardWithAdminRole(BuildContext context, String title, String content, Str
           ),
         ],
       )),
-          Spacer(),
-          Container(
+          owned==true?Spacer():SizedBox(),
+          owned==true?Container(
             width: getWidthDevice(context),
             margin: EdgeInsets.only(left: 8, right: 8),
             child: Row(
@@ -281,7 +281,7 @@ Widget cardWithAdminRole(BuildContext context, String title, String content, Str
                 )
               ],
             ),
-          )
+          ):SizedBox()
         ],
       ),
     ),

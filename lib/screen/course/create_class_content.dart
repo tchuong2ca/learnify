@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:online_learning/common/widgets.dart';
-import 'package:online_learning/screen/course/class_detail_admin.dart';
+import 'package:online_learning/screen/course/class_detail.dart';
 import 'package:online_learning/screen/course/model/class_detail.dart';
 import 'package:online_learning/screen/course/model/course_model.dart';
 import 'package:online_learning/screen/course/model/my_class_model.dart';
@@ -58,7 +58,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
       _lessonIdController = TextEditingController(text: _myClassResult!.classDetailId);
       _describeController = TextEditingController(text: _myClassResult!.describe);
       _lessonList = _myClassResult!.lessons!;
-      _imageLink = _myClassResult!.imageLink!;
+      _imageLink = _myClass!.imageLink!;
       _detailClassId=_myClassResult!.classDetailId!;
       _className=_myClassResult!.className!;
       _indexLength = _myClassResult!.lessons!.length;
@@ -107,24 +107,27 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                   ElevatedButton(
                       onPressed: (){
                        if( _lessonList.isNotEmpty){
-                         if(_fileImage==null&&CommonKey.EDIT!=_keyFlow){
-                           Fluttertoast.showToast(msg:Languages.of(context).imageNull);
-                         }else{
-                           showLoaderDialog(context);
-                           ClassDetail classDetail = ClassDetail(classDetailId: replaceSpace(_detailClassId), classId: _myClass!.idClass,
-                               teacherName: _myClass!.teacherName, className: _className,
-                               describe: _describe, lessons: _lessonList);
-                           CommonKey.EDIT!=_keyFlow?_presenter!.createClassDetail(_fileImage!, classDetail, _course!, _myClass!).then((value){
-                             listenStatus(context, value);
-                           })
-                               :_fileImage!=null?_presenter!.updateClassDetail(fileImage: _fileImage, myClass: _myClass, myClassDetail: classDetail, course: _course).then((value) {
-                             listenStatus(context, value);
-                           })
-                               :_presenter!.updateClassDetail(myClass: _myClass, myClassDetail: classDetail, course: _course, linkImage: _imageLink).then((value) {
-                             listenStatus(context, value);
-                           });
-                           lessonList = _lessonList;
-                         }
+                         // if(_fileImage==null&&CommonKey.EDIT!=_keyFlow){
+                         //   Fluttertoast.showToast(msg:Languages.of(context).imageNull);
+                         // }else{
+                         //
+                         // }
+                         showLoaderDialog(context);
+                         ClassDetail classDetail = ClassDetail(classDetailId: replaceSpace(_detailClassId), classId: _myClass!.idClass,
+                             teacherName: _myClass!.teacherName, className: _className,
+                             describe: _describe, lessons: _lessonList);
+                         CommonKey.EDIT!=_keyFlow?_presenter!.createClassDetail(classDetail, _course!, _myClass!, _myClass!.imageLink!).then((value){
+                           listenStatus(context, value);
+                         })
+                             :
+                         // _fileImage!=null?
+                         _presenter!.updateClassDetail(myClass: _myClass, myClassDetail: classDetail, course: _course, classDetailPhotoUrl: _myClass!.imageLink).then((value) {
+                           listenStatus(context, value);
+                         });
+                         //     :_presenter!.updateClassDetail(myClass: _myClass, myClassDetail: classDetail, course: _course, linkImage: _imageLink).then((value) {
+                         //   listenStatus(context, value);
+                         // });
+                         lessonList = _lessonList;
                        }
                        else{
                          Fluttertoast.showToast(msg: 'Chưa thêm buổi học nào');
@@ -143,16 +146,16 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    InkWell(
-                      onTap: () => cropImage(context, (p0) => setState(()=>_fileImage=p0!), ''),
-                      child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150/3*4, height: 150,):(!_imageLink.isEmpty?loadPhoto.networkImage(_imageLink, 150, 150/3*4):Image.asset(Images.pick_photo, width: 150/3*4, height: 150,))),
-                    ),
+                    // InkWell(
+                    //   onTap: () => cropImage(context, (p0) => setState(()=>_fileImage=p0!), ''),
+                    //   child: Center(child: _fileImage!=null?Image(image: FileImage(_fileImage!),width: 150/3*4, height: 150,):(!_imageLink.isEmpty?loadPhoto.networkImage(_imageLink, 150, 150/3*4):Image.asset(Images.pick_photo, width: 150/3*4, height: 150,))),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: TextFormField(
                         decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).describeClass, hintText: Languages.of(context).describeClass),
                         onChanged: (value)=>setState(()=> _describe=value),
-                        maxLines: 10,
+                        maxLines: 4,
                         controller: _describeController,
                       ),
                     ),

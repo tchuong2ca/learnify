@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -22,7 +23,7 @@ import '../../common/keys.dart';
 import '../../external/swiper_view/swiper.dart';
 import '../../languages/languages.dart';
 import '../../res/images.dart';
-import '../course/class_detail_admin.dart';
+import '../course/class_detail.dart';
 import '../course/model/my_class_model.dart';
 import '../social_networking/newsfeed/newsfeed_page.dart';
 import '../teacher/teacher_list.dart';
@@ -264,7 +265,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                           InkWell(
                                             child:    _tabChild(_role=='ADMIN'||_role=='TEACHER'?Images.edit_tools:Images.webinar, _role=='ADMIN'||_role=='TEACHER'?'Tạo khóa/lớp học':'Lớp học của tôi'),
                                             onTap: (){
-                                               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: _role=='ADMIN'||_role=='TEACHER'?CourseList(_role,'',_username):ClassList(_classModel, _role, "DASHBOARD")));
+                                               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: _role=='ADMIN'||_role=='TEACHER'?CourseList(_role,'',_username):ClassList(_classModel, _role, "DASHBOARD", false)));
                                             },
                                           ),
 
@@ -386,10 +387,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                               if(_role==null||_role!.isEmpty){
                                 customDialog(context: context, content: Languages.of(context).requireLogin)
                               }else{
-                                if(CommonKey.ADMIN==_role||(CommonKey.TEACHER==_role&&_phoneNumber==data['idTeacher'])){
-                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,''))),
+                                if(CommonKey.ADMIN==_role||(CommonKey.TEACHER==_role)){
+                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,'', _phoneNumber==data['idTeacher']?true:false))),
                                 }else if(CommonKey.MEMBER==_role){
-                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,CommonKey.MEMBER))),
+                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,CommonKey.MEMBER, false))),
                                 } else{
                                   Fluttertoast.showToast(msg: Languages.of(context).accessDenied)
                                 }
@@ -407,7 +408,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                     if(_role==null||_role!.isEmpty){
                       customDialog(context: context, content: Languages.of(context).requireLogin);
                     }else{
-                       Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(null, _role, '')));
+                       Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(null, _role, '', false)));
                     }
                   }),
                   StreamBuilder<QuerySnapshot>(
@@ -517,7 +518,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
         TextButton(
           onPressed: () => {
             Navigator.of(context).pop(true),
-            Navigator.of(context).pop(true)
+            SystemNavigator.pop()
           },
           child: Text('Thoát'),
         ),
@@ -597,7 +598,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   void _navigatorClass(Map<String, dynamic> data, MyClassModel myClass){
     _presenter!.getCourse(data['idCourse']).then((value) {
       if(value!=null&&value.getCourseId!.isNotEmpty){
-         Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(myClass, value, _role, )));
+         Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailPage(myClass, value, _role, )));
       }
     });
   }

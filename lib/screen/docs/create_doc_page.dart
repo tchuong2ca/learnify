@@ -186,12 +186,12 @@ class _CreateDocPageState extends State<CreateDocPage> {
                       allowedExtensions: ['pdf'],
                     );
                     if(result!=null){
-                      showLoaderDialog(context);
+                      //showLoaderDialog(context);
                       PlatformFile file = result.files.first;
                       String fileName = result.files.first.name;
                       final File fileForFirebase = File(file.path!);
                       _presenter!.uploadPDFFile(fileForFirebase, fileName).then((value) {
-                        Navigator.pop(context);
+                        //Navigator.pop(context);
                         if(value.isNotEmpty){
                           documentFile.id = getCurrentTime();
                           documentFile.fileUrl=value;

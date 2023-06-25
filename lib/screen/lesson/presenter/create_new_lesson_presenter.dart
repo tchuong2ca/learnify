@@ -13,7 +13,7 @@ import '../model/lesson_detail.dart';
 
 class CreateLessonContentPresenter{
   String _url = '';
-  Future<String> uploadPdfFile(File file, ClassDetail? myClassDetail,
+  Future<String> uploadPdfFile(File file,
       CourseModel? course, MyClassModel? myClass, String fileName) async{
     String path = '${CommonKey.COURSE}/${course!.getCourseId}/${course.getCourseName}/${myClass!.idClass}/$fileName';
     final reference = FirebaseStorage.instance.ref().child('$path');

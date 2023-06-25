@@ -17,7 +17,7 @@ import '../../common/state.dart';
 import '../../languages/languages.dart';
 import '../../res/images.dart';
 import '../../storage/storage.dart';
-import '../course/class_detail_admin.dart';
+import '../course/class_detail.dart';
 
 class Schedule extends StatefulWidget {
   String? _role;
@@ -231,12 +231,12 @@ class _ScheduleState extends State<Schedule> {
         if(CommonKey.MEMBER==_role){
           _presenter!.getCourse(_role!, myClass.idTeacher!).then((value){
             CourseModel course = _presenter!.getCourseModel(myClass.idCourse!);
-             Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(
+             Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailPage(
                 MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, nameClass: myClass.nameClass)
                 , course, _role)));
           });
         }else{
-           Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, nameClass: myClass.nameClass), _presenter!.getCourseModel(myClass.idCourse!), _role)));
+           Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailPage(MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, nameClass: myClass.nameClass), _presenter!.getCourseModel(myClass.idCourse!), _role)));
         }
       },
       child: Row(

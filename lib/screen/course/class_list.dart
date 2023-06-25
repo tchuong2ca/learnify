@@ -13,34 +13,36 @@ import '../../common/keys.dart';
 import '../../common/widgets.dart';
 import '../../languages/languages.dart';
 import '../../res/images.dart';
-import 'class_detail_admin.dart';
+import 'class_detail.dart';
 import 'create_class_ui.dart';
 
 class ClassList extends StatefulWidget {
   final CourseModel? _class;
   String? _role;
   String? _keyFlow;
-  ClassList(this._class, this._role, this._keyFlow);
+  bool? _owned;
+  ClassList(this._class, this._role, this._keyFlow, this._owned);
 
   @override
-  State<ClassList> createState() => _ClassListState(_class, _role, _keyFlow);
+  State<ClassList> createState() => _ClassListState(_class, _role, _keyFlow, _owned);
 }
 
 class _ClassListState extends State<ClassList> {
-  final CourseModel? _course;
+  final CourseModel? _class;
   String? _role;
   String _username='';
   String? _keyFlow;
-  _ClassListState(this._course, this._role, this._keyFlow);
+  bool? _owned;
+  _ClassListState(this._class, this._role, this._keyFlow, this._owned);
   Stream<QuerySnapshot>? _stream;
   CreateClassPresenter? _presenter;
   @override
   void initState() {
     _presenter = CreateClassPresenter();
-    if(_course==null){
+    if(_class==null){
       _stream = FirebaseFirestore.instance.collection('class').snapshots();
     }else{
-      _stream = FirebaseFirestore.instance.collection('class').where('idCourse', isEqualTo: _course!.getCourseId).snapshots();
+      _stream = FirebaseFirestore.instance.collection('class').where('idCourse', isEqualTo: _class!.getCourseId).snapshots();
     }
     getUserInfo();
   }
@@ -127,7 +129,7 @@ class _ClassListState extends State<ClassList> {
                                           :Languages.of(context).monday
                                   } - ${data['startHours']}',
                                       data['price'],
-                                      (onClickEdit) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateClassUI(_course, CommonKey.EDIT, data, data['idCourse'],data['idTeacher'],data['teacherName']))),
+                                      (onClickEdit) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateClassUI(_class, CommonKey.EDIT, data, data['idCourse'],data['idTeacher'],data['teacherName']))),
                                       (onClickDelete){
                                         AnimationDialog.generalDialog(context, AlertDialog(
                                           title: const Text('Bạn muốn xóa lớp này'),
@@ -155,10 +157,17 @@ class _ClassListState extends State<ClassList> {
                                           ],
                                         ));
                                       },
-                                      (click) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role, ))))
+                                      (click){
+                                        _username==data['idTeacher']||_role==CommonKey.ADMIN?Navigator.push(context, AnimationPage().pageTransition(
+                                            type: PageTransitionType.fade,
+                                            widget: ClassDetailPage(MyClassModel(idClass: data['idClass'],
+                                                teacherName: data['teacherName'],
+                                                nameClass: data['nameClass'],imageLink: data['imageLink']), _class, _role, ))):Fluttertoast.showToast(msg: Languages.of(context).accessDenied);
+                                      },
+                                  _username==data['idTeacher']||_role==CommonKey.ADMIN?true:false)
                                   :card(context, data['nameClass'], data['teacherName'], data['imageLink'], (id) => {
                                 register.contains(_username)
-                                    ? Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailAdminPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass']), _course, _role, )))
+                                    ? Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailPage(MyClassModel(idClass: data['idClass'], teacherName: data['teacherName'], nameClass: data['nameClass'], imageLink: data['imageLink']), _class, _role, )))
                                     :Fluttertoast.showToast(msg: 'Bạn phải đăng ký lớp học')
                               },'${CommonKey.MON==data['onStageMon']
                                       ? Languages.of(context).monday
@@ -207,9 +216,9 @@ class _ClassListState extends State<ClassList> {
         ],
       ),
       floatingActionButton: Visibility(
-        visible: CommonKey.ADMIN==_role&&_course!=null||CommonKey.TEACHER==_role&&_course!=null,
+        visible: CommonKey.ADMIN==_role&&_class!=null||CommonKey.TEACHER==_role&&_class!=null&&_owned==true,
         child: FloatingActionButton(
-          onPressed: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateClassUI(_course,'',null,'','',''))),
+          onPressed: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: CreateClassUI(_class,'',null,'','',''))),
           child: Icon(Icons.add, color: AppColors.white,),
         ),
       ),

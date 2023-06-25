@@ -143,7 +143,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                   SizedBox(width: 8,),
                   IconButton(onPressed: ()=>Navigator.pop(context), icon: Icon(Icons.arrow_back, color: AppColors.ultraRed,)),
                   SizedBox(width: 8,),
-                  Expanded(child: NeoText(CommonKey.EDIT==_keyFlow?'Sửa nội dung lớp học':'Tạo lớp học', textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
+                  Expanded(child: NeoText(CommonKey.EDIT==_keyFlow?'Sửa lớp học':'Tạo lớp học', textStyle: TextStyle(color: AppColors.ultraRed, fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center)),
                   ElevatedButton(
                       onPressed: () {
                         if(_fileImage==null&&CommonKey.EDIT!=_keyFlow
@@ -208,7 +208,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                       child: TextFormField(
                         decoration: AppThemes.textFieldInputDecoration(labelText: Languages.of(context).describeClass, hintText: Languages.of(context).describeClass),
                         onChanged: (value)=>setState(()=> _describe=value),
-                        maxLines: 10,
+                        maxLines: 2,
                         controller: _classDescribleController,
                       ),
                     ),

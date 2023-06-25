@@ -40,7 +40,7 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
   TextEditingController _idController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
   Map<String, dynamic>? _data;
-
+  Info? _person;
   _CreateCourseUIState(this._keyFlow, this._data);
 
   CreateCoursePresenter? _createCoursePresenter;
@@ -49,6 +49,7 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
     _createCoursePresenter = CreateCoursePresenter();
     _idCourse = CommonKey.COURSE+getCurrentTime();
     getData();
+    getInfo();
     if(CommonKey.EDIT==_keyFlow){
       _nameController = TextEditingController(text: _data!['name']);
       _idController = TextEditingController(text: _data!['idCourse']);
@@ -184,8 +185,24 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
         _teacherNameList.add(person);
         _teacherIdList.add(person);
       });
-      _selectName = _teacherNameList[0];
-      _selectId = _teacherIdList[0];
+      // _selectName = _teacherNameList[0];
+      // _selectId = _teacherIdList[0];
+      for(Info p in _teacherNameList){
+        if(p.fullname==_person!.fullname){
+          _selectName = p;
+        }
+        else{
+          _selectName=_teacherNameList[0];
+        }
+      }
+      for(Info p in _teacherIdList){
+        if(p.fullname==_person!.fullname){
+          _selectId = p;
+        }
+        else{
+          _selectId = _teacherIdList[0];
+        }
+      }
       _teacherName = _selectName!.fullname!;
       _idTeacher = _selectId!.phone!;
       if(CommonKey.EDIT==_keyFlow){
@@ -211,6 +228,10 @@ class _CreateCourseUIState extends State<CreateCourseUI> {
     }else{
       customDialog(context: context, iconData: Icons.warning_rounded, title: 'Aloo', content: 'Lỗi');
     }
+  }
+  Future<void> getInfo() async{
+    _person = await _createCoursePresenter!.getAccountInfo();
+    setState(()=>null);
   }
 }
 

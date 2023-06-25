@@ -1,10 +1,13 @@
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../../common/keys.dart';
+import '../../../storage/storage.dart';
+import '../../personal/model/info.dart';
 
 class CreateCoursePresenter{
   Future<bool> createCourse(File fileImage, String idCourse, String nameCourse, String nameTeacher, String idTeacher) async{
@@ -53,7 +56,14 @@ class CreateCoursePresenter{
     });
     return true;
   }
+  Future<Info> getAccountInfo() async{
+    dynamic user = await SharedPreferencesData.getData(CommonKey.USER);
+    Map<String, dynamic>json = jsonDecode(user.toString());
 
+    Info person = Info(fullname: json['fullname'], avatar: json['avatar'],
+        phone: json['phone']);
+    return person;
+  }
   Future<bool> updateCourse({File? fileImage, String? courseId, String? courseName, String? teacherName, String? teacherId, String? imageLink}) async{
     if(fileImage!=null){
       final metadata = SettableMetadata(contentType: "image/jpeg");

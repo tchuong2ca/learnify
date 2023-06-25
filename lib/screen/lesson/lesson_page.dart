@@ -23,30 +23,28 @@ import 'lesson_pdf_viewer.dart';
 
 class LessonPage extends StatefulWidget {
   Lesson? _lesson;
-  String? _type;
   ClassDetail? _myClassDetail;
   CourseModel? _course;
   MyClassModel? _myClass;
   String? _role;
   String? _classDetailId;
   int? _index;
-  LessonPage(this._lesson, this._type, this._myClassDetail, this._myClass, this._course, this._role, this._classDetailId, this._index);
+  LessonPage(this._lesson,  this._myClassDetail, this._myClass, this._course, this._role, this._classDetailId, this._index);
 
   @override
-  State<LessonPage> createState() => _LessonPageState(_lesson, _type, _myClassDetail, _myClass, _course, _role, _classDetailId, _index);
+  State<LessonPage> createState() => _LessonPageState(_lesson, _myClassDetail, _myClass, _course, _role, _classDetailId, _index);
 }
 
 
 class _LessonPageState extends State<LessonPage> {
   Lesson? _lesson;
-  String? _type;
   ClassDetail? _myClassDetail;
   CourseModel? _course;
   MyClassModel? _myClass;
   String? _role;
   String? _classDetailId;
   int? _index;
-  _LessonPageState(this._lesson, this._type, this._myClassDetail, this._myClass, this._course, this._role, this._classDetailId, this._index);
+  _LessonPageState(this._lesson, this._myClassDetail, this._myClass, this._course, this._role, this._classDetailId, this._index);
 
    YoutubePlayerController? _controller;
   late PlayerState _playerState;
@@ -173,7 +171,7 @@ class _LessonPageState extends State<LessonPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (_) => CreateLessonPage(_lesson!, '', _course!, _myClass!, _myClassDetail!, null, _classDetailId, _index))),
+                            builder: (_) => CreateLessonPage(_lesson!, '', _course!, _myClass!, null, _classDetailId, _index))),
                    _controller!=null? _controller!.pause():null,
                   },
                   child: Icon(
@@ -186,14 +184,14 @@ class _LessonPageState extends State<LessonPage> {
           }else{
             FlutterFlexibleToast.showToast(
                 message:  _presenter!.detail!.isLive==true?"Đây là buổi học trực tuyến":"Đây là buổi học bình thường",
-                toastLength: Toast.LENGTH_LONG,
+                toastLength: Toast.LENGTH_SHORT,
                 toastGravity: ToastGravity.TOP,
                 icon: ICON.INFO,
                 radius: 100,
                 elevation: 0,
                 imageSize: 25,
                 textColor: Colors.white,
-                backgroundColor: _presenter!.detail!.isLive==true?AppColors.ultraRed:AppColors.transparent,
+                backgroundColor: _presenter!.detail!.isLive==true?AppColors.ultraRed:AppColors.lightBlue,
                 timeInSeconds: _presenter!.detail!.isLive==true?3:0
             );
             if(_isLoadFirst){
@@ -318,7 +316,7 @@ class _LessonPageState extends State<LessonPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => CreateLessonPage(_lesson!, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'', _course!=null?_course!:null, _myClass!, _myClassDetail!, _presenter!.state==SingleState.HAS_DATA?_presenter!.detail:null, _classDetailId, _index))),
+                                      builder: (_) => CreateLessonPage(_lesson!, _presenter!.state==SingleState.HAS_DATA?CommonKey.EDIT:'', _course!=null?_course!:null, _myClass!, _presenter!.state==SingleState.HAS_DATA?_presenter!.detail:null, _classDetailId, _index))),
                               _controller!.pause(),
                             },
                             child: Observer(

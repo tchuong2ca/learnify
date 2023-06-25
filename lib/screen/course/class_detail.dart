@@ -21,22 +21,22 @@ import 'create_class_content.dart';
 import 'model/class_detail.dart';
 import 'model/course_model.dart';
 
-class ClassDetailAdminPage extends StatefulWidget {
+class ClassDetailPage extends StatefulWidget {
   MyClassModel? _myClass;
   CourseModel? _course;
   String? _role;
-  ClassDetailAdminPage(this._myClass, this._course, this._role,);
+  ClassDetailPage(this._myClass, this._course, this._role,);
 
   @override
-  State<ClassDetailAdminPage> createState() => _ClassDetailAdminPageState(_myClass, _course, _role);
+  State<ClassDetailPage> createState() => _ClassDetailPageState(_myClass, _course, _role);
 }
 
-class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
+class _ClassDetailPageState extends State<ClassDetailPage> {
   MyClassModel? _myClass;
   CourseModel? _course;
   String? _role;
   String _content = '';
-  _ClassDetailAdminPageState(this._myClass, this._course, this._role);
+  _ClassDetailPageState(this._myClass, this._course, this._role);
   Stream<QuerySnapshot>? _stream;
   ClassDetail? _myClassResult;
   ClassDetailAdminPresenter? _presenter;
@@ -168,7 +168,9 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
                                   :"", index)),
                             )
                           ],
-                        ):SizedBox();
+                        ):_noDataHeader(_myClass);
+                        //loadPhoto.networkImage(_myClass!.imageLink, getHeightDevice(context)/3, getWidthDevice(context));
+                        //notfound('Chưa có nội dung lớp học, nếu bạn là giáo viên, vui lòng tạo nội dung cho lớp');
                       }
                       else{
                         return notfound(Languages.of(context).noData);
@@ -209,7 +211,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
 
   Widget _lessonItems(Lesson lesson, String classDetailId, int index){
     return InkWell(
-      onTap: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: LessonPage(lesson, CommonKey.ADMIN, _myClassResult, _myClass, _course, _role, classDetailId, index))),
+      onTap: ()=> Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: LessonPage(lesson,  _myClassResult, _myClass, _course, _role, classDetailId, index))),
       child: Container(
         width: getWidthDevice(context),
         color: AppColors.white,
@@ -241,7 +243,7 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        loadPhoto.networkImage(_myClassResult!.imageLink, getHeightDevice(context)/3, getWidthDevice(context)),
+        loadPhoto.networkImage(_myClass!.imageLink, getHeightDevice(context)/3, getWidthDevice(context)),
         SizedBox(height: 8,),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -263,6 +265,22 @@ class _ClassDetailAdminPageState extends State<ClassDetailAdminPage> {
         ),
         Divider(),
         SizedBox(height: 8,),
+      ],
+    );
+  }
+  Widget _noDataHeader(_myClass){
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        loadPhoto.networkImage(_myClass!.imageLink, getHeightDevice(context)/3, getWidthDevice(context)),
+        SizedBox(height: 8,),
+      Center(
+        child:  NeoText('Chưa có thông tin buổi học\nNếu bạn là giáo viên, hãy thêm mới các buổi học',
+            textAlign: TextAlign.center,
+        textStyle: TextStyle(fontSize: 17, color: AppColors.ultraRed)),
+      )
       ],
     );
   }

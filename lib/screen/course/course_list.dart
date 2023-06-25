@@ -35,7 +35,7 @@ class _CourseListState extends State<CourseList> {
   @override
   void initState(){
     _presenter = CourseListPresenter();
-    if(CommonKey.TEACHER==widget._role){
+    if(CommonKey.TEACHER==widget._role&&_keyFlow==''){
       _stream = FirebaseFirestore.instance.collection('course').where('idTeacher', isEqualTo: widget._username).snapshots();
     }else{
       _stream = FirebaseFirestore.instance.collection('course').snapshots();
@@ -114,8 +114,8 @@ class _CourseListState extends State<CourseList> {
                                       ),
                                     ],
                                   )),
-                                  (click) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,''))))
-                              :itemCourse(context, data['name'], data['teacherName'], data['imageLink'], (id) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,''))));
+                                  (click) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,'',_username==data['idTeacher']||_role==CommonKey.ADMIN?true:false))), _username==data['idTeacher']||_role==CommonKey.ADMIN?true:false)
+                              :itemCourse(context, data['name'], data['teacherName'], data['imageLink'], (id) =>  Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,'',_username==data['idTeacher']||_role==CommonKey.ADMIN?true:false))));
                         }).toList(),
                       );
                     },

@@ -21,11 +21,11 @@ class ChatListPage extends StatefulWidget {
 
 class _ChatListPageState extends State<ChatListPage> {
 
-  Stream<QuerySnapshot>? _streamChat;
+  Stream<QuerySnapshot>? _chatStream;
 
   @override
   void initState() {
-    _streamChat = FirebaseFirestore.instance.collection('user_chat').doc(widget._userData!['phone']).collection(widget._userData!['phone']).snapshots();
+    _chatStream = FirebaseFirestore.instance.collection('user_chat').doc(widget._userData!['phone']).collection(widget._userData!['phone']).snapshots();
   }
 
   @override
@@ -33,7 +33,6 @@ class _ChatListPageState extends State<ChatListPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        backgroundColor: AppColors.ultraRed,
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -60,7 +59,7 @@ class _ChatListPageState extends State<ChatListPage> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: _streamChat,
+              stream: _chatStream,
               builder: (context, snapshot){
                 if(snapshot.connectionState==ConnectionState.waiting){
                   return Center(child: LoadingAnimationWidget.staggeredDotsWave(color: AppColors.ultraRed, size: 50),);

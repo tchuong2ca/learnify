@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../common/colors.dart';
 import '../../common/functions.dart';
@@ -65,9 +66,21 @@ class _TeacherDetailUIState extends State<TeacherDetailUI> {
                           : ClipRRect(child: Image.network(
                         _data!['avatar'].toString(),
                         width: 120,
+                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          }
+                          return Center(
+                              child:
+                              LoadingAnimationWidget.staggeredDotsWave(
+                                color: AppColors.ultraRed,
+                                size: 25,
+                              )
+                          );
+                        },
                         errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                           return Image(
-                            image: AssetImage(Images.question_mark),
+                            image: AssetImage(Images.photo_notfound),
                             width: 120, fit: BoxFit.cover,);
                         },
                         fit: BoxFit.cover,

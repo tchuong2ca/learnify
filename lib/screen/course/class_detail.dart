@@ -243,7 +243,7 @@ class _ClassDetailPageState extends State<ClassDetailPage> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        loadPhoto.networkImage(_myClass!.imageLink, getHeightDevice(context)/3, getWidthDevice(context)),
+        loadPhoto.networkImage(_myClassResult!.imageLink, getHeightDevice(context)/3, getWidthDevice(context)),
         SizedBox(height: 8,),
         Padding(
           padding: const EdgeInsets.all(8.0),

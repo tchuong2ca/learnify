@@ -94,7 +94,7 @@ class _Application extends State<Application>{
       locale: _locale,
       supportedLocales: const [
         Locale('en',''),
-        Locale('vn','')
+        Locale('vi','')
       ],
       localizationsDelegates: [
         AppLocalizationsDelegate(),

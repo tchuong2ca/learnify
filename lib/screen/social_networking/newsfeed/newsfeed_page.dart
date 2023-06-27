@@ -126,7 +126,7 @@ class _NewsPage extends State<NewsPage>{
           return SizedBox();
         }else{
           Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-          print(data);
+          //print(data);
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

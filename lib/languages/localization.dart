@@ -6,7 +6,7 @@ import 'vi.dart';
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<Languages>{
   @override
-  bool isSupported(Locale locale) => ['en', 'vn'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => ['en', 'vi'].contains(locale.languageCode);
 
   @override
   Future<Languages> load(Locale locale) {
@@ -24,7 +24,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<Languages>{
     switch(locale.languageCode){
       case 'en':
         return LanguageEn();
-      case 'vn':
+      case 'vi':
         return LanguagesVn();
       default:
         return LanguagesVn();

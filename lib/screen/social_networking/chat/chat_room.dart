@@ -26,20 +26,20 @@ class _ChatUserPageState extends State<ChatRoomPage> {
   File? _fileImage;
   ChatRoomPresenter? _presenter;
   String _message='';
-  TextEditingController _controllerMess = TextEditingController();
+  TextEditingController _messageController = TextEditingController();
   Stream<QuerySnapshot>? _stream;
-  bool _createUserChat = false;
+  bool _haveNotCreatedChatRoom = false;
   @override
   void initState() {
     _presenter=ChatRoomPresenter();
     _stream = FirebaseFirestore.instance.collection('chats').doc(widget._userData!['phone']).collection(widget._friendData!['username']).snapshots();
-    _checkCreateUser();
+    _checkRoomCreationStatus();
   }
 
-  void _checkCreateUser(){
+  void _checkRoomCreationStatus(){
     FirebaseFirestore.instance.collection('user_chat').doc(widget._userData!['phone']).collection(widget._userData!['phone']).doc(widget._friendData!['username']).get().then((value) {
       if(!value.exists){
-        _createUserChat = true;
+        _haveNotCreatedChatRoom = true;
         setState(()=>null);
       }
     });
@@ -52,7 +52,6 @@ class _ChatUserPageState extends State<ChatRoomPage> {
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 0,
-          backgroundColor: AppColors.ultraRed,
         ),
         body: Column(
           mainAxisSize: MainAxisSize.max,
@@ -154,23 +153,23 @@ class _ChatUserPageState extends State<ChatRoomPage> {
                         child: TextFormField(
                           decoration: AppThemes.textFieldInputDecorationChat(),
                           onChanged: (value)=>setState(()=>_message=value),
-                          controller: _controllerMess,
+                          controller: _messageController,
                         ),
                       ),
                       Transform.rotate(
                         angle: -35*math.pi /180,
                         child: IconButton(
                           onPressed: ()async{
-                            if(_createUserChat){
+                            if(_haveNotCreatedChatRoom){
                               User user = User(username: widget._userData!['phone'], fullname: widget._userData!['fullname'], userAvatar: widget._userData!['avatar'], timestamp: getTimestamp());
                               User userFriend = User(username: widget._friendData!['username'], fullname: widget._friendData!['fullname'], userAvatar: widget._friendData!['userAvatar'], timestamp: getTimestamp());
                               _presenter!.createChatRoom(user, userFriend);
-                              _createUserChat=false;
+                              _haveNotCreatedChatRoom=false;
                             }
                             _presenter!.createNewChat(message: _message, user: widget._userData!, userFriend: widget._friendData!, fileImage: _fileImage);
                             _message='';
                             _fileImage=null;
-                            _controllerMess = TextEditingController(text: _message);
+                            _messageController = TextEditingController(text: _message);
                             hideKeyboard();
                             setState(()=>null);
                           },

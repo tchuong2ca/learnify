@@ -19,7 +19,7 @@ class CreateClassContentPresenter{
         .set({
       'classDetailId': myClassDetail.classDetailId,
       'classId': myClassDetail.classId,
-      'teacherName': course.getTeacherName,
+      'teacherName': myClassDetail.teacherName,
       'className': myClassDetail.className,
       'describe': myClassDetail.describe,
       'imageLink': classDetailPhotoUrl,

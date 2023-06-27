@@ -27,23 +27,23 @@ abstract class _DashboardPresenter with Store {
     height = value;
     return height;
   }
-  CourseModel? classModel;
+  CourseModel? courseModel;
   Future<CourseModel> getClass(String idUser) async{
-    classModel=CourseModel('', '', '', '');
+    courseModel=CourseModel('', '', '', '');
     await FirebaseFirestore.instance.collection('course').where('subscribe', arrayContains: idUser).get().then((value) {
       value.docs.forEach((element) {
-        classModel = CourseModel(element['idCourse'], element['idTeacher'], element['teacherName'], element['name']);
+        courseModel = CourseModel(element['idCourse'], element['idTeacher'], element['teacherName'], element['name']);
       });
     });
-    print(classModel);
-    return classModel!;
+    //print(classModel);
+    return courseModel!;
 }
-  void classRegistration(String idClass, List<dynamic> userRegister, String idCourse){
-    FirebaseFirestore.instance.collection('class').doc(idClass).update({
-      'subscribe': userRegister
+  void classRegistration(String classId, List<dynamic> subscriberList, String courseId){
+    FirebaseFirestore.instance.collection('class').doc(classId).update({
+      'subscribe': subscriberList
     });
-    FirebaseFirestore.instance.collection('course').doc(idCourse).update({
-      'subscribe':userRegister
+    FirebaseFirestore.instance.collection('course').doc(courseId).update({
+      'subscribe':subscriberList
     });
   }
   Future<CourseModel> getCourse(String idCourse) async{

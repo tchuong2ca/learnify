@@ -20,8 +20,7 @@ abstract class _SchedulePresenter with Store{
   List<MyClassModel> onStageScheduleFri = [];
   List<MyClassModel> onStageScheduleSat = [];
   List<MyClassModel> onStageScheduleSun = [];
-  List<MyClassModel> listMyClass = [];
-  List<CourseModel> listCours = [];
+  List<CourseModel> courseList = [];
   @action
   Future<List<MyClassModel>> getSchedule(String idTeacher, String role) async{
     state = SingleState.LOADING;
@@ -29,12 +28,11 @@ abstract class _SchedulePresenter with Store{
     if(CommonKey.TEACHER==role){
       await FirebaseFirestore.instance.collection('class').where('idTeacher', isEqualTo:idTeacher).get().then((value) {
         value.docs.forEach((element) {
-          MyClassModel myCla = MyClassModel.fromJson(element.data());
-          myClass.add(myCla);
+          MyClassModel teacherClass = MyClassModel.fromJson(element.data());
+          myClass.add(teacherClass);
         });
         if(myClass.length>0){
           _mapDataDay(myClass);
-          listMyClass=myClass;
           state = SingleState.HAS_DATA;
         }else{
           state = SingleState.NO_DATA;
@@ -47,12 +45,11 @@ abstract class _SchedulePresenter with Store{
     }else{
       await FirebaseFirestore.instance.collection('class').where('subscribe', arrayContains:idTeacher).get().then((value) {
         value.docs.forEach((element) {
-          MyClassModel myCla = MyClassModel.fromJson(element.data());
-          myClass.add(myCla);
+          MyClassModel studentClass = MyClassModel.fromJson(element.data());
+          myClass.add(studentClass);
         });
         if(myClass.length>0){
           _mapDataDay(myClass);
-          listMyClass=myClass;
           state = SingleState.HAS_DATA;
         }else{
           state = SingleState.NO_DATA;
@@ -77,17 +74,19 @@ abstract class _SchedulePresenter with Store{
   }
 
   Future getCourse(String _role, String username) async{
+    courseList.clear();
     await FirebaseFirestore.instance.collection('course').where('idTeacher', isEqualTo: username).get().then((value){
       CourseModel course;
       value.docs.forEach((element) {
         course = CourseModel(element['idCourse'], element['idTeacher'], element['teacherName'], element['name']);
-        listCours.add(course);
+        courseList.add(course);
       });
+      print(courseList);
     });
   }
 
   CourseModel getCourseModel(String idCourse){
-    List<CourseModel> course = listCours.where((element) => element.getCourseId==idCourse).toList();
+    List<CourseModel> course = courseList.where((element) => element.getCourseId==idCourse).toList();
     return course[0];
   }
 }

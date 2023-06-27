@@ -50,7 +50,7 @@ class _CreateClassContentUIState extends State<CreateClassContentUI> {
 
   @override
   void initState() {
-    _className = _myClass!.nameClass!;
+    _className = _myClass!.className!;
     _detailClassId = CommonKey.CLASS_DETAIL+getCurrentTime();
     _lessonList.add(Lesson());
     _presenter = CreateClassContentPresenter();

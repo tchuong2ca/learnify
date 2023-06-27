@@ -100,31 +100,31 @@ class _ScheduleState extends State<Schedule> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(width: 2,),
-                            _itemDate(CommonKey.Monday,getDateWeek(1)),
-                            _itemDate(CommonKey.Tuesday,getDateWeek(2)),
-                            _itemDate(CommonKey.Wednesday,getDateWeek(3)),
-                            _itemDate(CommonKey.Thursday,getDateWeek(4)),
-                            _itemDate(CommonKey.Friday,getDateWeek(5)),
-                            _itemDate(CommonKey.Saturday,getDateWeek(6)),
-                            _itemDate(CommonKey.Sunday,getDateWeek(7)),
+                            _dayItems(CommonKey.Monday,getDateWeek(1)),
+                            _dayItems(CommonKey.Tuesday,getDateWeek(2)),
+                            _dayItems(CommonKey.Wednesday,getDateWeek(3)),
+                            _dayItems(CommonKey.Thursday,getDateWeek(4)),
+                            _dayItems(CommonKey.Friday,getDateWeek(5)),
+                            _dayItems(CommonKey.Saturday,getDateWeek(6)),
+                            _dayItems(CommonKey.Sunday,getDateWeek(7)),
                             SizedBox(width: 2,)
                           ],
                         ),
                       ),
                       Container(
-                        color: AppColors.pastelBlue,
+
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(child: _itemWatcher(CommonKey.MON)),
-                            Expanded(child: _itemWatcher(CommonKey.TUE)),
-                            Expanded(child: _itemWatcher(CommonKey.WED)),
-                            Expanded(child: _itemWatcher(CommonKey.THU)),
-                            Expanded(child: _itemWatcher(CommonKey.FRI)),
-                            Expanded(child: _itemWatcher(CommonKey.SAT)),
-                            Expanded(child: _itemWatcher(CommonKey.SUN)),
+                            Expanded(child: _timeItems(CommonKey.MON)),
+                            Expanded(child: _timeItems(CommonKey.TUE)),
+                            Expanded(child: _timeItems(CommonKey.WED)),
+                            Expanded(child: _timeItems(CommonKey.THU)),
+                            Expanded(child: _timeItems(CommonKey.FRI)),
+                            Expanded(child: _timeItems(CommonKey.SAT)),
+                            Expanded(child: _timeItems(CommonKey.SUN)),
                           ],
                         ),
                       ),
@@ -174,7 +174,7 @@ class _ScheduleState extends State<Schedule> {
       ),
     );
   }
-  Widget _itemDate(String day, String date){
+  Widget _dayItems(String day, String date){
     return InkWell(
       onTap: ()=>setState((){
         _dateNow = date;
@@ -228,16 +228,29 @@ class _ScheduleState extends State<Schedule> {
   Widget _itemSchedule(MyClassModel myClass){
     return InkWell(
       onTap: (){
-        if(CommonKey.MEMBER==_role){
-          _presenter!.getCourse(_role!, myClass.idTeacher!).then((value){
-            CourseModel course = _presenter!.getCourseModel(myClass.idCourse!);
-             Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailPage(
-                MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, nameClass: myClass.nameClass)
-                , course, _role)));
-          });
-        }else{
-           Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassDetailPage(MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, nameClass: myClass.nameClass), _presenter!.getCourseModel(myClass.idCourse!), _role)));
-        }
+        // if(CommonKey.MEMBER==_role){
+        //   _presenter!.getCourse(_role!, myClass.teacherUsername!).then((value){
+        //     CourseModel course = _presenter!.getCourseModel(myClass.courseId!);
+        //      Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade,
+        //          widget: ClassDetailPage(
+        //         MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, className: myClass.className)
+        //         , course, _role)));
+        //   });
+        // }else{
+        //    Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade,
+        //        widget: ClassDetailPage(MyClassModel(
+        //            idClass: myClass.idClass,
+        //            teacherName: myClass.teacherName,
+        //            className: myClass.className),
+        //        _presenter!.getCourseModel(myClass.courseId!), _role)));
+        // }
+        _presenter!.getCourse(_role!, myClass.teacherUsername!).then((value){
+          CourseModel course = _presenter!.getCourseModel(myClass.courseId!);
+          Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade,
+              widget: ClassDetailPage(
+                  MyClassModel(idClass: myClass.idClass, teacherName: myClass.teacherName, className: myClass.className)
+                  , course, _role)));
+        });
       },
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -268,7 +281,7 @@ class _ScheduleState extends State<Schedule> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                NeoText('${myClass.nameClass}', textStyle: TextStyle(fontSize: 18, color: AppColors.black, overflow: TextOverflow.ellipsis, fontWeight: FontWeight.bold), maxline: 2),
+                NeoText('${myClass.className}', textStyle: TextStyle(fontSize: 18, color: AppColors.black, overflow: TextOverflow.ellipsis, fontWeight: FontWeight.bold), maxline: 2),
                 SizedBox(height: 8,),
                 RichText(
                   text: TextSpan(
@@ -333,7 +346,7 @@ class _ScheduleState extends State<Schedule> {
     );
   }
 
-  Widget _itemWatcher(String day){
+  Widget _timeItems(String day){
     return  Container(
         padding: EdgeInsets.only(left: 4, right: 4, top: 4, bottom: 4),
         height: getHeightDevice(context)/8,
@@ -387,9 +400,9 @@ class _ScheduleState extends State<Schedule> {
       Map<String, dynamic>json = jsonDecode(data.toString());
       String phone = json['phone']!=null?json['phone']:'';
       _myClass = await _presenter!.getSchedule(phone, _role!);
-      if(CommonKey.TEACHER==_role){
-        _presenter!.getCourse(_role!, phone);
-      }
+      // if(CommonKey.TEACHER==_role){
+      //   _presenter!.getCourse(_role!, phone);
+      // }
 
     }
 

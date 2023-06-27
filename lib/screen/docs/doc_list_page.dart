@@ -40,7 +40,6 @@ class _DocListPageState extends State<DocListPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
-        backgroundColor: AppColors.ultraRed,
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,

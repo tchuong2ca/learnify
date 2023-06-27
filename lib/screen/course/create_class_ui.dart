@@ -154,7 +154,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                         }else if(_hour.isEmpty){
                           Fluttertoast.showToast(msg: 'Chưa chọn lịch học');
                         }else{
-                          MyClassModel myClass = MyClassModel(idClass: replaceSpace(_idClass), idCourse: _idCourse, idTeacher: _idTeacher,
+                          MyClassModel myClass = MyClassModel(idClass: replaceSpace(_idClass), courseId: _idCourse, teacherUsername: _idTeacher,
                               teacherName: _teacherName,
                               onStageMon: _day1==CommonKey.MON?_day1:_day2==CommonKey.MON?_day2:'',
                               onStageTue: _day1==CommonKey.TUE?_day1:_day2==CommonKey.TUE?_day2:'',
@@ -164,7 +164,7 @@ class _CreateClassUIState extends State<CreateClassUI> {
                               onStageSat: _day1==CommonKey.SAT?_day1:_day2==CommonKey.SAT?_day2:'',
                               onStageSun: _day1==CommonKey.SUN?_day1:_day2==CommonKey.SUN?_day2:'',
                               startHours: _hour,
-                              price: _price, nameClass: _className, describe: _describe);
+                              price: _price, className: _className, describe: _describe);
                           showLoaderDialog(context);
                           CommonKey.EDIT!=_keyFlow?_presenter!.createClass(_fileImage!, _course!, myClass).then((value) {
                             listenStatus(context, value);

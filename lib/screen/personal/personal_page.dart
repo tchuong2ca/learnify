@@ -240,7 +240,9 @@ class _PersonalPageState extends State<PersonalPage> {
                     NeoText(data['role']==CommonKey.TEACHER?'Giáo viên':data['role']==CommonKey.MEMBER?'Thành viên':'Quản trị viên'),
                     NeoText('${Languages.of(context).hello}, ${data['fullname']}', textStyle: TextStyle(fontSize: 14, color: AppColors.black)),
                     SizedBox(height: 4,),
-                    NeoText('${data['email']}', textStyle: TextStyle(color: AppColors.black, fontSize: 12))
+                    NeoText('${data['email']}', textStyle: TextStyle(color: AppColors.black, fontSize: 12)),
+                    SizedBox(height: 4,),
+                    NeoText('${data['phone']}', textStyle: TextStyle(color: AppColors.black, fontSize: 12))
                   ],
                 ),
               ),

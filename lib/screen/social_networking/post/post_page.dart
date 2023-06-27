@@ -118,10 +118,12 @@ class _PostPageState extends State<PostPage> {
                         CommonKey.EDIT!=widget._keyFlow
                             ?_presenter!.getLink(_fileList, news).then((value) => _presenter!.createNewPost(value, news).then((value) {
                           listenStatus(context, value);
+                          Navigator.pop(context);
                         }))
                             :_presenter!.updatePost(idNews: widget._data!['id'], listModel: _fileList, listLink: widget._data!['mediaUrl']
                             , description: _content, news: news).then((value) {
                           listenStatus(context, value);
+                          Navigator.pop(context);
                         });
                       }
                     },

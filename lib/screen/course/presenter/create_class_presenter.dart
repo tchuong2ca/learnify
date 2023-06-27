@@ -49,7 +49,7 @@ class CreateClassPresenter{
             'idTeacher': course.getTeacherId,
             'teacherName': course.getTeacherName,
             'price': myClass.price,
-            'nameClass': myClass.nameClass,
+            'nameClass': myClass.className,
             'describe': myClass.describe,
             'imageLink': url,
             'onStageMon': myClass.onStageMon,
@@ -116,7 +116,7 @@ class CreateClassPresenter{
     FirebaseFirestore.instance.collection('class').doc(myClass.idClass)
         .update({
       'price': myClass.price,
-      'nameClass': myClass.nameClass,
+      'nameClass': myClass.className,
       'describe': myClass.describe,
       'imageLink': url,
       'onStageMon': myClass.onStageMon,

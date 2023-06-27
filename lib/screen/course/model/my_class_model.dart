@@ -1,7 +1,7 @@
 class MyClassModel{
   String? idClass;
-  String? idCourse;
-  String? idTeacher;
+  String? courseId;
+  String? teacherUsername;
   String? teacherName;
   String? onStageMon;
   String? onStageTue;
@@ -11,7 +11,7 @@ class MyClassModel{
   String? onStageSat;
   String? onStageSun;
   String? price;
-  String? nameClass;
+  String? className;
   String? describe;
   String? startHours;
   String? imageLink;
@@ -21,8 +21,8 @@ class MyClassModel{
 
   MyClassModel(
   {      this.idClass,
-    this.idCourse,
-    this.idTeacher,
+    this.courseId,
+    this.teacherUsername,
     this.teacherName,
     this.onStageMon,
     this.onStageTue,
@@ -32,7 +32,7 @@ class MyClassModel{
     this.onStageSat,
     this.onStageSun,
     this.price,
-    this.nameClass,
+    this.className,
     this.describe,
     this.startHours,
     this.imageLink,
@@ -40,10 +40,10 @@ class MyClassModel{
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['idCourse'] = idCourse;
-    map['idTeacher'] = idTeacher;
+    map['idCourse'] = courseId;
+    map['idTeacher'] = teacherUsername;
     map['imageLink'] = imageLink;
-    map['nameClass'] = nameClass;
+    map['nameClass'] = className;
     map['price'] = price;
     map['onStageMon'] = onStageMon;
     map['onStageTue'] = onStageTue;
@@ -60,8 +60,8 @@ class MyClassModel{
 
   MyClassModel.fromJson(dynamic json) {
     idClass = json['idClass'];
-    idCourse = json['idCourse'];
-    idTeacher = json['idTeacher'];
+    courseId = json['idCourse'];
+    teacherUsername = json['idTeacher'];
     teacherName = json['teacherName'];
     onStageMon = json['onStageMon'];
     onStageTue = json['onStageTue'];
@@ -71,7 +71,7 @@ class MyClassModel{
     onStageSat = json['onStageSat'];
     onStageSun = json['onStageSun'];
     price = json['price'];
-    nameClass = json['nameClass'];
+    className = json['nameClass'];
     describe = json['describe'];
     startHours = json['startHours'];
     imageLink = json['imageLink'];

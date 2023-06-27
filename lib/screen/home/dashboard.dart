@@ -54,7 +54,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
   AnimationController? _controller;
   Animation<double>? _animation;
 
-  CourseModel? _classModel;
+  CourseModel? _courseModel;
   final List<String> _name = <String>['50000+ thành viên', '100+ lớp học đang diễn ra', '10% lợi nhuận xây trường','hê sờ lô', 'hê sờ li li'];
   final List<String> _photo = <String>[Images.people, Images.group_chat, Images.salary, Images.ads, Images.banners];
   bool _toggle=false;
@@ -265,7 +265,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                           InkWell(
                                             child:    _tabChild(_role=='ADMIN'||_role=='TEACHER'?Images.edit_tools:Images.webinar, _role=='ADMIN'||_role=='TEACHER'?'Tạo khóa/lớp học':'Lớp học của tôi'),
                                             onTap: (){
-                                               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: _role=='ADMIN'||_role=='TEACHER'?CourseList(_role,'',_username):ClassList(_classModel, _role, "DASHBOARD", false)));
+                                               Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: _role=='ADMIN'||_role=='TEACHER'?CourseList(_role,'',_username):ClassList(_courseModel, _role, "DASHBOARD", false)));
                                             },
                                           ),
 
@@ -373,7 +373,8 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                         return Center(child: Text('No data'),);
                       }else{
                         return Swiper.children(
-                            autoplay: false,
+                            //autoplay: true,
+                            //duration:300,
                             layout: SwiperLayout.TINDER,
                             itemWidth: getWidthDevice(context),
                             itemHeight: 340,
@@ -390,7 +391,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                 if(CommonKey.ADMIN==_role||(CommonKey.TEACHER==_role)){
                                    Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,'', _phoneNumber==data['idTeacher']?true:false))),
                                 }else if(CommonKey.MEMBER==_role){
-                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,CommonKey.MEMBER, false))),
+                                   Navigator.push(context, AnimationPage().pageTransition(type: PageTransitionType.fade, widget: ClassList(CourseModel(data['idCourse'], data['idTeacher'], data['teacherName'], data['name']), _role,'', false))),
                                 } else{
                                   Fluttertoast.showToast(msg: Languages.of(context).accessDenied)
                                 }
@@ -429,7 +430,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                             itemHeight: 405,
                             children: snapshot.data!.docs.map((e) {
                               Map<String, dynamic> data = e.data() as  Map<String, dynamic>;
-                              List<dynamic> listUser = data['subscribe'];
+                              List<dynamic> subscriberList = data['subscribe'];
                               MyClassModel myClass = MyClassModel.fromJson(data);
                               return Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -470,10 +471,10 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                   if(_role==null||_role!.isEmpty){
                                     customDialog(context: context, content: Languages.of(context).requireLogin)
                                   }else{
-                                    if(CommonKey.INK_WELL!=click&&!listUser.contains(_phoneNumber)){
-                                      listUser.add(_phoneNumber!),
-                                      _phoneNumber!.isNotEmpty?_presenter!.classRegistration(data['idClass'], listUser, data['idCourse']):null,
-                                    }else if(CommonKey.INK_WELL==click&&listUser.contains(_phoneNumber)){
+                                    if(CommonKey.INK_WELL!=click&&!subscriberList.contains(_phoneNumber)){
+                                      subscriberList.add(_phoneNumber),
+                                      _phoneNumber.isNotEmpty?_presenter!.classRegistration(data['idClass'], subscriberList, data['idCourse']):null,
+                                    }else if(CommonKey.INK_WELL==click&&subscriberList.contains(_phoneNumber)){
                                       _navigatorClass(data, myClass),
                                     }else if(CommonKey.INK_WELL==click&&CommonKey.TEACHER==_role&&_phoneNumber==data['idTeacher']){
                                       _navigatorClass(data, myClass),
@@ -486,7 +487,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                                     }
                                   }
 
-                                },  (listUser.contains(_phoneNumber)&&CommonKey.MEMBER==_role)?false:(CommonKey.TEACHER==_role||CommonKey.ADMIN==_role)?false:true),
+                                },  (subscriberList.contains(_phoneNumber)&&CommonKey.MEMBER==_role)?false:(CommonKey.TEACHER==_role||CommonKey.ADMIN==_role)?false:true),
                               );
                             }).toList());
                       }
@@ -588,7 +589,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     );
   }
   Future<void> getCourse() async{
-    _classModel = await _presenter!.getClass(_username!);
+    _courseModel = await _presenter!.getClass(_username!);
   }
   Future<void> _getAccountInfo() async{
     _user = await _presenter!.getUserInfo();
@@ -603,8 +604,8 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
     });
   }
   Widget classNCourseCard(BuildContext context, String title, String gv, String imageLink,String firstDay,String secondDay,String price, Function(String click) onClick, bool visiable){
-    String _salePrice = '';
-    _salePrice =price==''?'':(double.parse(price)-double.parse(price)/100*20).round().toString();
+    String salePrice = '';
+    salePrice =price==''?'':(double.parse(price)-double.parse(price)/100*20).round().toString();
     return InkWell(
       onTap: () => onClick(CommonKey.INK_WELL),
       child: Container(
@@ -679,7 +680,7 @@ class _DashboardPageState extends State<DashboardPage> with SingleTickerProvider
                   ),
                 ),
                 new TextSpan(
-                  text: ' \ $_salePrice VNĐ',
+                  text: ' \ $salePrice VNĐ',
                   style: TextStyle(fontSize: 18, color: AppColors.ultraRed)
                 ),
               ],

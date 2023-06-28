@@ -72,20 +72,20 @@ mixin _$NewsPresenter on _NewsPresenter, Store {
     });
   }
 
-  late final _$getImageAsyncAction =
-      AsyncAction('_NewsPresenter.getImage', context: context);
+  late final _$getPostAsyncAction =
+      AsyncAction('_NewsPresenter.getPost', context: context);
 
   @override
   Future<String> getPost(bool camera, BuildContext context) {
-    return _$getImageAsyncAction.run(() => super.getPost(camera, context));
+    return _$getPostAsyncAction.run(() => super.getPost(camera, context));
   }
 
-  late final _$getImageFromGalleryAsyncAction =
-      AsyncAction('_NewsPresenter.getImageFromGallery', context: context);
+  late final _$choosePhotoFromGalleryAsyncAction =
+      AsyncAction('_NewsPresenter.choosePhotoFromGallery', context: context);
 
   @override
   Future<void> choosePhotoFromGallery(BuildContext context) {
-    return _$getImageFromGalleryAsyncAction
+    return _$choosePhotoFromGalleryAsyncAction
         .run(() => super.choosePhotoFromGallery(context));
   }
 

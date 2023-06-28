@@ -4,10 +4,13 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:online_learning/common/functions.dart';
 import 'package:online_learning/languages/languages.dart';
+import 'package:online_learning/screen/authentication/authentication_presenter.dart';
 import 'package:online_learning/screen/home/dashboard.dart';
 
+import '../../../common/colors.dart';
 import '../../../common/keys.dart';
 import '../../../common/widgets.dart';
 import '../../../restart.dart';
@@ -39,22 +42,19 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   LoginTheme? _day;
   LoginTheme? _night;
   // Mode _activeMode = Mode.day;
+  AuthenticationPresenter? _presenter;
   Mode? _activeMode;
 
-  String _fullname='';
-  String _phone='';
-  String _email='';
-  String _pass1='';
-  bool _seePass1 = false;
+
   final _formFullname = GlobalKey<FormState>();
   final _formPhone = GlobalKey<FormState>();
   final _formPass1 = GlobalKey<FormState>();
   final _formEmail = GlobalKey<FormState>();
-  String _loginEmail='';
-  String _loginPass='';
+
   @override
   void initState() {
     _activeMode = _mode;
+    _presenter = AuthenticationPresenter();
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(
@@ -164,91 +164,90 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   Positioned(
                     top: height * 0.05,
 
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ToggleButton(
-                            startText: Languages.of(context).login,
-                            endText: Languages.of(context).signUp,
-                            tapCallback: (index) {
-                              setState(() {
-                                _index = index;
-                                _animationController!.forward(from: 0.0);
-                                print(_index);
-                              });
+                    child: Observer(builder: (_){
+                      return Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ToggleButton(
+                              startText: Languages.of(context).login,
+                              endText: Languages.of(context).signUp,
+                              tapCallback: (index) {
+                                _presenter!.onChangeIndex(index);
+                                _presenter!.forwardController(_animationController!, 0.0);
+                              },
+                              index: _index
+                          ),
+                          isKeyboardVisible==true?SizedBox():_buildText(
+                            text: _activeMode == Mode.day ? _day!.title! : _night!.title!,
+                            padding: EdgeInsets.only(top: height * 0.02),
+                            fontSize: width * 0.09,
+                            fontFamily: 'YesevaOne',
+                          ),
+                          isKeyboardVisible==true?SizedBox():_buildText(
+                            fontSize: width * 0.04,
+                            padding: EdgeInsets.only(
+                              top: height * 0.01,
+                            ),
+                            text: 'Vui lòng nhập đầy đủ các trường thông tin',
+                          ),
+                          _index==0?_loginForm(isKeyboardVisible, _presenter!):_signUpForm(isKeyboardVisible,_presenter!),
+                          GestureDetector(
+                            onTap: (){
+                              if(_index==0){
+                                if(validateEmail(_presenter!.loginEmail) && _presenter!.loginPass.isNotEmpty){
+                                  showLoaderDialog(context);
+                                  _doLogin(_presenter!.loginEmail, _presenter!.loginPass);
+                                }
+                              }
+                              else{
+                                if(_formFullname.currentState!.validate()){
+                                }
+                                if(_formPhone.currentState!.validate()){
+                                }
+                                if(_formEmail.currentState!.validate()){
+                                }
+                                if(_formPass1.currentState!.validate()){
+                                }
+
+                                if(_presenter!.signUpPass.isNotEmpty && _presenter!.signUpFullName.isNotEmpty && _presenter!.signUpEmail.isNotEmpty && _presenter!.signUpPhone.isNotEmpty
+                                ){
+                                  showLoaderDialog(context);
+                                  register(_presenter!.signUpEmail, _presenter!.signUpPass);
+                                }
+
+                              }
                             },
-                            index: _index
-                        ),
-                        isKeyboardVisible==true?SizedBox():_buildText(
-                          text: _activeMode == Mode.day ? _day!.title! : _night!.title!,
-                          padding: EdgeInsets.only(top: height * 0.02),
-                          fontSize: width * 0.09,
-                          fontFamily: 'YesevaOne',
-                        ),
-                        isKeyboardVisible==true?SizedBox():_buildText(
-                          fontSize: width * 0.04,
-                          padding: EdgeInsets.only(
-                            top: height * 0.01,
-                          ),
-                          text: 'Vui lòng nhập đầy đủ các trường thông tin',
-                        ),
-                        _index==0?_loginForm(isKeyboardVisible):_signUpForm(isKeyboardVisible),
-                        GestureDetector(
-                          onTap: (){
-                          if(_index==0){
-                            if(validateEmail(_loginEmail) && _loginPass.isNotEmpty){
-                              showLoaderDialog(context);
-                              _doLogin(_loginEmail, _loginPass);
-                            }
-                          }
-                          else{
-                            if(_formFullname.currentState!.validate()){
-                            }
-                            if(_formPhone.currentState!.validate()){
-                            }
-                            if(_formEmail.currentState!.validate()){
-                            }
-                            if(_formPass1.currentState!.validate()){
-                            }
-
-                            if(_pass1.isNotEmpty && _fullname.isNotEmpty && _email.isNotEmpty && _phone.isNotEmpty
-                            ){
-                              showLoaderDialog(context);
-                              register(_email, _pass1);
-                            }
-
-                          }
-                          },
-                          child: Container(
-                            width: getWidthDevice(context) - getWidthDevice(context) * 0.15,
-                            margin: EdgeInsets.only(
-                              top: getHeightDevice(context) * 0.02,
-                            ),
-                            alignment: Alignment.centerRight,
                             child: Container(
-                              width: getWidthDevice(context) * 0.155,
-                              height: getWidthDevice(context) * 0.155,
-                              decoration: ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                color: const Color(0xFFFFFFFF),
-                                shadows: [
-                                  BoxShadow(
-                                    color: const Color(0x55000000),
-                                    blurRadius: getWidthDevice(context) * 0.02,
-                                    offset: Offset(3, 3),
-                                  ),
-                                ],
+                              width: getWidthDevice(context) - getWidthDevice(context) * 0.15,
+                              margin: EdgeInsets.only(
+                                top: getHeightDevice(context) * 0.02,
                               ),
-                              child: Icon(Icons.arrow_forward),
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                width: getWidthDevice(context) * 0.155,
+                                height: getWidthDevice(context) * 0.155,
+                                decoration: ShapeDecoration(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  color: const Color(0xFFFFFFFF),
+                                  shadows: [
+                                    BoxShadow(
+                                      color: const Color(0x55000000),
+                                      blurRadius: getWidthDevice(context) * 0.02,
+                                      offset: Offset(3, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Icon(Icons.arrow_forward),
+                              ),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
+                          )
+                        ],
+                      );
+                    }),
                   ),
                 ],
               ),
@@ -273,7 +272,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       ),
     );
   }
-  Widget _loginForm(bool isVisible){
+  Widget _loginForm(bool isVisible, AuthenticationPresenter presenter){
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Column(
@@ -309,9 +308,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                 ),
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (content){
-                  _loginEmail=content;
-                  setState((){
-                  });
+                  presenter.onChangeLoginEmail(content);
                 },
               ),
             ),
@@ -336,6 +333,19 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               child: TextFormField(
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      // Based on passwordVisible state choose the icon
+                      !presenter.seePass
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: AppColors.white,
+                    ),
+                    onPressed: () {
+                      // Update the state i.e. toogle the state of passwordVisible variable
+                     _presenter!.showPwd();
+                    },
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(getWidthDevice(context) * 0.025),
                   ),
@@ -347,11 +357,10 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   filled: true,
                 ),
                 keyboardType: TextInputType.text,
-                obscureText: !_seePass1,
+                obscureText: !presenter.seePass,
                 onChanged: (value){
-                  _loginPass=value;
-                  setState((){
-                  });
+                 _presenter!.onChangeLoginPass(value);
+
                 },
                 validator: (value){
                   return value!.isEmpty?'\u26A0 ${Languages.of(context).passError}':null;
@@ -363,7 +372,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       ],
     );
   }
-  Widget _signUpForm(bool isVisible){
+  Widget _signUpForm(bool isVisible, AuthenticationPresenter presenter){
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Column(
@@ -400,9 +409,8 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   filled: true,
                 ),
                 onChanged: (fullname){
-                  _fullname=fullname;
-                  setState((){
-                  });
+                  presenter.onChangeSignUpFullName(fullname);
+
                 },
                 validator: (value){
                   if(value!.isEmpty){
@@ -444,9 +452,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   filled: true,
                 ),
                 onChanged: (value){
-                  _phone=value;
-                  setState((){
-                  });
+                  _presenter!.onChangeSignUpPhone(value);
                 },
                 keyboardType: TextInputType.phone,
                 validator: (value){
@@ -490,9 +496,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   filled: true,
                 ),
                 onChanged: (value){
-                  _email=value;
-                  setState((){
-                  });
+                  _presenter!.onChangeSignUpEmail(value);
                 },
                 keyboardType: TextInputType.emailAddress,
                 validator: (value){
@@ -526,6 +530,19 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               child: TextFormField(
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      // Based on passwordVisible state choose the icon
+                      !presenter.seePass
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: AppColors.white,
+                    ),
+                    onPressed: () {
+                      // Update the state i.e. toogle the state of passwordVisible variable
+                      _presenter!.showPwd();
+                    },
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(getWidthDevice(context) * 0.025),
                   ),
@@ -537,12 +554,10 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                   filled: true,
                 ),
                 onChanged: (value){
-                  _pass1=value;
-                  setState((){
-                  });
+                  _presenter!.onChangeSignUpPass(value);
                 },
                 keyboardType: TextInputType.text,
-                obscureText: !_seePass1,
+                obscureText: !presenter.seePass,
                 validator: (value){
                   if(value!.isEmpty){
                     return '\u26A0 ${Languages.of(context).passError}';
@@ -561,7 +576,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     DateTime _now = DateTime.now();
     bool? exist;
     try {
-      await FirebaseFirestore.instance.doc("users/$_phone").get().then((doc) {
+      await FirebaseFirestore.instance.doc("users/${_presenter!.signUpPhone}").get().then((doc) {
         exist = doc.exists;
       });
       // final user = FirebaseAuth.instance.currentUser;
@@ -571,16 +586,16 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           password: pass,
         ).whenComplete(() async{
           final _user = FirebaseAuth.instance.currentUser;
-          await _user?.updateDisplayName(_phone);
+          await _user?.updateDisplayName(_presenter!.signUpPhone);
         });
         // await user!.updateDisplayName(_phone);
 
-        FirebaseFirestore.instance.collection('users').doc(_phone).set({
-          "phone": _phone,
+        FirebaseFirestore.instance.collection('users').doc(_presenter!.signUpPhone).set({
+          "phone": _presenter!.signUpPhone,
           "avatar": "",
-          "fullname":_fullname,
+          "fullname":_presenter!.signUpFullName,
           "role":"MEMBER",
-          "email":_email,
+          "email":_presenter!.signUpEmail,
           'exp': '',
           'specialize': '',
           'intro': '',

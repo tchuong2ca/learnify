@@ -31,7 +31,7 @@ mixin _$TeacherPresenter on _TeacherPresenter, Store {
   @override
   void lock(String id) {
     final _$actionInfo = _$_TeacherPresenterActionController.startAction(
-        name: '_TeacherPresenter.lookAccount');
+        name: '_TeacherPresenter.lock');
     try {
       return super.lock(id);
     } finally {

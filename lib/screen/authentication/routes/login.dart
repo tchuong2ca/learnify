@@ -192,10 +192,10 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                             ),
                             text: 'Vui lòng nhập đầy đủ các trường thông tin',
                           ),
-                          _index==0?_loginForm(isKeyboardVisible, _presenter!):_signUpForm(isKeyboardVisible,_presenter!),
+                          _presenter!.index==0?_loginForm(isKeyboardVisible, _presenter!):_signUpForm(isKeyboardVisible,_presenter!),
                           GestureDetector(
                             onTap: (){
-                              if(_index==0){
+                              if( _presenter!.index==0){
                                 if(validateEmail(_presenter!.loginEmail) && _presenter!.loginPass.isNotEmpty){
                                   showLoaderDialog(context);
                                   _doLogin(_presenter!.loginEmail, _presenter!.loginPass);
